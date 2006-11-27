@@ -1,4 +1,4 @@
-#include <Carbon/Carbon.r>
+<Carbon/Carbon.r>
 
 data 'CTYP' (128, "Color Pane") {
 	$"0001 6F62 6A64 0000 0021 7670 7465 0A43"            /* ..objd...!vpte¬C */
@@ -71,7 +71,29 @@ data 'CTYP' (132, "Flag Popup Button") {
 	$"0000 0000 2000 0000 656E 6473 656E 642E"            /* .... ...endsend. */
 };
 
-resource 'CURS' (1000, "Hand cursor", preload) {
+data 'CTYP' (133, "Drag Table") {
+	$"0001 6F62 6A64 0000 0021 7670 7465 0A43"            /* ..objd...!vpte¬C */
+	$"4472 6167 5461 626C 6500 0000 446E 4454"            /* DragTable...DnDT */
+	$"7461 626C 004B 004B 0000 0062 6567 736F"            /* tabl.K.K...begso */
+	$"626A 6400 0000 2772 6573 6C0A 5465 7874"            /* bjd...'resl¬Text */
+	$"2054 7261 6974 0000 0000 0101 5050 6F62"            /*  Trait......PPob */
+	$"0000 0000 0010 0100 0000 5478 7472 656E"            /* ..........Txtren */
+	$"6473 656E 642E"                                     /* dsend. */
+};
+
+data 'CTYP' (134, "Iconref Pane") {
+	$"0001 6F62 6A64 0000 0023 7670 7465 0C43"            /* ..objd...#vpte.C */
+	$"4963 6F6E 7265 6650 616E 6500 0000 4972"            /* IconrefPane...Ir */
+	$"6650 7061 6E65 0020 0020 0000 0062 6567"            /* fPpane. . ...beg */
+	$"736F 626A 6400 0000 2169 6E74 7609 416C"            /* sobjd...!intv∆Al */
+	$"6967 6E6D 656E 7400 0000 0001 0150 506F"            /* ignment......PPo */
+	$"6200 0000 0000 1000 0000 6F62 6A64 0000"            /* b.........objd.. */
+	$"0021 696E 7476 0954 7261 6E73 666F 726D"            /* .!intv∆Transform */
+	$"0000 0000 0101 5050 6F62 0000 0000 0010"            /* ......PPob...... */
+	$"0000 0065 6E64 7365 6E64 2E"                        /* ...endsend. */
+};
+
+'CURS' (1000, "Hand cursor", preload) {
 	$"0300 0480 0480 0480 0480 0480 64F8 94AC"
 	$"4CAA 240A 2402 1002 0802 0804 0404 0404",
 	$"0300 0780 0780 0780 0780 0780 67F8 F7FC"
@@ -79,106 +101,112 @@ resource 'CURS' (1000, "Hand cursor", preload) {
 	{0, 6}
 };
 
-resource 'MBAR' (128, "Standard") {
+'MBAR' (128, "Standard") {
 	{	/* array MenuArray: 5 elements */
-		/* [1] */
+*/
 		128,
-		/* [2] */
+*/
 		129,
-		/* [3] */
+*/
 		130,
-		/* [4] */
+*/
 		133,
-		/* [5] */
+*/
 		255
 	}
 };
 
-resource 'MBAR' (129, "Aqua") {
+'MBAR' (129, "Aqua") {
 	{	/* array MenuArray: 5 elements */
-		/* [1] */
+*/
 		128,
-		/* [2] */
+*/
 		132,
-		/* [3] */
+*/
 		130,
-		/* [4] */
+*/
 		133,
-		/* [5] */
+*/
 		255
 	}
 };
 
-resource 'MENU' (128, "Apple Menu") {
+'MENU' (128, "Apple Menu") {
 	128,
 	textMenuProc,
 	allEnabled,
 	enabled,
 	apple,
 	{	/* array: 1 elements */
-		/* [1] */
-		"About Rezilla…", noIcon, noKey, noMark, plain
+*/
+Rezilla…", noIcon, noKey, noMark, plain
 	}
 };
 
-resource 'MENU' (129, "File Menu") {
+'MENU' (129, "File Menu") {
 	129,
 	textMenuProc,
-	0x7FFFFA1F,
+	0x7FFFD61F,
 	enabled,
 	"File",
-	{	/* array: 12 elements */
-		/* [1] */
+	{	/* array: 15 elements */
+*/
 		"New Resource Map", noIcon, "N", noMark, plain,
-		/* [2] */
+*/
 		"Open…", noIcon, "O", noMark, plain,
-		/* [3] */
+*/
 		"Recent Items", noIcon, hierarchicalMenu, "å", plain,
-		/* [4] */
+*/
 		"Close", noIcon, "W", noMark, plain,
-		/* [5] */
+*/
 		"Revert", noIcon, noKey, noMark, plain,
-		/* [6] */
+*/
 		"-", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
 		"Save", noIcon, "S", noMark, plain,
-		/* [8] */
+*/
 		"Save As…", noIcon, noKey, noMark, plain,
-		/* [9] */
+*/
 		"-", noIcon, noKey, noMark, plain,
 		/* [10] */
-		"Export…", noIcon, noKey, noMark, plain,
+		"Import…", noIcon, noKey, noMark, plain,
 		/* [11] */
-		"-", noIcon, noKey, noMark, plain,
+		"Export…", noIcon, noKey, noMark, plain,
 		/* [12] */
+		"-", noIcon, noKey, noMark, plain,
+		/* [13] */
+		"Plugins…", noIcon, noKey, noMark, plain,
+		/* [14] */
+		"-", noIcon, noKey, noMark, plain,
+		/* [15] */
 		"Quit", noIcon, "Q", noMark, plain
 	}
 };
 
-resource 'MENU' (130, "Edit Menu") {
+'MENU' (130, "Edit Menu") {
 	130,
 	textMenuProc,
 	0x7FFFFB7D,
 	enabled,
 	"Edit",
 	{	/* array: 12 elements */
-		/* [1] */
+*/
 		"Undo", noIcon, "Z", noMark, plain,
-		/* [2] */
+*/
 		"-", noIcon, noKey, noMark, plain,
-		/* [3] */
-		"Cut", noIcon, "X", noMark, plain,
-		/* [4] */
+*/
+noIcon, "X", noMark, plain,
+*/
 		"Copy", noIcon, "C", noMark, plain,
-		/* [5] */
+*/
 		"Paste", noIcon, "V", noMark, plain,
-		/* [6] */
+*/
 		"Clear", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
 		"Select All", noIcon, "A", noMark, plain,
-		/* [8] */
+*/
 		"-", noIcon, noKey, noMark, plain,
-		/* [9] */
+*/
 		"Find…", noIcon, "F", noMark, plain,
 		/* [10] */
 		"Find Next", noIcon, "G", noMark, plain,
@@ -189,74 +217,66 @@ resource 'MENU' (130, "Edit Menu") {
 	}
 };
 
-resource 'MENU' (131, "Plugins Menu") {
-	131,
-	textMenuProc,
-	allEnabled,
-	enabled,
-	"Plugins",
-	{	/* array: 2 elements */
-		/* [1] */
-		"Plugins Info", noIcon, "B", noMark, plain,
-		/* [2] */
-		"Type Editors Table", noIcon, "T", noMark, plain
-	}
-};
-
-resource 'MENU' (132, "File Menu Aqua") {
+'MENU' (132, "File Menu Aqua") {
 	132,
 	textMenuProc,
-	0x7FFFFE1F,
+	0x7FFFF61F,
 	enabled,
 	"File",
-	{	/* array: 10 elements */
-		/* [1] */
+	{	/* array: 13 elements */
+*/
 		"New Resource Map", noIcon, "N", noMark, plain,
-		/* [2] */
+*/
 		"Open…", noIcon, "O", noMark, plain,
-		/* [3] */
+*/
 		"Recent Items", noIcon, hierarchicalMenu, "å", plain,
-		/* [4] */
+*/
 		"Close", noIcon, "W", noMark, plain,
-		/* [5] */
+*/
 		"Revert", noIcon, noKey, noMark, plain,
-		/* [6] */
+*/
 		"-", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
 		"Save", noIcon, "S", noMark, plain,
-		/* [8] */
-		"Save As…", noIcon, noKey, noMark, plain,
-		/* [9] */
+*/
+		"Save As…", noIcon, "S", noMark, plain,
+*/
 		"-", noIcon, noKey, noMark, plain,
 		/* [10] */
-		"Export…", noIcon, noKey, noMark, plain
+		"Import…", noIcon, noKey, noMark, plain,
+		/* [11] */
+		"Export…", noIcon, noKey, noMark, plain,
+		/* [12] */
+		"-", noIcon, noKey, noMark, plain,
+		/* [13] */
+		"Plugins…", noIcon, noKey, noMark, plain
 	}
 };
 
-resource 'MENU' (133, "Resources Menu") {
+'MENU' (133, "Resources Menu") {
 	133,
 	textMenuProc,
 	0x7FFFF6DD,
 	enabled,
 	"Resources",
 	{	/* array: 13 elements */
-		/* [1] */
+*/
 		"New Resource…", noIcon, "N", noMark, plain,
-		/* [2] */
+*/
 		"-", noIcon, noKey, noMark, plain,
-		/* [3] */
+*/
 		"Edit", noIcon, "E", noMark, plain,
-		/* [4] */
+*/
 		"Template Editor", noIcon, "E", noMark, plain,
-		/* [5] */
+*/
 		"Hexadecimal Editor", noIcon, "E", noMark, plain,
-		/* [6] */
+*/
 		"-", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
 		"Edit as Type…", noIcon, "E", noMark, plain,
-		/* [8] */
+*/
 		"Edit with PlugIn", noIcon, "E", noMark, plain,
-		/* [9] */
+*/
 		"-", noIcon, noKey, noMark, plain,
 		/* [10] */
 		"Remove", noIcon, noKey, noMark, plain,
@@ -269,7 +289,7 @@ resource 'MENU' (133, "Resources Menu") {
 	}
 };
 
-resource 'MENU' (140, "Recent Items Menu") {
+'MENU' (140, "Recent Items Menu") {
 	140,
 	textMenuProc,
 	allEnabled,
@@ -279,7 +299,7 @@ resource 'MENU' (140, "Recent Items Menu") {
 	}
 };
 
-resource 'MENU' (150, "Template CASE Menu") {
+'MENU' (150, "Template CASE Menu") {
 	150,
 	textMenuProc,
 	allEnabled,
@@ -289,30 +309,30 @@ resource 'MENU' (150, "Template CASE Menu") {
 	}
 };
 
-resource 'MENU' (160, "Aete Menu") {
+'MENU' (160, "Aete Menu") {
 	160,
 	textMenuProc,
-	0x7FEDB6DB,
+	0x7FFDB6DB,
 	enabled,
 	"Terminology",
-	{	/* array: 23 elements */
-		/* [1] */
+	{	/* array: 20 elements */
+*/
 		"Add Suite", noIcon, noKey, noMark, plain,
-		/* [2] */
+*/
 		"Remove Suite", noIcon, noKey, noMark, plain,
-		/* [3] */
+*/
 		"-", noIcon, noKey, noMark, plain,
-		/* [4] */
+*/
 		"Add Item", noIcon, noKey, noMark, plain,
-		/* [5] */
+*/
 		"Remove Item", noIcon, noKey, noMark, plain,
-		/* [6] */
+*/
 		"-", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
 		"Add Parameter", noIcon, noKey, noMark, plain,
-		/* [8] */
+*/
 		"Remove Parameter", noIcon, noKey, noMark, plain,
-		/* [9] */
+*/
 		"-", noIcon, noKey, noMark, plain,
 		/* [10] */
 		"Add Property", noIcon, noKey, noMark, plain,
@@ -335,96 +355,90 @@ resource 'MENU' (160, "Aete Menu") {
 		/* [19] */
 		"Add Enumerator", noIcon, noKey, noMark, plain,
 		/* [20] */
-		"Remove Enumerator", noIcon, noKey, noMark, plain,
-		/* [21] */
-		"-", noIcon, noKey, noMark, plain,
-		/* [22] */
-		"Import Terminology…", noIcon, noKey, noMark, plain,
-		/* [23] */
-		"Export Terminology…", noIcon, noKey, noMark, plain
+		"Remove Enumerator", noIcon, noKey, noMark, plain
 	}
 };
 
-resource 'MENU' (161, "Event direct param options") {
+'MENU' (161, "Event direct param options") {
 	161,
 	textMenuProc,
 	allEnabled,
 	enabled,
 	"DirParam",
 	{	/* array: 9 elements */
-		/* [1] */
+*/
 		"Options", noIcon, noKey, noMark, 1,
-		/* [2] */
+*/
 		"Is optional", noIcon, noKey, noMark, plain,
-		/* [3] */
+*/
 		"Is list of items", noIcon, noKey, noMark, plain,
-		/* [4] */
+*/
 		"Is enumerated", noIcon, noKey, noMark, plain,
-		/* [5] */
+*/
 		"Changes state", noIcon, noKey, noMark, plain,
-		/* [6] */
-		"Enums are types", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
+are types", noIcon, noKey, noMark, plain,
+*/
 		"Enum list doesn't repeat", noIcon, noKey, noMark, plain,
-		/* [8] */
+*/
 		"Is reference (not value)", noIcon, noKey, noMark, plain,
-		/* [9] */
+*/
 		"Is not target", noIcon, noKey, noMark, plain
 	}
 };
 
-resource 'MENU' (162, "Event reply's options") {
+'MENU' (162, "Event reply's options") {
 	162,
 	textMenuProc,
 	allEnabled,
 	enabled,
 	"Reply",
 	{	/* array: 9 elements */
-		/* [1] */
+*/
 		"Options", noIcon, noKey, noMark, 1,
-		/* [2] */
+*/
 		"Is optional", noIcon, noKey, noMark, plain,
-		/* [3] */
+*/
 		"Is list of items", noIcon, noKey, noMark, plain,
-		/* [4] */
+*/
 		"Is enumerated", noIcon, noKey, noMark, plain,
-		/* [5] */
-		"Tight binding function", noIcon, noKey, noMark, plain,
-		/* [6] */
-		"Enums are types", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
+binding function", noIcon, noKey, noMark, plain,
+*/
+are types", noIcon, noKey, noMark, plain,
+*/
 		"Enum list doesn't repeat", noIcon, noKey, noMark, plain,
-		/* [8] */
+*/
 		"Is reference (not value)", noIcon, noKey, noMark, plain,
-		/* [9] */
+*/
 		"Non verb event", noIcon, noKey, noMark, plain
 	}
 };
 
-resource 'MENU' (163, "Event other param  options") {
+'MENU' (163, "Event other param  options") {
 	163,
 	textMenuProc,
 	allEnabled,
 	enabled,
 	"OtherParam",
 	{	/* array: 12 elements */
-		/* [1] */
+*/
 		"Options", noIcon, noKey, noMark, 1,
-		/* [2] */
+*/
 		"Is optional", noIcon, noKey, noMark, plain,
-		/* [3] */
+*/
 		"Is list of items", noIcon, noKey, noMark, plain,
-		/* [4] */
+*/
 		"Is enumerated", noIcon, noKey, noMark, plain,
-		/* [5] */
-		"Enums are types", noIcon, noKey, noMark, plain,
-		/* [6] */
+*/
+are types", noIcon, noKey, noMark, plain,
+*/
 		"Enum list doesn't repeat", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
 		"Is reference (not value)", noIcon, noKey, noMark, plain,
-		/* [8] */
-		"Param is target", noIcon, noKey, noMark, plain,
-		/* [9] */
+*/
+is target", noIcon, noKey, noMark, plain,
+*/
 		"Labeled param name", noIcon, noKey, noMark, plain,
 		/* [10] */
 		"Feminine", noIcon, noKey, noMark, plain,
@@ -435,30 +449,30 @@ resource 'MENU' (163, "Event other param  options") {
 	}
 };
 
-resource 'MENU' (164, "Class property options") {
+'MENU' (164, "Class property options") {
 	164,
 	textMenuProc,
 	allEnabled,
 	enabled,
 	"Property",
 	{	/* array: 11 elements */
-		/* [1] */
+*/
 		"Options", noIcon, noKey, noMark, 1,
-		/* [2] */
+*/
 		"Is list of items", noIcon, noKey, noMark, plain,
-		/* [3] */
+*/
 		"Is enumerated", noIcon, noKey, noMark, plain,
-		/* [4] */
+*/
 		"Is writable", noIcon, noKey, noMark, plain,
-		/* [5] */
-		"Enums are types", noIcon, noKey, noMark, plain,
-		/* [6] */
+*/
+are types", noIcon, noKey, noMark, plain,
+*/
 		"Enum list doesn't repeat", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
 		"Is reference (not value)", noIcon, noKey, noMark, plain,
-		/* [8] */
+*/
 		"Apostrophe", noIcon, noKey, noMark, plain,
-		/* [9] */
+*/
 		"Feminine", noIcon, noKey, noMark, plain,
 		/* [10] */
 		"Masculine", noIcon, noKey, noMark, plain,
@@ -467,7 +481,7 @@ resource 'MENU' (164, "Class property options") {
 	}
 };
 
-resource 'MENU' (250, "Text Font") {
+'MENU' (250, "Text Font") {
 	250,
 	textMenuProc,
 	allEnabled,
@@ -477,30 +491,30 @@ resource 'MENU' (250, "Text Font") {
 	}
 };
 
-resource 'MENU' (251, "Text Size") {
+'MENU' (251, "Text Size") {
 	251,
 	textMenuProc,
 	0x7FFFFDFF,
 	enabled,
 	"Size",
 	{	/* array: 11 elements */
-		/* [1] */
+*/
 		"6 pt", noIcon, noKey, noMark, plain,
-		/* [2] */
+*/
 		"8 pt", noIcon, noKey, noMark, plain,
-		/* [3] */
+*/
 		"9 pt", noIcon, noKey, noMark, plain,
-		/* [4] */
+*/
 		"10 pt", noIcon, noKey, noMark, plain,
-		/* [5] */
+*/
 		"12 pt", noIcon, noKey, noMark, plain,
-		/* [6] */
+*/
 		"14 pt", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
 		"18 pt", noIcon, noKey, noMark, plain,
-		/* [8] */
+*/
 		"24 pt", noIcon, noKey, noMark, plain,
-		/* [9] */
+*/
 		"36 pt", noIcon, noKey, noMark, plain,
 		/* [10] */
 		"-", noIcon, noKey, noMark, plain,
@@ -509,49 +523,49 @@ resource 'MENU' (251, "Text Size") {
 	}
 };
 
-resource 'MENU' (252, "Text Style") {
+'MENU' (252, "Text Style") {
 	252,
 	textMenuProc,
 	0x7FFFFEFF,
 	enabled,
 	"Style",
 	{	/* array: 10 elements */
-		/* [1] */
+*/
 		"Plain", noIcon, noKey, noMark, plain,
-		/* [2] */
+*/
 		"Bold", noIcon, noKey, noMark, 1,
-		/* [3] */
+*/
 		"Italic", noIcon, noKey, noMark, 2,
-		/* [4] */
+*/
 		"Underline", noIcon, noKey, noMark, 4,
-		/* [5] */
+*/
 		"Outline", noIcon, noKey, noMark, 8,
-		/* [6] */
+*/
 		"Shadow", noIcon, noKey, noMark, 16,
-		/* [7] */
+*/
 		"Condense", noIcon, noKey, noMark, 32,
-		/* [8] */
+*/
 		"Extend", noIcon, noKey, noMark, 64,
-		/* [9] */
+*/
 		"-", noIcon, noKey, noMark, plain,
 		/* [10] */
 		"Wrap text", noIcon, noKey, noMark, plain
 	}
 };
 
-resource 'MENU' (253, "Types") {
+'MENU' (253, "Types") {
 	253,
 	textMenuProc,
 	allEnabled,
 	enabled,
 	"Types",
 	{	/* array: 1 elements */
-		/* [1] */
-		"   ", noIcon, noKey, noMark, plain
+*/
+noIcon, noKey, noMark, plain
 	}
 };
 
-resource 'MENU' (254, "Empty Font") {
+'MENU' (254, "Empty Font") {
 	254,
 	textMenuProc,
 	allEnabled,
@@ -561,7 +575,7 @@ resource 'MENU' (254, "Empty Font") {
 	}
 };
 
-resource 'MENU' (255, "Unicode Font") {
+'MENU' (255, "Unicode Font") {
 	255,
 	textMenuProc,
 	allEnabled,
@@ -571,30 +585,30 @@ resource 'MENU' (255, "Unicode Font") {
 	}
 };
 
-resource 'MENU' (256, "Unicode Size") {
+'MENU' (256, "Unicode Size") {
 	256,
 	textMenuProc,
 	0x7FFFFDFF,
 	enabled,
 	"Size",
 	{	/* array: 12 elements */
-		/* [1] */
+*/
 		"9 pt", noIcon, noKey, noMark, plain,
-		/* [2] */
+*/
 		"10 pt", noIcon, noKey, noMark, plain,
-		/* [3] */
+*/
 		"11 pt", noIcon, noKey, noMark, plain,
-		/* [4] */
+*/
 		"12 pt", noIcon, noKey, noMark, plain,
-		/* [5] */
+*/
 		"14 pt", noIcon, noKey, noMark, plain,
-		/* [6] */
+*/
 		"16 pt", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
 		"18 pt", noIcon, noKey, noMark, plain,
-		/* [8] */
+*/
 		"24 pt", noIcon, noKey, noMark, plain,
-		/* [9] */
+*/
 		"36 pt", noIcon, noKey, noMark, plain,
 		/* [10] */
 		"-", noIcon, noKey, noMark, plain,
@@ -605,79 +619,79 @@ resource 'MENU' (256, "Unicode Size") {
 	}
 };
 
-resource 'MENU' (257, "Unicode Style") {
+'MENU' (257, "Unicode Style") {
 	257,
 	textMenuProc,
 	allEnabled,
 	enabled,
 	"Style",
 	{	/* array: 4 elements */
-		/* [1] */
+*/
 		"Plain", noIcon, noKey, noMark, plain,
-		/* [2] */
+*/
 		"Bold", noIcon, noKey, noMark, 1,
-		/* [3] */
+*/
 		"Italic", noIcon, noKey, noMark, 2,
-		/* [4] */
+*/
 		"Underline", noIcon, noKey, noMark, 4
 	}
 };
 
-resource 'MENU' (258, "Menu item Style") {
+'MENU' (258, "Menu item Style") {
 	258,
 	textMenuProc,
 	0x7FFFFFFD,
 	enabled,
 	"",
 	{	/* array: 10 elements */
-		/* [1] */
+*/
 		"Style", noIcon, noKey, noMark, plain,
-		/* [2] */
+*/
 		"-", noIcon, noKey, noMark, plain,
-		/* [3] */
+*/
 		"Plain", noIcon, noKey, noMark, plain,
-		/* [4] */
+*/
 		"Bold", noIcon, noKey, noMark, 1,
-		/* [5] */
+*/
 		"Italic", noIcon, noKey, noMark, 2,
-		/* [6] */
+*/
 		"Underline", noIcon, noKey, noMark, 4,
-		/* [7] */
+*/
 		"Outline", noIcon, noKey, noMark, 8,
-		/* [8] */
+*/
 		"Shadow", noIcon, noKey, noMark, 16,
-		/* [9] */
+*/
 		"Condense", noIcon, noKey, noMark, 32,
 		/* [10] */
 		"Extend", noIcon, noKey, noMark, 64
 	}
 };
 
-resource 'MENU' (259, "Menu item property") {
+'MENU' (259, "Menu item property") {
 	259,
 	textMenuProc,
 	allEnabled,
 	enabled,
 	"",
 	{	/* array: 7 elements */
-		/* [1] */
+*/
 		"none", noIcon, noKey, noMark, plain,
-		/* [2] */
+*/
 		"is separator line", noIcon, noKey, noMark, plain,
-		/* [3] */
+*/
 		"has submenu", noIcon, noKey, noMark, plain,
-		/* [4] */
+*/
 		"uses 'cicn' icon", noIcon, noKey, noMark, plain,
-		/* [5] */
+*/
 		"uses 'ICON' icon", noIcon, noKey, noMark, plain,
-		/* [6] */
+*/
 		"uses 'SICN' icon", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
 		"uses non system script", noIcon, noKey, noMark, plain
 	}
 };
 
-resource 'MENU' (260, "Empty Popup") {
+'MENU' (260, "Empty Popup") {
 	260,
 	textMenuProc,
 	allEnabled,
@@ -687,30 +701,30 @@ resource 'MENU' (260, "Empty Popup") {
 	}
 };
 
-resource 'MENU' (261, "Preferences Font Size") {
+'MENU' (261, "Preferences Font Size") {
 	261,
 	textMenuProc,
 	0x7FFFFDFF,
 	enabled,
 	"Size",
 	{	/* array: 11 elements */
-		/* [1] */
+*/
 		"6", noIcon, noKey, noMark, plain,
-		/* [2] */
+*/
 		"8", noIcon, noKey, noMark, plain,
-		/* [3] */
+*/
 		"9", noIcon, noKey, noMark, plain,
-		/* [4] */
+*/
 		"10", noIcon, noKey, noMark, plain,
-		/* [5] */
+*/
 		"12", noIcon, noKey, noMark, plain,
-		/* [6] */
+*/
 		"14", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
 		"18", noIcon, noKey, noMark, plain,
-		/* [8] */
+*/
 		"24", noIcon, noKey, noMark, plain,
-		/* [9] */
+*/
 		"36", noIcon, noKey, noMark, plain,
 		/* [10] */
 		"-", noIcon, noKey, noMark, plain,
@@ -719,69 +733,75 @@ resource 'MENU' (261, "Preferences Font Size") {
 	}
 };
 
-resource 'MENU' (300, "Icon Actions") {
+'MENU' (300, "Icon Actions") {
 	300,
 	textMenuProc,
-	0x7FFFFF5B,
+	0x7FFFFB5B,
 	enabled,
 	"Actions",
-	{	/* array: 10 elements */
-		/* [1] */
+	{	/* array: 13 elements */
+*/
 		"Flip Vertical", noIcon, "V", noMark, plain,
-		/* [2] */
+*/
 		"Flip Horizontal", noIcon, "H", noMark, plain,
-		/* [3] */
+*/
 		"-", noIcon, noKey, noMark, plain,
-		/* [4] */
+*/
 		"Rotate Right", noIcon, "R", noMark, plain,
-		/* [5] */
+*/
 		"Rotate Left", noIcon, "L", noMark, plain,
-		/* [6] */
+*/
 		"-", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
 		"Make Transparent", noIcon, "T", noMark, plain,
-		/* [8] */
+*/
 		"-", noIcon, noKey, noMark, plain,
-		/* [9] */
+*/
 		"Delete Image", noIcon, noKey, noMark, plain,
 		/* [10] */
-		"Set Image Size…", noIcon, noKey, noMark, plain
+		"Set Image Size…", noIcon, noKey, noMark, plain,
+		/* [11] */
+		"-", noIcon, noKey, noMark, plain,
+		/* [12] */
+		"Explode", noIcon, noKey, noMark, plain,
+		/* [13] */
+		"Implode", noIcon, noKey, noMark, plain
 	}
 };
 
-resource 'MENU' (301, "Icon Colors") {
+'MENU' (301, "Icon Colors") {
 	301,
 	textMenuProc,
 	0x7FFFFF7F,
 	enabled,
 	"Colors",
 	{	/* array: 11 elements */
-		/* [1] */
+*/
 		"Icon Colors", noIcon, noKey, noMark, plain,
-		/* [2] */
+*/
 		"256 Colors", noIcon, noKey, noMark, plain,
-		/* [3] */
+*/
 		"256 Grays", noIcon, noKey, noMark, plain,
-		/* [4] */
+*/
 		"16 Colors", noIcon, noKey, noMark, plain,
-		/* [5] */
+*/
 		"16 Grays", noIcon, noKey, noMark, plain,
-		/* [6] */
+*/
 		"4 Grays", noIcon, noKey, noMark, plain,
-		/* [7] */
+*/
 		"Use Color Picker", noIcon, noKey, noMark, plain,
-		/* [8] */
+*/
 		"-", noIcon, noKey, noMark, plain,
-		/* [9] */
+*/
 		"Select Black & White", noIcon, noKey, noMark, plain,
 		/* [10] */
 		"Swap Selected Colors", noIcon, noKey, noMark, plain,
 		/* [11] */
-		"Apply Current Table", noIcon, noKey, noMark, plain
+Current Table", noIcon, noKey, noMark, plain
 	}
 };
 
-resource 'MENU' (302, "Icon Font") {
+'MENU' (302, "Icon Font") {
 	302,
 	textMenuProc,
 	allEnabled,
@@ -791,30 +811,30 @@ resource 'MENU' (302, "Icon Font") {
 	}
 };
 
-resource 'MENU' (303, "Icon Style") {
+'MENU' (303, "Icon Style") {
 	303,
 	textMenuProc,
 	0x7FFDFEFF,
 	enabled,
 	"Style",
 	{	/* array: 21 elements */
-		/* [1] */
+*/
 		"Plain", noIcon, noKey, noMark, plain,
-		/* [2] */
+*/
 		"Bold", noIcon, noKey, noMark, 1,
-		/* [3] */
+*/
 		"Italic", noIcon, noKey, noMark, 2,
-		/* [4] */
+*/
 		"Underline", noIcon, noKey, noMark, 4,
-		/* [5] */
+*/
 		"Outline", noIcon, noKey, noMark, 8,
-		/* [6] */
+*/
 		"Shadow", noIcon, noKey, noMark, 16,
-		/* [7] */
+*/
 		"Condense", noIcon, noKey, noMark, 32,
-		/* [8] */
+*/
 		"Extend", noIcon, noKey, noMark, 64,
-		/* [9] */
+*/
 		"-", noIcon, noKey, noMark, plain,
 		/* [10] */
 		"9 pt", noIcon, noKey, noMark, plain,
@@ -839,81 +859,11 @@ resource 'MENU' (303, "Icon Style") {
 		/* [20] */
 		"Centered", noIcon, noKey, noMark, plain,
 		/* [21] */
-		"Right Justified", noIcon, noKey, noMark, plain
+Justified", noIcon, noKey, noMark, plain
 	}
 };
 
-resource 'MENU' (305, "Icns Types") {
-	305,
-	textMenuProc,
-	0x7FFDFEFF,
-	enabled,
-	"Icns types",
-	{	/* array: 30 elements */
-		/* [1] */
-		"Thumbnail 32 Bit Data ('it32')", noIcon, noKey, noMark, plain,
-		/* [2] */
-		"Thumbnail 8 Bit Mask ('t8mk')", noIcon, noKey, noMark, plain,
-		/* [3] */
-		"-", noIcon, noKey, noMark, plain,
-		/* [4] */
-		"Huge 1 Bit Mask ('ich#')", noIcon, noKey, noMark, plain,
-		/* [5] */
-		"Huge 4 Bit Data ('ich4')", noIcon, noKey, noMark, plain,
-		/* [6] */
-		"Huge 8 Bit Data ('ich8')", noIcon, noKey, noMark, plain,
-		/* [7] */
-		"Huge 32 Bit Data ('ih32')", noIcon, noKey, noMark, plain,
-		/* [8] */
-		"Huge 8 Bit Mask ('h8mk')", noIcon, noKey, noMark, plain,
-		/* [9] */
-		"-", noIcon, noKey, noMark, plain,
-		/* [10] */
-		"Large 1 Bit Mask ('ICN#')", noIcon, noKey, noMark, plain,
-		/* [11] */
-		"Large 4 Bit Data ('icl4')", noIcon, noKey, noMark, plain,
-		/* [12] */
-		"Large 8 Bit Data ('icl8')", noIcon, noKey, noMark, plain,
-		/* [13] */
-		"Large 32 Bit Data ('il32')", noIcon, noKey, noMark, plain,
-		/* [14] */
-		"Large 8 Bit Mask ('l8mk')", noIcon, noKey, noMark, plain,
-		/* [15] */
-		"-", noIcon, noKey, noMark, plain,
-		/* [16] */
-		"Small 1 Bit Mask ('ics#')", noIcon, noKey, noMark, plain,
-		/* [17] */
-		"Small 4 Bit Data ('ics4')", noIcon, noKey, noMark, plain,
-		/* [18] */
-		"Small 8 Bit Data ('ics8')", noIcon, noKey, noMark, plain,
-		/* [19] */
-		"Small 32 Bit Data ('is32')", noIcon, noKey, noMark, plain,
-		/* [20] */
-		"Small 8 Bit Mask ('s8mk')", noIcon, noKey, noMark, plain,
-		/* [21] */
-		"-", noIcon, noKey, noMark, plain,
-		/* [22] */
-		"Mini 1 Bit Mask ('icm#')", noIcon, noKey, noMark, plain,
-		/* [23] */
-		"Mini 4 Bit Data ('icm4')", noIcon, noKey, noMark, plain,
-		/* [24] */
-		"Mini 8 Bit Data ('icm8')", noIcon, noKey, noMark, plain,
-		/* [25] */
-		"-", noIcon, noKey, noMark, plain,
-		/* [26] */
-		"Tile Icon Variant ('tile')", noIcon, noKey, noMark, plain,
-		/* [27] */
-		"Rollover Icon Variant ('over')", noIcon, noKey, noMark, plain,
-		/* [28] */
-		"Drop Icon Variant ('drop')", noIcon, noKey, noMark, plain,
-		/* [29] */
-		"Open Icon Variant ('open')", noIcon, noKey, noMark, plain,
-		/* [30] */
-		"Open Drop Icon Variant ('odrp')", noIcon, noKey, noMark, plain
-	}
-};
-
-resource 'MENU' (500, "Plugin Editor Menu") {
+'MENU' (500, "Plugin Editor Menu") {
 	500,
 	textMenuProc,
 	allEnabled,
@@ -923,32 +873,69 @@ resource 'MENU' (500, "Plugin Editor Menu") {
 	}
 };
 
+'MENU' (310, "Icns Types") {
+	305,
+	textMenuProc,
+	allEnabled,
+	enabled,
+	"Icns types",
+	{	/* array: 0 elements */
+	}
+};
+
+'MENU' (134, "Plugin Names") {
+	134,
+	textMenuProc,
+	allEnabled,
+	enabled,
+	"Plugins",
+	{	/* array: 0 elements */
+	}
+};
+
+'MENU' (135, "Plugin Supported Types") {
+	135,
+	textMenuProc,
+	allEnabled,
+	enabled,
+	"Types",
+	{	/* array: 0 elements */
+	}
+};
+
+'MENU' (136, "Plugin All Types") {
+	136,
+	textMenuProc,
+	allEnabled,
+	enabled,
+	"Types",
+	{	/* array: 0 elements */
+	}
+};
+
 data 'Mcmd' (128, "Apple Menu") {
 	$"0001 0000 0001"                                     /* ...... */
 };
 
 data 'Mcmd' (129, "File Menu") {
-	$"000C 0000 0002 0000 0003 0000 03EA 0000"            /* .............Í.. */
+	$"000F 0000 0002 0000 0003 0000 03E9 0000"            /* .............È.. */
 	$"0004 0000 0007 0000 0000 0000 0005 0000"            /* ................ */
-	$"0006 0000 0000 0000 03E9 0000 0000 0000"            /* .........È...... */
-	$"000A"                                               /* .¬ */
+	$"0006 0000 0000 0000 03EA 0000 03EB 0000"            /* .........Í...Î.. */
+	$"0000 0000 03EC 0000 0000 0000 000A"                 /* .....Ï.......¬ */
 };
 
 data 'Mcmd' (130, "Edit Menu") {
 	$"000C 0000 000B 0000 0000 0000 000C 0000"            /* ................ */
 	$"000D 0000 000E 0000 000F 0000 0010 0000"            /* ................ */
 	$"0000 0000 044D 0000 044E 0000 0000 0000"            /* .....M...N...... */
-	$"044F"                                               /* .O */
-};
-
-data 'Mcmd' (131, "Plugins Menu") {
-	$"0002 6252 7352 6564 5442"                           /* ..bRsRedTB */
+                                              /* .O */
 };
 
 data 'Mcmd' (132, "File Menu Aqua") {
-	$"000A 0000 0002 0000 0003 0000 03EA 0000"            /* .¬...........Í.. */
+	$"000D 0000 0002 0000 0003 0000 03E9 0000"            /* .............È.. */
 	$"0004 0000 0007 0000 0000 0000 0005 0000"            /* ................ */
-	$"0006 0000 0000 0000 03E9"                           /* .........È */
+	$"0006 0000 0000 0000 03EA 0000 03EB 0000"            /* .........Í...Î.. */
+	$"0000 0000 03EC"                                     /* .....Ï */
 };
 
 data 'Mcmd' (133, "Resources Menu") {
@@ -959,12 +946,12 @@ data 'Mcmd' (133, "Resources Menu") {
 };
 
 data 'Mcmd' (160, "Aete Menu") {
-	$"0017 0000 0641 0000 0642 0000 0000 0000"            /* .....A...B...... */
+	$"0014 0000 0641 0000 0642 0000 0000 0000"            /* .....A...B...... */
 	$"0643 0000 0644 0000 0000 0000 0645 0000"            /* .C...D.......E.. */
 	$"0646 0000 0000 0000 0647 0000 0648 0000"            /* .F.......G...H.. */
 	$"0000 0000 0649 0000 064A 0000 0000 0000"            /* .....I...J...... */
 	$"064B 0000 064C 0000 0000 0000 064D 0000"            /* .K...L.......M.. */
-	$"064E 0000 0000 0000 0655 0000 0656"                 /* .N.......U...V */
+                                              /* .N */
 };
 
 data 'Mcmd' (251, "Text Size") {
@@ -983,12 +970,12 @@ data 'Mcmd' (256, "Unicode Size") {
 	$"000C 0000 05E5 0000 05E6 0000 05E7 0000"            /* .....Â...Ê...Á.. */
 	$"05E8 0000 05EA 0000 05EC 0000 05EE 0000"            /* .Ë...Í...Ï...Ó.. */
 	$"05F4 0000 0600 0000 0000 0000 012E 0000"            /* .Ù.............. */
-	$"012D"                                               /* .- */
+                                              /* .- */
 };
 
 data 'Mcmd' (257, "Unicode Style") {
 	$"0004 0000 0191 0000 0192 0000 0193 0000"            /* .....ë...í...ì.. */
-	$"0194"                                               /* .î */
+                                              /* .î */
 };
 
 data 'Mcmd' (258, "Menu item Style") {
@@ -998,9 +985,10 @@ data 'Mcmd' (258, "Menu item Style") {
 };
 
 data 'Mcmd' (300, "Icon Actions") {
-	$"000A 464C 5056 464C 5048 0000 0000 524F"            /* .¬FLPVFLPH....RO */
+	$"000D 464C 5056 464C 5048 0000 0000 524F"            /* ..FLPVFLPH....RO */
 	$"5452 524F 544C 0000 0000 5452 414E 0000"            /* TRROTL....TRAN.. */
-	$"0000 4445 4C49 5253 5A49"                           /* ..DELIRSZI */
+	$"0000 4445 4C49 5253 5A49 0000 0000 5850"            /* ..DELIRSZI....XP */
+	$"4C4F 4950 4C4F"                                     /* LOIPLO */
 };
 
 data 'Mcmd' (301, "Icon Colors") {
@@ -1018,7 +1006,7 @@ data 'Mcmd' (303, "Icon Style") {
 	$"019D 0000 019E"                                     /* .ù...û */
 };
 
-resource 'PICT' (128, "Rezilla banner") {
+'PICT' (128, "Rezilla banner") {
 	7106,
 	{0, 0, 79, 239},
 	$"0011 02FF 0C00 FFFE 0000 0048 0000 0048"
@@ -1467,7 +1455,7 @@ resource 'PICT' (128, "Rezilla banner") {
 	$"0004 8100 9100 00FF"
 };
 
-resource 'PICT' (129, "Cage") {
+'PICT' (129, "Cage") {
 	9404,
 	{0, 0, 348, 127},
 	$"0011 02FF 0C00 FFFE 0000 0048 0000 0048"
@@ -2060,7 +2048,7 @@ resource 'PICT' (129, "Cage") {
 	$"00FF"
 };
 
-resource 'PICT' (130, "Menu bar") {
+'PICT' (130, "Bar for MENU editor") {
 	13792,
 	{0, 0, 28, 225},
 	$"0011 02FF 0C00 FFFE 0000 0048 0000 0048"
@@ -2927,6 +2915,794 @@ resource 'PICT' (130, "Menu bar") {
 	$"767A 7800 00FF"
 };
 
+'PICT' (131, "Bar for MENU picker") {
+	3816,
+	{0, 0, 24, 161},
+	$"0011 02FF 0C00 FFFE 0000 0048 0000 0048"
+	$"0000 0000 0000 0018 00A1 0000 0000 001E"
+	$"0001 000A 0000 0000 0300 0400 0098 80A2"
+	$"0000 0000 0018 00A1 0000 0000 0000 0000"
+	$"0048 0000 0048 0000 0000 0008 0001 0008"
+	$"0000 0008 000F E72C 002F 5844 0000 0444"
+	$"0000 005A 0000 FFFF FFFF FFFF 0001 2F2F"
+	$"5D5D 8484 0002 3333 3333 3333 0003 7D7D"
+	$"7D7D 7D7D 0004 BCBC BCBC BCBC 0005 FAFA"
+	$"FAFA FAFA 0006 6565 6565 6565 0007 CFCF"
+	$"CFCF CFCF 0008 F5F5 F5F5 F5F5 0009 F3F3"
+	$"F3F3 F3F3 000A F1F1 F1F1 F1F1 000B 6767"
+	$"6767 6767 000C EDED EDED EDED 000D F7F7"
+	$"F7F7 F7F7 000E F6F6 F6F6 F6F6 000F 3434"
+	$"3434 3434 0010 D2D2 D2D2 D2D2 0011 7C7C"
+	$"7C7C 7C7C 0012 F2F2 F2F2 F2F2 0013 F0F0"
+	$"F0F0 F0F0 0014 B8B8 B8B8 B8B8 0015 EFEF"
+	$"EFEF EFEF 0016 EEEE EEEE EEEE 0017 E6E6"
+	$"E6E6 E6E6 0018 F4F4 F4F4 F4F4 0019 ECEC"
+	$"ECEC ECEC 001A EBEB EBEB EBEB 001B EAEA"
+	$"EAEA EAEA 001C E8E8 E8E8 E8E8 001D E9E9"
+	$"E9E9 E9E9 001E E7E7 E7E7 E7E7 001F E5E5"
+	$"E5E5 E5E5 0020 E4E4 E4E4 E4E4 0021 E3E3"
+	$"E3E3 E3E3 0022 ABAB ABAB ABAB 0023 ACAC"
+	$"ACAC ACAC 0024 AAAA AAAA AAAA 0025 1D1D"
+	$"3737 6464 0026 1919 3131 5A5A 0027 1E1E"
+	$"3838 6565 0028 1D1D 3838 6565 0029 1E1E"
+	$"3A3A 6666 002A 2D2D 5656 7878 002B 2E2E"
+	$"5656 7878 002C 2D2D 5656 7777 002D 2E2E"
+	$"5757 7979 002E 2F2F 5858 7979 002F 2F2F"
+	$"5858 7A7A 0030 3030 5858 7979 0031 2E2E"
+	$"5757 7878 0032 3030 5959 7A7A 0033 3030"
+	$"5959 7979 0034 2F2F 5858 7878 0035 3030"
+	$"5858 7A7A 0036 3030 5959 7878 0037 3131"
+	$"5A5A 7A7A 0038 3030 5A5A 7979 0039 3232"
+	$"5A5A 7B7B 003A 3131 5A5A 7B7B 003B 2B2B"
+	$"5454 7676 003C 2C2C 5555 7878 003D 2B2B"
+	$"5454 7777 003E 2B2B 5353 7676 003F 2929"
+	$"5252 7575 0040 1F1F 3B3B 6C6C 0041 2121"
+	$"3F3F 7171 0042 2121 3E3E 7171 0043 2121"
+	$"4040 7272 0044 2222 4141 7373 0045 2121"
+	$"4141 7373 0046 3434 6262 8888 0047 3232"
+	$"6060 8585 0048 3333 6161 8787 0049 3434"
+	$"6161 8787 004A 3333 6161 8686 004B 3434"
+	$"6262 8787 004C 3636 6363 8989 004D 3535"
+	$"6363 8888 004E 3535 6363 8989 004F 3636"
+	$"6464 8989 0050 3636 6363 8787 0051 3636"
+	$"6464 8888 0052 3636 6565 8989 0053 3737"
+	$"6565 8888 0054 3636 6363 8888 0055 3737"
+	$"6565 8A8A 0056 3434 6363 8787 0057 3131"
+	$"5E5E 8686 0058 3131 5F5F 8787 0059 3030"
+	$"5E5E 8585 005A 0000 0000 0000 0000 0000"
+	$"0018 00A1 0000 0000 0018 00A1 0000 12FE"
+	$"5A02 0203 0481 05EC 0502 0403 02FE 5A00"
+	$"6E13 055A 5A06 0708 0981 0AEC 0A06 0908"
+	$"0706 5A5A 6EA4 0A5A 0B0C 0D08 0E0E 0808"
+	$"0E0E FE08 7F0E 0E08 080E 0E08 080E 0E08"
+	$"080E 0E08 080E 0E08 080E 0E08 080E 0E08"
+	$"080E 0E08 080E 0E08 080E 0E08 080E 0E08"
+	$"080E 0E08 080E 0E08 080E 0E08 080E 0E08"
+	$"080E 0E08 080E 0E08 080E 0E08 080E 0E08"
+	$"080E 0E08 080E 0E08 080E 0E08 080E 0E08"
+	$"080E 0E08 080E 0E08 080E 0E08 080E 0E08"
+	$"080E 0E08 080E 0808 0E0E 0808 0E0E 0808"
+	$"0E0E 0808 0E13 0E08 080E 0808 0E0E 0808"
+	$"0E0E 080E 080D 0C0B 5A63 A301 0F10 FE0E"
+	$"0308 0E0E 08FE 0E01 0808 FE0E 0008 FE0E"
+	$"0008 FE0E 0008 FE0E 0008 FE0E 0008 FE0E"
+	$"0008 FE0E 0008 FE0E 0008 FE0E 0008 FE0E"
+	$"0008 FE0E 0008 FE0E 0008 FE0E 0008 FE0E"
+	$"0008 FE0E 0008 FE0E 0008 FE0E 0008 FE0E"
+	$"0008 FE0E 0008 FE0E 0008 FE0E 0008 FE0E"
+	$"0008 FE0E 0008 FE0E 0008 FE0E 0008 FE0E"
+	$"0008 FE0E 0008 FE0E 0308 0E0E 08FE 0E00"
+	$"08FE 0E00 08FE 0E00 08FE 0E03 080E 0E08"
+	$"FE0E 0008 FE0E 0008 FE0E 0210 0FEE 9C01"
+	$"1112 FD13 000A FE13 000A FD13 000A FE13"
+	$"000A FE13 000A FE13 000A FE13 000A FE13"
+	$"000A FE13 000A FE13 000A FE13 000A FE13"
+	$"000A FE13 000A FE13 000A FE13 000A FE13"
+	$"000A FE13 000A FE13 000A FE13 000A FE13"
+	$"000A FE13 000A FE13 000A FE13 000A FE13"
+	$"000A FE13 000A FE13 000A FE13 000A FE13"
+	$"000A FE13 000A FE13 000A FB13 000A FE13"
+	$"000A FE13 000A FE13 030A 1313 0AFE 1300"
+	$"0AFE 1300 0AFC 1302 1211 EE9C 0314 1513"
+	$"16FC 1300 15FD 1300 15FE 1300 15FE 1300"
+	$"15FE 1300 15FE 1300 15FE 1300 15FE 1300"
+	$"15FE 1300 15FE 1300 15FE 1300 15FE 1300"
+	$"15FE 1300 15FE 1300 15FE 1300 15FE 1300"
+	$"15FE 1300 15FE 1300 15FE 1300 15FE 1300"
+	$"15FE 1300 15FE 1300 15FE 1300 15FE 1300"
+	$"15FE 1300 15FE 1300 15FE 1300 15FE 1300"
+	$"15FE 1300 15FE 1303 1513 1315 FE13 0015"
+	$"FE13 0015 FE13 0015 FB13 0015 FE13 0015"
+	$"FD13 0416 1315 1469 9D00 17FB 1800 08FE"
+	$"1800 08FD 1800 08FE 1800 08FE 1800 08FE"
+	$"1800 08FE 1800 08FE 1800 08FE 1800 08FE"
+	$"1800 08FE 1800 08FE 1800 08FE 1800 08FE"
+	$"1800 08FE 1800 08FE 1800 08FE 1800 08FE"
+	$"1800 08FE 1800 08FE 1800 08FE 1800 08FE"
+	$"1800 08FE 1800 08FE 1800 08FE 1800 08FE"
+	$"1800 08FE 1800 08FE 1800 08FE 1800 08FE"
+	$"1803 0818 1808 FE18 0008 FE18 0008 FE18"
+	$"0008 FE18 0308 1818 08FE 1800 08FE 1800"
+	$"08FC 1801 176E A40A 0818 1809 1809 1809"
+	$"0918 18FE 097F 1818 0909 1818 0909 1818"
+	$"0909 1818 0909 1818 0909 1818 0909 1818"
+	$"0909 1818 0909 1818 0909 1818 0909 1818"
+	$"0909 1818 0909 1818 0909 1818 0909 1818"
+	$"0909 1818 0909 1818 0909 1818 0909 1818"
+	$"0909 1818 0909 1818 0909 1818 0909 1818"
+	$"0909 1818 0909 1818 0909 1818 0909 1818"
+	$"0909 1818 0909 1809 0918 1809 0918 1809"
+	$"0918 1809 0918 1318 0909 1809 0918 1809"
+	$"0918 1809 0918 0918 0918 6E06 8116 E016"
+	$"006E 9F05 0C16 1916 160C FE16 000C FD16"
+	$"000C FE16 000C FE16 000C FE16 000C FE16"
+	$"000C FE16 000C FE16 000C FE16 000C FE16"
+	$"000C FE16 000C FE16 000C FE16 000C FE16"
+	$"000C FE16 000C FE16 000C FE16 000C FE16"
+	$"000C FE16 000C FE16 000C FE16 000C FE16"
+	$"000C FE16 000C FE16 000C FE16 000C FE16"
+	$"000C FE16 000C FE16 000C FE16 000C FE16"
+	$"030C 1616 0CFE 1600 0CFE 1600 0CFE 1600"
+	$"0CFB 1600 0CFE 1600 0CFE 1605 0C0C 1616"
+	$"1963 A3FE 127F 0A12 0A0A 120A 120A 120A"
+	$"0A12 0A12 0A12 0A12 0A12 0A12 0A12 0A12"
+	$"0A12 0A12 0A12 0A12 0A12 0A12 0A12 0A12"
+	$"0A12 0A12 0A12 0A12 0A12 0A12 0A12 0A12"
+	$"0A12 0A12 0A12 0A12 0A12 0A12 0A12 0A12"
+	$"0A12 0A12 0A12 0A12 0A12 0A12 0A12 0A12"
+	$"0A12 0A12 0A12 0A12 0A12 0A12 0A12 0A12"
+	$"0A12 0A12 0A12 0A12 0A12 0A12 0A12 0A12"
+	$"0A12 120A 120A 1E12 0A12 0A12 0A12 0A12"
+	$"0A12 0A12 0A0A 120A 120A 120A 120A 120A"
+	$"120A 120A 12EA 9C02 1312 12FB 0A00 13FD"
+	$"0A00 13FE 0A00 13FE 0A00 13FE 0A00 13FE"
+	$"0A00 13FE 0A00 13FE 0A00 13FE 0A00 13FE"
+	$"0A00 13FE 0A00 13FE 0A00 13FE 0A00 13FE"
+	$"0A00 13FE 0A00 13FE 0A00 13FE 0A00 13FE"
+	$"0A00 13FE 0A00 13FE 0A00 13FE 0A00 13FE"
+	$"0A00 13FE 0A00 13FE 0A00 13FE 0A00 13FE"
+	$"0A00 13FE 0A00 13FE 0A00 13FE 0A00 13FE"
+	$"0A03 130A 0A13 FE0A 0013 FE0A 0013 FE0A"
+	$"0013 FB0A 0013 FE0A 0013 FE0A 0013 FE0A"
+	$"0112 E49D 0019 FA1A 0019 FE1A 0119 19FE"
+	$"1A00 19FE 1A00 19FE 1A00 19FE 1A00 19FE"
+	$"1A00 19FE 1A00 19FE 1A00 19FE 1A00 19FE"
+	$"1A00 19FE 1A00 19FE 1A00 19FE 1A00 19FE"
+	$"1A00 19FE 1A00 19FE 1A00 19FE 1A00 19FE"
+	$"1A00 19FE 1A00 19FE 1A00 19FE 1A00 19FE"
+	$"1A00 19FE 1A00 19FE 1A00 19FE 1A00 19FE"
+	$"1A00 19FE 1A00 19FE 1A00 19FE 1A03 191A"
+	$"1A19 FE1A 0019 FE1A 0019 FE1A 0019 FE1A"
+	$"0319 1A1A 19FE 1A00 19FE 1A00 19FC 1A00"
+	$"FE9E 001B FD1A 011B 1BFE 1A00 1BFD 1A00"
+	$"1BFE 1A00 1BFE 1A00 1BFE 1A00 1BFE 1A00"
+	$"1BFE 1A00 1BFE 1A00 1BFE 1A00 1BFE 1A00"
+	$"1BFE 1A00 1BFE 1A00 1BFE 1A00 1BFE 1A00"
+	$"1BFE 1A00 1BFE 1A00 1BFE 1A00 1BFE 1A00"
+	$"1BFE 1A00 1BFE 1A00 1BFE 1A00 1BFE 1A00"
+	$"1BFE 1A00 1BFE 1A00 1BFE 1A00 1BFE 1A00"
+	$"1BFE 1A00 1BFE 1A00 1BFE 1A00 1BFB 1A00"
+	$"1BFE 1A00 1BFE 1A00 1BFE 1A03 1B1A 1A1B"
+	$"FE1A 001B FE1A 001B FE1A 001B FE1A 00AC"
+	$"0901 1516 8115 E215 0069 9CFC 1600 0CFE"
+	$"1600 15FD 1600 15FE 1600 15FE 1600 15FE"
+	$"1600 15FE 1600 15FE 1600 15FE 1600 15FE"
+	$"1600 15FE 1600 15FE 1600 15FE 1600 15FE"
+	$"1600 15FE 1600 15FE 1600 15FE 1600 15FE"
+	$"1600 15FE 1600 15FE 1600 15FE 1600 15FE"
+	$"1600 15FE 1600 15FE 1600 15FE 1600 15FE"
+	$"1600 15FE 1600 15FE 1600 15FE 1600 15FE"
+	$"1600 15FE 1603 1516 1615 FE16 0015 FE16"
+	$"0015 FE16 0015 FB16 0015 FE16 0015 FE16"
+	$"0115 0CFE 1600 6E0F FD1C 011D 1D81 1CEA"
+	$"1C04 1D1D 1C1C 6EA0 FC1E 031C 1E1E 1CFE"
+	$"1E01 1C1C FE1E 001C FE1E 001C FE1E 001C"
+	$"FE1E 001C FE1E 001C FE1E 001C FE1E 001C"
+	$"FE1E 001C FE1E 001C FE1E 001C FE1E 001C"
+	$"FE1E 001C FE1E 001C FE1E 001C FE1E 001C"
+	$"FE1E 001C FE1E 001C FE1E 001C FE1E 001C"
+	$"FE1E 001C FE1E 001C FE1E 001C FE1E 001C"
+	$"FE1E 001C FE1E 001C FE1E 001C FE1E 001C"
+	$"FE1E 031C 1E1E 1CFE 1E00 1CFE 1E00 1CFE"
+	$"1E00 1CFE 1E03 1C1E 1E1C FE1E 001C FE1E"
+	$"021C 1E1C FE1E 006E A103 1B19 1A19 FE1A"
+	$"001B FE1A 001B FD1A 001B FE1A 001B FE1A"
+	$"001B FE1A 001B FE1A 001B FE1A 001B FE1A"
+	$"001B FE1A 001B FE1A 001B FE1A 001B FE1A"
+	$"001B FE1A 001B FE1A 001B FE1A 001B FE1A"
+	$"001B FE1A 001B FE1A 001B FE1A 001B FE1A"
+	$"001B FE1A 001B FE1A 001B FE1A 001B FE1A"
+	$"001B FE1A 001B FE1A 001B FE1A 001B FE1A"
+	$"001B FE1A 031B 1A1A 1BFE 1A00 1BFE 1A00"
+	$"1BFE 1A00 1BFE 1A03 1B1A 1A1B FE1A 001B"
+	$"FE1A 001B FD1A 0219 1A63 0681 1BE0 1B00"
+	$"61A1 031F 2020 21FE 1F00 20FE 1F00 20FD"
+	$"1F00 20FE 1F00 20FE 1F00 20FE 1F00 20FE"
+	$"1F00 20FE 1F00 20FE 1F00 20FE 1F00 20FE"
+	$"1F00 20FE 1F00 20FE 1F00 20FE 1F00 20FE"
+	$"1F00 20FE 1F00 20FE 1F00 20FE 1F00 20FE"
+	$"1F00 20FE 1F00 20FE 1F00 20FE 1F00 20FE"
+	$"1F00 20FE 1F00 20FE 1F00 20FE 1F00 20FE"
+	$"1F00 20FE 1F00 20FE 1F00 20FE 1F03 201F"
+	$"1F20 FE1F 0020 FE1F 0020 FE1F 0020 FE1F"
+	$"0320 1F1F 20FE 1F00 20FE 1F00 20FD 1F02"
+	$"2120 FE9F 0122 23FE 2201 2423 FE22 0023"
+	$"FD22 0023 FE22 0023 FE22 0023 FE22 0023"
+	$"FE22 0023 FE22 0023 FE22 0023 FE22 0023"
+	$"FE22 0023 FE22 0023 FE22 0023 FE22 0023"
+	$"FE22 0023 FE22 0023 FE22 0023 FE22 0023"
+	$"FE22 0023 FE22 0023 FE22 0023 FE22 0023"
+	$"FE22 0023 FE22 0023 FE22 0023 FE22 0023"
+	$"FE22 0023 FE22 0023 FE22 0023 FE22 0023"
+	$"FB22 0023 FE22 0023 FE22 0023 FE22 0323"
+	$"2222 23FE 2200 23FE 2200 23FE 2200 24FE"
+	$"2200 B19D 0225 2625 FB27 1928 2829 282A"
+	$"2B2A 2C2A 2B2B 2D2E 2F2B 302B 2E31 2E2E"
+	$"2A2B 2A2D 2DFD 3166 2E2E 2B2B 3031 2E31"
+	$"302E 3031 302E 2E31 3231 2E30 3033 2E31"
+	$"312E 3331 2B31 302E 302E 3231 3030 332E"
+	$"3132 322E 3432 3230 3530 3032 302B 2E30"
+	$"3637 2E31 3032 3338 362E 3131 2E31 2E30"
+	$"3333 3738 3333 3439 322E 3A32 313A 322E"
+	$"2D2E 2F2B 302B 2E31 2E2E 2A2B 2A2D 2DFE"
+	$"3105 3B3C 3C3D 3D3C FC3D 053E 3C3E 3F3F"
+	$"B199 0140 28FD 4108 4241 4243 4445 4346"
+	$"47FD 4805 4949 464A 4B46 FA49 2048 4648"
+	$"494B 4C4D 4D4C 4C4D 4B49 4E4A 4C4D 4D4C"
+	$"4D4B 4D49 4D4C 4D4D 4C49 4F50 4D4F FE4D"
+	$"3F4A 4B4D 4B4C 4C4D 4B4D 514D 464C 4D4D"
+	$"4B4C 4F4D 4F4D 4C4F 4C4D 4C52 534C 4C4F"
+	$"4F4B 4D54 4F4F 4C4B 4D4F 4D4F 554F 4C52"
+	$"524C 564C 4B4F 4C4C 4D4F 4D4D 4946 4A4B"
+	$"46FA 4916 4846 4849 4B4C 5757 5859 5758"
+	$"5859 5859 0157 5759 0101 7400 00FF"
+};
+
+'PICT' (132, "Apple for MENU picker") {
+	8644,
+	{0, 0, 24, 161},
+	$"0011 02FF 0C00 FFFE 0000 0048 0000 0048"
+	$"0000 0000 0000 0018 00A1 0000 0000 001E"
+	$"0001 000A 0000 0000 0300 0400 009A 0000"
+	$"00FF 8284 0000 0000 0018 00A1 0000 0004"
+	$"0000 0000 0048 0000 0048 0000 0010 0020"
+	$"0004 0008 0000 0020 017F 65E4 017F 6600"
+	$"0000 0000 0018 00A1 0000 0000 0018 00A1"
+	$"0000 002E 8100 DD00 0233 7DBC 81FA EBFA"
+	$"02BC 7D33 FC00 0233 7DBC 81FA EBFA 02BC"
+	$"7D33 FC00 0233 7DBC 81FA EBFA 04BC 7D33"
+	$"0000 0042 8100 DE00 0365 CFF5 F3EB F103"
+	$"B42B 18D2 85F1 03F3 F5CF 65FE 0003 65CF"
+	$"F5F3 EBF1 03CA 7969 DD85 F103 F3F5 CF65"
+	$"FE00 0365 CFF5 F3EB F103 E4CF CBEB 85F1"
+	$"04F3 F5CF 6500 01E9 8100 DF00 3167 EDF7"
+	$"F5F6 F6F5 F5F6 F6F5 F5F6 F6F5 F5F6 F6F5"
+	$"F5F6 F6F5 F5F6 F6D8 1700 48F2 F5F6 F6F5"
+	$"F5F6 F6F5 F5F6 F6F5 F5F6 F6F5 F5F6 F6FE"
+	$"F57F F6F6 F5F5 F6F6 F5F5 F6F6 F5F5 F6F6"
+	$"F5F5 F6F6 F5F5 F6F6 F5F5 F6F6 F5F5 F6F6"
+	$"F5F5 F6F6 F5F5 F6F6 F5F5 F6F6 F5F5 F6F6"
+	$"F5F5 F6F6 F5F5 F6F6 F5F5 F6F6 F5F5 F6F6"
+	$"F5F5 F6F6 F5F5 F6F6 F5F5 F6F5 F5F6 F6F5"
+	$"F5F6 F6F5 F5F6 F6F5 F5F6 F6F5 F5F6 F6F5"
+	$"F5F6 F6F5 F5F6 F5F6 F6F5 F7ED 6700 67ED"
+	$"F7F5 F6F6 F5F5 F6F6 F5F5 F6F6 F5F5 F6F6"
+	$"F5F5 1DF6 F6F5 F5F6 F6E2 6555 87F3 F5F6"
+	$"F6F5 F5F6 F6F5 F5F6 F6F5 F5F6 F6F5 F5F6"
+	$"F6FE F57F F6F6 F5F5 F6F6 F5F5 F6F6 F5F5"
+	$"F6F6 F5F5 F6F6 F5F5 F6F6 F5F5 F6F6 F5F5"
+	$"F6F6 F5F5 F6F6 F5F5 F6F6 F5F5 F6F6 F5F5"
+	$"F6F6 F5F5 F6F6 F5F5 F6F6 F5F5 F6F6 F5F5"
+	$"F6F6 F5F5 F6F6 F5F5 F6F6 F5F5 F6F5 F5F6"
+	$"F6F5 F5F6 F6F5 F5F6 F6F5 F5F6 F6F5 F5F6"
+	$"F6F5 F5F6 F6F5 F5F6 F5F6 F6F5 F7ED 6700"
+	$"67ED F7F5 F6F6 F5F5 F6F6 F5F5 F6F6 F5F5"
+	$"F6F6 F5F5 1DF6 F6F5 F5F6 F6EF CDC9 D6F4"
+	$"F5F6 F6F5 F5F6 F6F5 F5F6 F6F5 F5F6 F6F5"
+	$"F5F6 F6FE F56A F6F6 F5F5 F6F6 F5F5 F6F6"
+	$"F5F5 F6F6 F5F5 F6F6 F5F5 F6F6 F5F5 F6F6"
+	$"F5F5 F6F6 F5F5 F6F6 F5F5 F6F6 F5F5 F6F6"
+	$"F5F5 F6F6 F5F5 F6F6 F5F5 F6F6 F5F5 F6F6"
+	$"F5F5 F6F6 F5F5 F6F6 F5F5 F6F6 F5F5 F6F5"
+	$"F5F6 F6F5 F5F6 F6F5 F5F6 F6F5 F5F6 F6F5"
+	$"F5F6 F6F5 F5F6 F6F5 F5F6 F5F6 F6F5 F7ED"
+	$"6701 E881 00E0 0001 34D2 FEF6 03F5 F6F6"
+	$"F5FE F600 F5FE F600 F5FE F600 F5FE F608"
+	$"F5F6 F685 0012 C3F6 F5FE F600 F5FE F600"
+	$"F5FE F600 F5FE F600 F5FE F601 F5F5 FEF6"
+	$"00F5 FEF6 00F5 FEF6 00F5 FEF6 00F5 FEF6"
+	$"00F5 FEF6 00F5 FEF6 00F5 FEF6 00F5 FEF6"
+	$"00F5 FEF6 00F5 FEF6 00F5 FEF6 00F5 FEF6"
+	$"00F5 FEF6 00F5 FEF6 00F5 FEF6 00F5 FEF6"
+	$"00F5 FEF6 03F5 F6F6 F5FE F600 F5FE F600"
+	$"F5FE F600 F5FE F600 F5FE F600 F5FE F600"
+	$"F5FE F600 F5FE F602 D234 D2FE F603 F5F6"
+	$"F6F5 FEF6 00F5 FEF6 00F5 FEF6 00F5 FEF6"
+	$"08F5 F6F6 AA4C 5CD5 F6F5 FEF6 00F5 FEF6"
+	$"00F5 FEF6 00F5 FEF6 00F5 FEF6 01F5 F5FE"
+	$"F600 F5FE F600 F5FE F600 F5FE F600 F5FE"
+	$"F600 F5FE F600 F5FE F600 F5FE F600 F5FE"
+	$"F600 F5FE F600 F5FE F600 F5FE F600 F5FE"
+	$"F600 F5FE F600 F5FE F600 F5FE F600 F5FE"
+	$"F600 F5FE F603 F5F6 F6F5 FEF6 00F5 FEF6"
+	$"00F5 FEF6 00F5 FEF6 00F5 FEF6 00F5 FEF6"
+	$"00F5 FEF6 00F5 FEF6 02D2 34D2 FEF6 03F5"
+	$"F6F6 F5FE F600 F5FE F600 F5FE F600 F5FE"
+	$"F608 F5F6 F6E0 C7CB EAF6 F5FE F600 F5FE"
+	$"F600 F5FE F600 F5FE F600 F5FE F601 F5F5"
+	$"FEF6 00F5 FEF6 00F5 FEF6 00F5 FEF6 00F5"
+	$"FEF6 00F5 FEF6 00F5 FEF6 00F5 FEF6 00F5"
+	$"FEF6 00F5 FEF6 00F5 FEF6 00F5 FEF6 00F5"
+	$"FEF6 00F5 FEF6 00F5 FEF6 00F5 FEF6 00F5"
+	$"FEF6 00F5 FEF6 03F5 F6F6 F5FE F600 F5FE"
+	$"F600 F5FE F600 F5FE F600 F5FE F600 F5FE"
+	$"F600 F5FE F600 F5FE F600 D201 D381 00E0"
+	$"0001 7CF2 FDF0 00F1 FEF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FEF0 00F1 FEF0 04F1 7E44 C1F1"
+	$"FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FDF0 00F1 FEF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FEF0 00F1 FEF0 00F1 FBF0 00F1"
+	$"FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FDF0 00F1 FDF0 02F2 7CF2 FDF0"
+	$"00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0"
+	$"00F1 FEF0 04F1 A079 D0F1 FEF0 00F1 FEF0"
+	$"00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1 FDF0"
+	$"00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0"
+	$"00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0"
+	$"00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0"
+	$"00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0"
+	$"00F1 FEF0 00F1 FBF0 00F1 FEF0 00F1 FEF0"
+	$"00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1 FDF0"
+	$"00F1 FDF0 02F2 7CF2 FDF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0 04F1"
+	$"DBD1 E7F1 FEF0 00F1 FEF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FEF0 00F1 FDF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1"
+	$"FBF0 00F1 FEF0 00F1 FEF0 00F1 FEF0 00F1"
+	$"FEF0 00F1 FEF0 00F1 FDF0 00F1 FDF0 00F2"
+	$"01DC 8100 E000 03B8 EFF0 EEFC F000 EFFE"
+	$"F000 EFFE F000 EFFE F00C EFE0 9161 75BB"
+	$"DBDD AF6D 60A7 E8FE F000 EFFE F000 EFFE"
+	$"F000 EFFE F000 EFFD F000 EFFE F000 EFFE"
+	$"F000 EFFE F000 EFFE F000 EFFE F000 EFFE"
+	$"F000 EFFE F000 EFFE F000 EFFE F000 EFFE"
+	$"F000 EFFE F000 EFFE F000 EFFE F000 EFFE"
+	$"F000 EFFE F000 EFFE F000 EFFE F000 EFFE"
+	$"F003 EFF0 F0EF FEF0 00EF FEF0 00EF FEF0"
+	$"00EF FEF0 00EF FEF0 00EF FEF0 00EF FDF0"
+	$"06EE F0EF B8EF F0EE FCF0 00EF FEF0 00EF"
+	$"FEF0 00EF FEF0 0CEF E19B 768D C8E1 E3C6"
+	$"9D92 BBE9 FEF0 00EF FEF0 00EF FEF0 00EF"
+	$"FEF0 00EF FDF0 00EF FEF0 00EF FEF0 00EF"
+	$"FEF0 00EF FEF0 00EF FEF0 00EF FEF0 00EF"
+	$"FEF0 00EF FEF0 00EF FEF0 00EF FEF0 00EF"
+	$"FEF0 00EF FEF0 00EF FEF0 00EF FEF0 00EF"
+	$"FEF0 00EF FEF0 00EF FEF0 00EF FEF0 03EF"
+	$"F0F0 EFFE F000 EFFE F000 EFFE F000 EFFE"
+	$"F000 EFFE F000 EFFE F000 EFFD F006 EEF0"
+	$"EFB8 EFF0 EEFC F000 EFFE F000 EFFE F000"
+	$"EFFE F00C EFEC D9CF D6E5 EBEC E4DB D7D0"
+	$"E9FE F000 EFFE F000 EFFE F000 EFFE F000"
+	$"EFFD F000 EFFE F000 EFFE F000 EFFE F000"
+	$"EFFE F000 EFFE F000 EFFE F000 EFFE F000"
+	$"EFFE F000 EFFE F000 EFFE F000 EFFE F000"
+	$"EFFE F000 EFFE F000 EFFE F000 EFFE F000"
+	$"EFFE F000 EFFE F000 EFFE F003 EFF0 F0EF"
+	$"FEF0 00EF FEF0 00EF FEF0 00EF FEF0 00EF"
+	$"FEF0 00EF FEF0 00EF FDF0 02EE F0EF 01D2"
+	$"8100 E000 00E6 FBF4 00F5 FEF4 00F5 FEF4"
+	$"00F5 FEF4 10F5 F4C4 2800 3A6A 4536 2307"
+	$"4C62 2954 D7F5 FEF4 00F5 FEF4 00F5 FEF4"
+	$"00F5 FEF4 00F5 FDF4 00F5 FEF4 00F5 FEF4"
+	$"00F5 FEF4 00F5 FEF4 00F5 FEF4 00F5 FEF4"
+	$"00F5 FEF4 00F5 FEF4 00F5 FEF4 00F5 FEF4"
+	$"00F5 FEF4 00F5 FEF4 00F5 FEF4 00F5 FEF4"
+	$"00F5 FEF4 00F5 FEF4 00F5 FEF4 03F5 F4F4"
+	$"F5FE F400 F5FE F400 F5FE F400 F5FE F400"
+	$"F5FE F400 F5FE F403 F5F4 F4F5 FBF4 00E6"
+	$"FBF4 00F5 FEF4 00F5 FEF4 00F5 FEF4 10F5"
+	$"F4C7 3542 85A2 8778 6561 96A0 6F7C DBF5"
+	$"FEF4 00F5 FEF4 00F5 FEF4 00F5 FEF4 00F5"
+	$"FDF4 00F5 FEF4 00F5 FEF4 00F5 FEF4 00F5"
+	$"FEF4 00F5 FEF4 00F5 FEF4 00F5 FEF4 00F5"
+	$"FEF4 00F5 FEF4 00F5 FEF4 00F5 FEF4 00F5"
+	$"FEF4 00F5 FEF4 00F5 FEF4 00F5 FEF4 00F5"
+	$"FEF4 00F5 FEF4 03F5 F4F4 F5FE F400 F5FE"
+	$"F400 F5FE F400 F5FE F400 F5FE F400 F5FE"
+	$"F403 F5F4 F4F5 FBF4 00E6 FBF4 00F5 FEF4"
+	$"00F5 FEF4 00F5 FEF4 10F5 F4E3 BBC0 D1DD"
+	$"D6D1 CDC9 D0CA 998F DAF5 FEF4 00F5 FEF4"
+	$"00F5 FEF4 00F5 FEF4 00F5 FDF4 00F5 FEF4"
+	$"00F5 FEF4 00F5 FEF4 00F5 FEF4 00F5 FEF4"
+	$"00F5 FEF4 00F5 FEF4 00F5 FEF4 00F5 FEF4"
+	$"00F5 FEF4 00F5 FEF4 00F5 FEF4 00F5 FEF4"
+	$"00F5 FEF4 00F5 FEF4 00F5 FEF4 00F5 FEF4"
+	$"03F5 F4F4 F5FE F400 F5FE F400 F5FE F400"
+	$"F5FE F400 F5FE F400 F5FE F403 F5F4 F4F5"
+	$"FBF4 01EA 8100 E000 32F5 F4F4 F3F4 F3F4"
+	$"F3F3 F4F4 F3F3 F4F4 F3F3 F4F4 F3E1 2512"
+	$"A5B6 B1AF A98E 9099 823A 0CC5 F3F3 F4F4"
+	$"F3F3 F4F4 F3F3 F4F4 F3F3 F4F4 FEF3 7FF4"
+	$"F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F4F3 F3F4"
+	$"F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F4F3 F3F4"
+	$"F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F4F3 F3F4"
+	$"F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F4F3 F3F4"
+	$"F4F3 F3F4 F4F3 F3F4 F3F3 F4F4 F3F3 F4F4"
+	$"F3F3 F4F4 F3F3 F4F4 F3F3 F4F4 F3F3 F4F4"
+	$"F3F3 F4F4 F3F3 F4F4 F3F3 F5F4 F4F3 F4F3"
+	$"F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F4F3 E11D"
+	$"386F C6D4 CFD0 CEBE BDC1 B486 5FCD F3F3"
+	$"F4F4 F3F3 F4F4 F3F3 F4F4 F3F3 F4F4 FEF3"
+	$"7FF4 F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F4F3"
+	$"F3F4 F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F4F3"
+	$"F3F4 F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F4F3"
+	$"F3F4 F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F4F3"
+	$"F3F4 F4F3 F3F4 F4F3 F3F4 F3F3 F4F4 F3F3"
+	$"F4F4 F3F3 F4F4 F3F3 F4F4 F3F3 F4F4 F3F3"
+	$"F4F4 F3F3 F4F4 F3F3 F4F4 F3F3 F5F4 F4F3"
+	$"F4F3 F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F4F3"
+	$"E51D B9C6 E8EB EAEB E9E3 E2E5 E0C3 84CC"
+	$"F3F3 F4F4 F3F3 F4F4 F3F3 F4F4 F3F3 F4F4"
+	$"FEF3 6AF4 F4F3 F3F4 F4F3 F3F4 F4F3 F3F4"
+	$"F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F4F3 F3F4"
+	$"F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F4F3 F3F4"
+	$"F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F4F3 F3F4"
+	$"F4F3 F3F4 F4F3 F3F4 F4F3 F3F4 F3F3 F4F4"
+	$"F3F3 F4F4 F3F3 F4F4 F3F3 F4F4 F3F3 F4F4"
+	$"F3F3 F4F4 F3F3 F4F4 F3F3 F4F4 F3F3 003D"
+	$"8100 E000 EDEE 0D7E 0098 ABA5 A3A0 9C95"
+	$"8F7C 400E B181 EEEE EE0D 933E BDCD CAC7"
+	$"C6C2 BEB9 AB82 70C1 81EE EEEE 03AF B1E6"
+	$"EAFE E906 E7E6 E4DE D0AC C482 EE01 E481"
+	$"00E0 0005 EDEE ECEE EEED FEEE 00ED FEEE"
+	$"00ED FEEE 10ED EEEE 351C 9A96 9995 8F84"
+	$"7863 3D13 5CE9 FEEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FDEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FEEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FEEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FEEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FEEE 00ED FEEE 00ED FEEE"
+	$"03ED EEEE EDFE EE00 EDFE EE00 EDFE EE00"
+	$"EDFE EE00 EDFE EE00 EDFE EE00 EDFE EE00"
+	$"EDFE EE05 EDEE ECEE EEED FEEE 00ED FEEE"
+	$"00ED FEEE 10ED EEEE 6876 C3C2 C1BE B9B0"
+	$"A397 7D6D 9AEA FEEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FDEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FEEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FEEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FEEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FEEE 00ED FEEE 00ED FEEE"
+	$"03ED EEEE EDFE EE00 EDFE EE00 EDFE EE00"
+	$"EDFE EE00 EDFE EE00 EDFE EE00 EDFE EE00"
+	$"EDFE EE05 EDEE ECEE EEED FEEE 00ED FEEE"
+	$"00ED FEEE 10ED EEEE 9DC7 EAE7 E8E7 E7E3"
+	$"E1DD D3C3 B5EA FEEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FDEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FEEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FEEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FEEE 00ED FEEE 00ED FEEE"
+	$"00ED FEEE 00ED FEEE 00ED FEEE 00ED FEEE"
+	$"03ED EEEE EDFE EE00 EDFE EE00 EDFE EE00"
+	$"EDFE EE00 EDFE EE00 EDFE EE00 EDFE EE00"
+	$"EDFE EE01 EA81 00E0 00FE F27F F1F2 F1F1"
+	$"F2F1 F2F1 F2F1 F2F1 F2F1 F2F1 F21F 528D"
+	$"8573 594C 4342 3B2B 2185 F2F1 F2F1 F2F1"
+	$"F2F1 F2F1 F2F1 F2F1 F2F1 F2F1 F2F1 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F2F1 F2F1 1DF2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1FE F27F F1F2"
+	$"F1F1 F2F1 F2F1 F2F1 F2F1 F2F1 F2F1 F23C"
+	$"95BD B6A7 9084 7F7D 7C75 82AD F2F1 F2F1"
+	$"F2F1 F2F1 F2F1 F2F1 F2F1 F2F1 F2F1 F2F1"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F2F1 F2F1 1DF2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1FE F27F"
+	$"F1F2 F1F1 F2F1 F2F1 F2F1 F2F1 F2F1 F2F1"
+	$"F29A DBE9 E9E6 DFDB DAD8 D6D3 CBBA F2F1"
+	$"F2F1 F2F1 F2F1 F2F1 F2F1 F2F1 F2F1 F2F1"
+	$"F2F1 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F2F1 F2F1"
+	$"1DF2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2"
+	$"F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F1F2 F101"
+	$"DB81 00E0 0002 F0F2 F2FB F100 F0FE F100"
+	$"F0FE F110 F0F1 F11D 5876 482F 3238 3E41"
+	$"4239 2B82 F0FE F100 F0FE F100 F0FE F100"
+	$"F0FE F100 F0FD F100 F0FE F100 F0FE F100"
+	$"F0FE F100 F0FE F100 F0FE F100 F0FE F100"
+	$"F0FE F100 F0FE F100 F0FE F100 F0FE F100"
+	$"F0FE F100 F0FE F100 F0FE F100 F0FE F100"
+	$"F0FE F100 F0FE F100 F0FE F100 F0FE F103"
+	$"F0F1 F1F0 FEF1 00F0 FEF1 00F0 FEF1 00F0"
+	$"FEF1 00F0 FEF1 00F0 FEF1 00F0 FEF1 00F0"
+	$"FEF1 02F0 F2F2 FBF1 00F0 FEF1 00F0 FEF1"
+	$"10F0 F1F1 389A AB88 7673 7B81 8183 7E85"
+	$"ABF0 FEF1 00F0 FEF1 00F0 FEF1 00F0 FEF1"
+	$"00F0 FDF1 00F0 FEF1 00F0 FEF1 00F0 FEF1"
+	$"00F0 FEF1 00F0 FEF1 00F0 FEF1 00F0 FEF1"
+	$"00F0 FEF1 00F0 FEF1 00F0 FEF1 00F0 FEF1"
+	$"00F0 FEF1 00F0 FEF1 00F0 FEF1 00F0 FEF1"
+	$"00F0 FEF1 00F0 FEF1 00F0 FEF1 03F0 F1F1"
+	$"F0FE F100 F0FE F100 F0FE F100 F0FE F100"
+	$"F0FE F100 F0FE F100 F0FE F100 F0FE F102"
+	$"F0F2 F2FB F100 F0FE F100 F0FE F110 F0F1"
+	$"F1A7 DFE9 E3DB DADC DCDE DDD8 D3C0 F0FE"
+	$"F100 F0FE F100 F0FE F100 F0FE F100 F0FD"
+	$"F100 F0FE F100 F0FE F100 F0FE F100 F0FE"
+	$"F100 F0FE F100 F0FE F100 F0FE F100 F0FE"
+	$"F100 F0FE F100 F0FE F100 F0FE F100 F0FE"
+	$"F100 F0FE F100 F0FE F100 F0FE F100 F0FE"
+	$"F100 F0FE F100 F0FE F103 F0F1 F1F0 FEF1"
+	$"00F0 FEF1 00F0 FEF1 00F0 FEF1 00F0 FEF1"
+	$"00F0 FEF1 00F0 FEF1 00F0 FEF1 01DC 8100"
+	$"E000 00EC FAEB 00EC FEEB 00EC FEEB 00EC"
+	$"FEEB 1028 2228 1D2F 4045 4A4D 4D46 3858"
+	$"D9EB EBEC FEEB 00EC FEEB 00EC FEEB 00EC"
+	$"FEEB 01EC ECFE EB00 ECFE EB00 ECFE EB00"
+	$"ECFE EB00 ECFE EB00 ECFE EB00 ECFE EB00"
+	$"ECFE EB00 ECFE EB00 ECFE EB00 ECFE EB00"
+	$"ECFE EB00 ECFE EB00 ECFE EB00 ECFE EB00"
+	$"ECFE EB00 ECFE EB00 ECFE EB03 ECEB EBEC"
+	$"FEEB 00EC FEEB 00EC FEEB 00EC FEEB 00EC"
+	$"FEEB 00EC FEEB 00EC FEEB 00EC FEEB 01EC"
+	$"ECFA EB00 ECFE EB00 ECFE EB00 ECFE EB10"
+	$"4A75 7472 7A82 888B 8D8E 8A8A A3DC EBEB"
+	$"ECFE EB00 ECFE EB00 ECFE EB00 ECFE EB01"
+	$"ECEC FEEB 00EC FEEB 00EC FEEB 00EC FEEB"
+	$"00EC FEEB 00EC FEEB 00EC FEEB 00EC FEEB"
+	$"00EC FEEB 00EC FEEB 00EC FEEB 00EC FEEB"
+	$"00EC FEEB 00EC FEEB 00EC FEEB 00EC FEEB"
+	$"00EC FEEB 00EC FEEB 03EC EBEB ECFE EB00"
+	$"ECFE EB00 ECFE EB00 ECFE EB00 ECFE EB00"
+	$"ECFE EB00 ECFE EB00 ECFE EB01 ECEC FAEB"
+	$"00EC FEEB 00EC FEEB 00EC FEEB 06B3 DADD"
+	$"DCE0 E2E3 FEE5 06E1 D9CB DDEB EBEC FEEB"
+	$"00EC FEEB 00EC FEEB 00EC FEEB 01EC ECFE"
+	$"EB00 ECFE EB00 ECFE EB00 ECFE EB00 ECFE"
+	$"EB00 ECFE EB00 ECFE EB00 ECFE EB00 ECFE"
+	$"EB00 ECFE EB00 ECFE EB00 ECFE EB00 ECFE"
+	$"EB00 ECFE EB00 ECFE EB00 ECFE EB00 ECFE"
+	$"EB00 ECFE EB03 ECEB EBEC FEEB 00EC FEEB"
+	$"00EC FEEB 00EC FEEB 00EC FEEB 00EC FEEB"
+	$"00EC FEEB 00EC FEEB 00EC 01D9 8100 E000"
+	$"00EA FDEB 01EA EAFE EB00 EAFE EB00 EAFE"
+	$"EB10 EAEB 4F00 142E 4250 565B 5E5C 564C"
+	$"4391 E2FE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFD EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFB EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB03 EAEB EBEA FDEB"
+	$"01EA EAFE EB00 EAFE EB00 EAFE EB10 EAEB"
+	$"765F 7A88 8C92 9698 9A9B 989A 9BB7 E5FE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFD"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFB EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB03 EAEB EBEA FDEB 01EA EAFE"
+	$"EB00 EAFE EB00 EAFE EB07 EAEB B0D3 DCE4"
+	$"E7EA FEEC 05EA E8E1 D7D0 E7FE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFD EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFB EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB02 EAEB EB00 4781 00E0 0001 EFEE EFEF"
+	$"06A1 0728 4355 6168 FE6C 0468 6057 437B"
+	$"82EF 00EE EFEF 0EAE 6989 9A9F A3A3 A5A7"
+	$"A9AA ACA7 99AA 82EF 00EE EFEF 0EB6 C1DD"
+	$"ECF2 F2F3 F3F4 F4F1 EDE5 D5D3 83EF 01D7"
+	$"8100 E000 FCEE 00ED FEEE 00EF FEEE 00EF"
+	$"FEEE 14EF EEEE E042 3C55 656F 7578 7778"
+	$"7672 6548 61EE EEEF FEEE 00EF FEEE 00EF"
+	$"FEEE 00EF FDEE 00EF FEEE 00EF FEEE 00EF"
+	$"FEEE 00EF FEEE 00EF FEEE 00EF FEEE 00EF"
+	$"FEEE 00EF FEEE 00EF FEEE 00EF FEEE 00EF"
+	$"FEEE 00EF FEEE 00EF FEEE 00EF FEEE 00EF"
+	$"FEEE 00EF FEEE 00EF FEEE 00EF FEEE 03EF"
+	$"EEEE EFFE EE00 EFFE EE00 EFFE EE00 EFFE"
+	$"EE00 EFFE EE00 EFFE EE00 EFFE EE00 EFF9"
+	$"EE00 EDFE EE00 EFFE EE00 EFFE EE14 EFEE"
+	$"EEE1 7A96 A8B1 B1B2 B2B4 B9BA BDB3 9590"
+	$"EEEE EFFE EE00 EFFE EE00 EFFE EE00 EFFD"
+	$"EE00 EFFE EE00 EFFE EE00 EFFE EE00 EFFE"
+	$"EE00 EFFE EE00 EFFE EE00 EFFE EE00 EFFE"
+	$"EE00 EFFE EE00 EFFE EE00 EFFE EE00 EFFE"
+	$"EE00 EFFE EE00 EFFE EE00 EFFE EE00 EFFE"
+	$"EE00 EFFE EE00 EFFE EE03 EFEE EEEF FEEE"
+	$"00EF FEEE 00EF FEEE 00EF FEEE 00EF FEEE"
+	$"00EF FEEE 00EF FEEE 00EF F9EE 00ED FEEE"
+	$"00EF FEEE 00EF FEEE 09EF EEEE E198 DEF0"
+	$"F9FC FDFE FC07 F8F7 EAD5 B9EE EEEF FEEE"
+	$"00EF FEEE 00EF FEEE 00EF FDEE 00EF FEEE"
+	$"00EF FEEE 00EF FEEE 00EF FEEE 00EF FEEE"
+	$"00EF FEEE 00EF FEEE 00EF FEEE 00EF FEEE"
+	$"00EF FEEE 00EF FEEE 00EF FEEE 00EF FEEE"
+	$"00EF FEEE 00EF FEEE 00EF FEEE 00EF FEEE"
+	$"00EF FEEE 03EF EEEE EFFE EE00 EFFE EE00"
+	$"EFFE EE00 EFFE EE00 EFFE EE00 EFFE EE00"
+	$"EFFE EE00 EFFE EE00 4C81 00E0 00FD E801"
+	$"E9E9 F2E8 0D99 3C63 7279 7D7D 7E80 807C"
+	$"7246 AA81 E803 E8E8 E9E9 F2E8 0DA8 8EB1"
+	$"BDC0 C1BE C3C5 C6C1 B189 BC81 E803 E8E8"
+	$"E9E9 F2E8 05AD BFEE FCFE FFFE FE04 FDF8"
+	$"E9C3 CC83 E801 E181 00E0 00FC E703 E8E7"
+	$"E7E8 FEE7 00E8 FEE7 00E8 FEE7 10E8 E068"
+	$"5976 7E7E 7273 7D81 8C72 6CE5 E7E8 FEE7"
+	$"00E8 FEE7 00E8 FEE7 00E8 FEE7 01E8 E8FE"
+	$"E700 E8FE E700 E8FE E700 E8FE E700 E8FE"
+	$"E700 E8FE E700 E8FE E700 E8FE E700 E8FE"
+	$"E700 E8FE E700 E8FE E700 E8FE E700 E8FE"
+	$"E700 E8FE E700 E8FE E700 E8FE E700 E8FE"
+	$"E700 E8FE E703 E8E7 E7E8 FEE7 00E8 FEE7"
+	$"00E8 FEE7 00E8 FEE7 00E8 FEE7 00E8 FEE7"
+	$"00E8 FEE7 00E8 FEE7 00E8 FCE7 03E8 E7E7"
+	$"E8FE E700 E8FE E700 E8FE E710 E8E1 8BA1"
+	$"C0C4 C0B3 B6BE C3C3 AA90 E6E7 E8FE E700"
+	$"E8FE E700 E8FE E700 E8FE E701 E8E8 FEE7"
+	$"00E8 FEE7 00E8 FEE7 00E8 FEE7 00E8 FEE7"
+	$"00E8 FEE7 00E8 FEE7 00E8 FEE7 00E8 FEE7"
+	$"00E8 FEE7 00E8 FEE7 00E8 FEE7 00E8 FEE7"
+	$"00E8 FEE7 00E8 FEE7 00E8 FEE7 00E8 FEE7"
+	$"00E8 FEE7 03E8 E7E7 E8FE E700 E8FE E700"
+	$"E8FE E700 E8FE E700 E8FE E700 E8FE E700"
+	$"E8FE E700 E8FE E700 E8FC E703 E8E7 E7E8"
+	$"FEE7 00E8 FEE7 00E8 FEE7 10E8 E19D D0F6"
+	$"FCF8 EFEE F6F8 F6D8 ADE6 E7E8 FEE7 00E8"
+	$"FEE7 00E8 FEE7 00E8 FEE7 01E8 E8FE E700"
+	$"E8FE E700 E8FE E700 E8FE E700 E8FE E700"
+	$"E8FE E700 E8FE E700 E8FE E700 E8FE E700"
+	$"E8FE E700 E8FE E700 E8FE E700 E8FE E700"
+	$"E8FE E700 E8FE E700 E8FE E700 E8FE E700"
+	$"E8FE E703 E8E7 E7E8 FEE7 00E8 FEE7 00E8"
+	$"FEE7 00E8 FEE7 00E8 FEE7 00E8 FEE7 00E8"
+	$"FEE7 00E8 FEE7 00E8 01E5 8100 E000 03EA"
+	$"ECEB ECFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB10 EAEB EBD5 5C4A 5248 5A5E 566F 6B6B"
+	$"DAEB EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFD EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB03 EAEB EBEA FEEB"
+	$"00EA FEEB 00EA FEEB 00EA FEEB 00EA FEEB"
+	$"00EA FEEB 00EA FEEB 00EA FEEB 05EA EBEA"
+	$"ECEB ECFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB10 EAEB EBD8 828A 9484 8386 88A4 9C8C"
+	$"DEEB EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFD EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB03 EAEB EBEA FEEB"
+	$"00EA FEEB 00EA FEEB 00EA FEEB 00EA FEEB"
+	$"00EA FEEB 00EA FEEB 00EA FEEB 05EA EBEA"
+	$"ECEB ECFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB10 EAEB EBD8 91AE BBA6 9899 AAC8 BB9E"
+	$"E2EB EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFD EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB00 EAFE EB00 EAFE"
+	$"EB00 EAFE EB00 EAFE EB03 EAEB EBEA FEEB"
+	$"00EA FEEB 00EA FEEB 00EA FEEB 00EA FEEB"
+	$"00EA FEEB 00EA FEEB 00EA FEEB 01EA EB00"
+	$"3181 00E0 00EA EA09 DB99 8CC1 E7EA CB9B"
+	$"A7DF 81EA EAEA 09DD AEA7 C7E7 EACE B1B7"
+	$"E181 EAEA EA09 DCB6 B1CA E7EA D0B8 BBE2"
+	$"81EA 01E5 8100 E000 03E5 E4E4 E3FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FD E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E503 E4E5 E5E4 FEE5 00E4 FEE5 00E4"
+	$"FEE5 00E4 FEE5 00E4 FEE5 00E4 FEE5 00E4"
+	$"FEE5 00E4 FEE5 05E4 E5E5 E4E4 E3FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FD E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E503 E4E5 E5E4 FEE5 00E4 FEE5 00E4"
+	$"FEE5 00E4 FEE5 00E4 FEE5 00E4 FEE5 00E4"
+	$"FEE5 00E4 FEE5 05E4 E5E5 E4E4 E3FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FD E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E500 E4FE E500 E4FE E500 E4FE E500"
+	$"E4FE E503 E4E5 E5E4 FEE5 00E4 FEE5 00E4"
+	$"FEE5 00E4 FEE5 00E4 FEE5 00E4 FEE5 00E4"
+	$"FEE5 00E4 FEE5 01E4 E501 DC81 00E0 0001"
+	$"ABAC FEAB 01AA ACFE AB00 ACFE AB00 ACFE"
+	$"AB00 ACFE AB00 ACFE AB00 ACFE AB00 ACFE"
+	$"AB00 ACFE AB00 ACFE AB00 ACFE AB00 ACFE"
+	$"AB00 ACFD AB00 ACFE AB00 ACFE AB00 ACFE"
+	$"AB00 ACFE AB00 ACFE AB00 ACFE AB00 ACFE"
+	$"AB00 ACFE AB00 ACFE AB00 ACFE AB00 ACFE"
+	$"AB00 ACFE AB00 ACFE AB00 ACFE AB00 ACFE"
+	$"AB00 ACFE AB00 ACFE AB00 ACFB AB00 ACFE"
+	$"AB00 ACFE AB00 ACFE AB00 ACFE AB00 ACFE"
+	$"AB00 ACFE AB00 ACFE AB00 ACFE AB00 ACFE"
+	$"AB01 AAAC FEAB 00AC FEAB 00AC FEAB 00AC"
+	$"FEAB 00AC FEAB 00AC FEAB 00AC FEAB 00AC"
+	$"FEAB 00AC FEAB 00AC FEAB 00AC FEAB 00AC"
+	$"FDAB 00AC FEAB 00AC FEAB 00AC FEAB 00AC"
+	$"FEAB 00AC FEAB 00AC FEAB 00AC FEAB 00AC"
+	$"FEAB 00AC FEAB 00AC FEAB 00AC FEAB 00AC"
+	$"FEAB 00AC FEAB 00AC FEAB 00AC FEAB 00AC"
+	$"FEAB 00AC FEAB 00AC FBAB 00AC FEAB 00AC"
+	$"FEAB 00AC FEAB 00AC FEAB 00AC FEAB 00AC"
+	$"FEAB 00AC FEAB 00AC FEAB 00AC FEAB 01AA"
+	$"ACFE AB00 ACFE AB00 ACFE AB00 ACFE AB00"
+	$"ACFE AB00 ACFE AB00 ACFE AB00 ACFE AB00"
+	$"ACFE AB00 ACFE AB00 ACFE AB00 ACFD AB00"
+	$"ACFE AB00 ACFE AB00 ACFE AB00 ACFE AB00"
+	$"ACFE AB00 ACFE AB00 ACFE AB00 ACFE AB00"
+	$"ACFE AB00 ACFE AB00 ACFE AB00 ACFE AB00"
+	$"ACFE AB00 ACFE AB00 ACFE AB00 ACFE AB00"
+	$"ACFE AB00 ACFB AB00 ACFE AB00 ACFE AB00"
+	$"ACFE AB00 ACFE AB00 ACFE AB00 ACFE AB00"
+	$"ACFE AB02 ACAB AB01 A181 00E0 0002 1D19"
+	$"1DF9 1EFC 1D01 1E1D FA1E 001F F51E 021F"
+	$"1E1F FE1E 011D 1DFE 1E05 1D1D 1E1D 2D2E"
+	$"FE2D FE2E 0B2F 2F2E 302E 2F2E 2F2F 2D2E"
+	$"2DFB 2E12 2F2F 2E2E 302E 2F2E 302F 302E"
+	$"302F 2F2E 302E 2FFE 3004 2F2E 2E2F 30FE"
+	$"2E05 302F 302F 302E FE30 052F 2E30 302F"
+	$"2FF9 3006 2E2F 3030 312F 2EFC 3005 2F2E"
+	$"2E2F 2E2F FE30 0031 FE30 062F 3230 2F37"
+	$"3137 FB38 0139 39FD 3807 3A3A 3939 3A39"
+	$"3A39 FE3A 0639 3B3B 3C3C 3B3B FE3C 013B"
+	$"3CFE 3D00 3BFE 3801 3737 FD38 013A 38FA"
+	$"5609 5758 5856 5856 5857 5858 FE56 FB57"
+	$"0758 5856 5658 5758 57FE 5800 57FE 5802"
+	$"5759 57FE 5808 5958 5757 5859 5756 57FD"
+	$"580C 5957 5858 5958 5759 5958 5859 59FD"
+	$"5821 5958 5658 5859 5A58 5758 5959 5A59"
+	$"5857 5758 5758 5859 595A 5A59 5958 5A59"
+	$"5864 5A64 F565 0B66 6665 6566 6566 6566"
+	$"6667 65F9 6700 68FC 6900 67FE 6501 6464"
+	$"FD65 0166 65FE 7800 77FE 7809 7979 7A78"
+	$"7978 7978 7979 FE78 0179 79FD 7807 7979"
+	$"7878 7978 7978 FE79 0078 FE79 0278 7A78"
+	$"FC79 0378 7879 79FE 78FD 7901 7A78 FD79"
+	$"1D78 7A7A 7978 7A7A 797A 7979 7A79 7879"
+	$"7978 7A79 7879 7A79 7978 7978 7879 78FD"
+	$"7900 7AFE 7903 787B 7A79 000C 81FF 81FF"
+	$"81FF 81FF 81FF FDFF 00FF"
+};
+
 data 'PPob' (1000, "Rez Map Window") {
 	$"0002 646F 706C 527A 4D57 6F62 6A64 0000"            /* ..doplRzMWobjd.. */
 	$"001C 7769 6E64 03E8 0002 3F66 0000 012C"            /* ..wind.Ë..?f..., */
@@ -3004,7 +3780,7 @@ data 'PPob' (2000, "Inspector Window") {
 	$"6773 6F62 6A64 0000 0012 7774 6861 FFFF"            /* gsobjd....wthaˇˇ */
 	$"FFFE 0101 0003 0004 0005 0006 6F62 6A64"            /* ˇ˛..........objd */
 	$"0000 005B 7467 6278 0000 0000 00FB 0053"            /* ...[tgbx.....˚.S */
-	$"0101 0000 0000 0000 001C 0000 008A 0000"            /* .............ä.. */
+	$"0101 0000 0000 0000 001C 0000 0095 0000"            /* .............ï.. */
 	$"0000 FFFF FFFF 0000 0000 0000 0000 0000"            /* ..ˇˇˇˇ.......... */
 	$"0000 0000 0000 0000 0001 0000 0001 0000"            /* ................ */
 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
@@ -3060,7 +3836,7 @@ data 'PPob' (2000, "Inspector Window") {
 	$"0000 0000 0015 0000 006D 0000 0000 FFFF"            /* .........m....ˇˇ */
 	$"FFFF 0000 0000 0000 0000 0000 0000 0000"            /* ˇˇ.............. */
 	$"0000 0120 0085 044E 616D 656F 626A 6400"            /* ... .Ö.Nameobjd. */
-	$"0000 3C74 6267 7600 0000 0000 E900 4101"            /* ..<tbgv.....È.A. */
+	$"0000 3C74 6267 7600 0000 0000 E900 4B01"            /* ..<tbgv.....È.K. */
 	$"0100 0000 0000 0000 3400 0000 4400 0000"            /* ........4...D... */
 	$"00FF FFFF FF00 0000 0000 0000 0000 0000"            /* .ˇˇˇˇ........... */
 	$"0000 0000 0000 0000 0100 0000 0100 0062"            /* ...............b */
@@ -3068,60 +3844,57 @@ data 'PPob' (2000, "Inspector Window") {
 	$"0000 0500 4A00 1601 0100 0000 0000 0000"            /* ....J........... */
 	$"0100 0000 0700 0000 00FF FFFF FF00 0007"            /* .........ˇˇˇˇ... */
 	$"D500 0000 0000 0000 0000 0000 0001 1000"            /* ’............... */
-	$"8200 00FF 0801 6F62 6A64 0000 003B 6574"            /* Ç..ˇ..objd...;et */
-	$"7874 0000 0006 00E2 0016 0101 0000 0000"            /* xt.....‚........ */
+	$"8200 00FF 0804 6F62 6A64 0000 003B 6574"            /* Ç..ˇ..objd...;et */
+	$"7874 0000 0006 00E2 0024 0101 0000 0000"            /* xt.....‚.$...... */
 	$"0000 0001 0000 0025 0000 0000 FFFF FFFF"            /* .......%....ˇˇˇˇ */
 	$"0000 07D6 0000 0000 0000 0000 0000 0000"            /* ...÷............ */
-	$"0110 0082 0000 FF20 0365 6E64 7364 6F70"            /* ...Ç..ˇ .endsdop */
-	$"6C52 7A69 706F 626A 6400 0000 2469 636E"            /* lRzipobjd...$icn */
-	$"7000 0000 0900 2000 2001 0100 0000 0000"            /* p...∆. . ....... */
-	$"0000 BA00 0000 4300 0000 00FF FFFF FF00"            /* ..∫...C....ˇˇˇˇ. */
-	$"006F 626A 6400 0000 5177 696E 6800 0000"            /* .objd...Qwinh... */
-	$"0001 3A00 3C01 0100 0000 00FF FFFF FD00"            /* ..:.<......ˇˇˇ˝. */
-	$"0000 0000 0000 00FF FFFF FF00 0000 0000"            /* .......ˇˇˇˇ..... */
-	$"0000 0000 0000 0000 0000 0000 0000 0100"            /* ................ */
-	$"0000 0100 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0000 0000 0001 5000 0000 6265 6773 6F62"            /* ......P...begsob */
-	$"6A64 0000 0051 7467 6278 0000 0000 0109"            /* jd...Qtgbx.....∆ */
-	$"002C 0101 0101 0100 0000 0019 0000 0008"            /* .,.............. */
-	$"0000 0000 FFFF FFFF 0000 0000 0000 0000"            /* ....ˇˇˇˇ........ */
-	$"0000 0000 0000 0000 0000 0001 0000 0001"            /* ................ */
-	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0000 00A4 0000 0062 6567 736F 626A 6400"            /* ...§...begsobjd. */
-	$"0000 3B73 7478 7400 0000 0000 2300 1001"            /* ..;stxt.....#... */
-	$"0100 0000 0000 0000 0600 0000 0600 0000"            /* ................ */
-	$"00FF FFFF FF00 0000 0000 0000 0000 0000"            /* .ˇˇˇˇ........... */
-	$"0000 0000 0001 2000 9804 5479 7065 6F62"            /* ...... .ò.Typeob */
-	$"6A64 0000 0037 7374 7874 0000 0001 0028"            /* jd...7stxt.....( */
-	$"0010 0101 0000 0000 0000 002A 0000 0006"            /* ...........*.... */
-	$"0000 0000 FFFF FFFF 0000 0000 0000 0000"            /* ....ˇˇˇˇ........ */
-	$"0000 0000 0000 0000 0120 0082 006F 626A"            /* ......... .Ç.obj */
-	$"6400 0000 3B73 7478 7400 0000 0000 2000"            /* d...;stxt..... . */
-	$"1001 0100 0000 0000 0000 6100 0000 0600"            /* ..........a..... */
+	$"0110 0082 0000 FF60 0365 6E64 736F 626A"            /* ...Ç..ˇ`.endsobj */
+	$"6400 0000 5177 696E 6800 0000 0001 3A00"            /* d...Qwinh.....:. */
+	$"3C01 0100 0000 00FF FFFF FD00 0000 0000"            /* <......ˇˇˇ˝..... */
 	$"0000 00FF FFFF FF00 0000 0000 0000 0000"            /* ...ˇˇˇˇ......... */
-	$"0000 0000 0000 0001 2000 9804 5369 7A65"            /* ........ .ò.Size */
-	$"6F62 6A64 0000 0037 7374 7874 0000 0003"            /* objd...7stxt.... */
-	$"002E 0010 0101 0000 0000 0000 0082 0000"            /* .............Ç.. */
-	$"0006 0000 0000 FFFF FFFF 0000 0000 0000"            /* ......ˇˇˇˇ...... */
-	$"0000 0000 0000 0000 0000 0120 0082 006F"            /* ........... .Ç.o */
-	$"626A 6400 0000 3A73 7478 7400 0000 0000"            /* bjd...:stxt..... */
-	$"2300 0F01 0100 0000 0000 0000 0600 0000"            /* #............... */
-	$"1900 0000 00FF FFFF FF00 0000 0000 0000"            /* .....ˇˇˇˇ....... */
-	$"0000 0000 0000 0000 0001 2000 9803 4D61"            /* .......... .ò.Ma */
-	$"706F 626A 6400 0000 3773 7478 7400 0000"            /* pobjd...7stxt... */
-	$"0400 CC00 0F01 0100 0000 0000 0000 2A00"            /* ..Ã...........*. */
-	$"0000 1900 0000 00FF FFFF FF00 0000 0000"            /* .......ˇˇˇˇ..... */
-	$"0000 0000 0000 0000 0000 0001 2000 8200"            /* ............ .Ç. */
-	$"656E 6473 656E 6473 6F62 6A64 0000 003E"            /* endsendsobjd...> */
-	$"7075 7368 0000 0014 0041 0014 0100 0000"            /* push.....A...... */
-	$"0101 0000 000B 0000 00EA 0000 0000 FFFF"            /* .........Í....ˇˇ */
-	$"FFFF 0000 07E4 0000 0000 0000 0000 0000"            /* ˇˇ...‰.......... */
-	$"0000 0170 0000 0652 6576 6572 7400 6F62"            /* ...p...Revert.ob */
-	$"6A64 0000 003D 7075 7368 0000 0015 0046"            /* jd...=push.....F */
-	$"0014 0100 0000 0101 0000 00E3 0000 00EA"            /* ...........„...Í */
-	$"0000 0000 FFFF FFFF 0000 07E5 0000 0000"            /* ....ˇˇˇˇ...Â.... */
-	$"0000 0000 0000 0000 0170 0000 0541 7070"            /* .........p...App */
-	$"6C79 0165 6E64 7365 6E64 2E"                        /* ly.endsend. */
+	$"0000 0000 0000 0000 0000 0100 0000 0100"            /* ................ */
+	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"0001 5000 0000 6265 6773 6F62 6A64 0000"            /* ..P...begsobjd.. */
+	$"0051 7467 6278 0000 0000 0109 002C 0101"            /* .Qtgbx.....∆.,.. */
+	$"0101 0100 0000 0019 0000 0008 0000 0000"            /* ................ */
+	$"FFFF FFFF 0000 0000 0000 0000 0000 0000"            /* ˇˇˇˇ............ */
+	$"0000 0000 0000 0001 0000 0001 0000 0000"            /* ................ */
+	$"0000 0000 0000 0000 0000 0000 0000 00A4"            /* ...............§ */
+	$"0000 0062 6567 736F 626A 6400 0000 3B73"            /* ...begsobjd...;s */
+	$"7478 7400 0000 0000 2300 1001 0100 0000"            /* txt.....#....... */
+	$"0000 0000 0600 0000 0600 0000 00FF FFFF"            /* .............ˇˇˇ */
+	$"FF00 0000 0000 0000 0000 0000 0000 0000"            /* ˇ............... */
+	$"0001 2000 9804 5479 7065 6F62 6A64 0000"            /* .. .ò.Typeobjd.. */
+	$"0037 7374 7874 0000 0001 0028 0010 0101"            /* .7stxt.....(.... */
+	$"0000 0000 0000 002A 0000 0006 0000 0000"            /* .......*........ */
+	$"FFFF FFFF 0000 0000 0000 0000 0000 0000"            /* ˇˇˇˇ............ */
+	$"0000 0000 0120 0082 006F 626A 6400 0000"            /* ..... .Ç.objd... */
+	$"3B73 7478 7400 0000 0000 2000 1001 0100"            /* ;stxt..... ..... */
+	$"0000 0000 0000 6100 0000 0600 0000 00FF"            /* ......a........ˇ */
+	$"FFFF FF00 0000 0000 0000 0000 0000 0000"            /* ˇˇˇ............. */
+	$"0000 0001 2000 9804 5369 7A65 6F62 6A64"            /* .... .ò.Sizeobjd */
+	$"0000 0037 7374 7874 0000 0003 002E 0010"            /* ...7stxt........ */
+	$"0101 0000 0000 0000 0082 0000 0006 0000"            /* .........Ç...... */
+	$"0000 FFFF FFFF 0000 0000 0000 0000 0000"            /* ..ˇˇˇˇ.......... */
+	$"0000 0000 0000 0120 0082 006F 626A 6400"            /* ....... .Ç.objd. */
+	$"0000 3A73 7478 7400 0000 0000 2300 0F01"            /* ..:stxt.....#... */
+	$"0100 0000 0000 0000 0600 0000 1900 0000"            /* ................ */
+	$"00FF FFFF FF00 0000 0000 0000 0000 0000"            /* .ˇˇˇˇ........... */
+	$"0000 0000 0001 2000 9803 4D61 706F 626A"            /* ...... .ò.Mapobj */
+	$"6400 0000 3773 7478 7400 0000 0400 CC00"            /* d...7stxt.....Ã. */
+	$"0F01 0100 0000 0000 0000 2A00 0000 1900"            /* ..........*..... */
+	$"0000 00FF FFFF FF00 0000 0000 0000 0000"            /* ...ˇˇˇˇ......... */
+	$"0000 0000 0000 0001 2000 8200 656E 6473"            /* ........ .Ç.ends */
+	$"656E 6473 6F62 6A64 0000 003E 7075 7368"            /* endsobjd...>push */
+	$"0000 0014 0041 0014 0100 0000 0101 0000"            /* .....A.......... */
+	$"000B 0000 00F4 0000 0000 FFFF FFFF 0000"            /* .....Ù....ˇˇˇˇ.. */
+	$"07E4 0000 0000 0000 0000 0000 0000 0170"            /* .‰.............p */
+	$"0000 0652 6576 6572 7400 6F62 6A64 0000"            /* ...Revert.objd.. */
+	$"003D 7075 7368 0000 0015 0046 0014 0100"            /* .=push.....F.... */
+	$"0000 0101 0000 00E3 0000 00F4 0000 0000"            /* .......„...Ù.... */
+	$"FFFF FFFF 0000 07E5 0000 0000 0000 0000"            /* ˇˇˇˇ...Â........ */
+	$"0000 0000 0170 0000 0541 7070 6C79 0165"            /* .....p...Apply.e */
+	$"6E64 7365 6E64 2E"                                  /* ndsend. */
 };
 
 data 'PPob' (2100, "New Resource Dialog") {
@@ -3191,7 +3964,7 @@ data 'PPob' (2100, "New Resource Dialog") {
 	$"7874 0000 0003 0032 0018 0101 0000 0000"            /* xt.....2........ */
 	$"0000 0098 0000 0003 0000 0000 FFFF FFFF"            /* ...ò........ˇˇˇˇ */
 	$"0000 0837 0000 0000 0000 0000 0000 0000"            /* ...7............ */
-	$"0110 0082 0331 3238 0005 0801 6F62 6A64"            /* ...Ç.128....objd */
+	$"0110 0082 0331 3238 0005 0804 6F62 6A64"            /* ...Ç.128....objd */
 	$"0000 003B 6574 7874 0000 0004 00F5 0018"            /* ...;etxt.....ı.. */
 	$"0101 0000 0000 0000 002F 0000 0027 0000"            /* ........./...'.. */
 	$"0000 FFFF FFFF 0000 0838 0000 0000 0000"            /* ..ˇˇˇˇ...8...... */
@@ -3267,14 +4040,14 @@ data 'PPob' (3000, "Hex Editing Window") {
 	$"0007 0000 0000 FFFF FFFF 0000 0000 0000"            /* ......ˇˇˇˇ...... */
 	$"0000 0000 0000 0000 0000 0120 008B 054E"            /* ........... .ã.N */
 	$"616D 653A 656E 6473 6F62 6A64 0000 0051"            /* ame:endsobjd...Q */
-	$"7769 6E68 0000 0000 0217 001B 0101 0100"            /* winh............ */
-	$"0101 0000 0000 0000 0188 0000 0000 FFFF"            /* .........à....ˇˇ */
+	$"7769 6E68 0000 0000 0217 003C 0101 0100"            /* winh.......<.... */
+	$"0101 0000 0000 0000 0187 0000 0000 FFFF"            /* .........á....ˇˇ */
 	$"FFFF 0000 0000 0000 0000 0000 0000 0000"            /* ˇˇ.............. */
 	$"0000 0000 0001 0000 0001 0000 0000 0000"            /* ................ */
 	$"0000 0000 0000 0000 0000 0000 0150 0000"            /* .............P.. */
 	$"0062 6567 736F 626A 6400 0000 2469 636E"            /* .begsobjd...$icn */
 	$"704C 6F63 6B00 1000 1001 0101 0000 0100"            /* pLock........... */
-	$"0000 0500 0000 0300 0000 00FF FFFF FF00"            /* ...........ˇˇˇˇ. */
+	$"0000 0500 0000 2400 0000 00FF FFFF FF00"            /* ......$....ˇˇˇˇ. */
 	$"006F 626A 6400 0000 3C73 7478 7400 0000"            /* .objd...<stxt... */
 	$"0000 2200 0E01 0101 0000 0100 0000 1B00"            /* .."............. */
 	$"0000 0600 0000 00FF FFFF FF00 0000 0000"            /* .......ˇˇˇˇ..... */
@@ -3285,7 +4058,7 @@ data 'PPob' (3000, "Hex Editing Window") {
 	$"0000 00FF FFFF FF00 000B BC00 0000 0000"            /* ...ˇˇˇˇ...º..... */
 	$"0000 0000 0000 0001 1000 8B00 00FF 2001"            /* ..........ã..ˇ . */
 	$"6F62 6A64 0000 003E 7374 7874 0000 0000"            /* objd...>stxt.... */
-	$"0030 000E 0101 0100 0001 0000 00A1 0000"            /* .0...........°.. */
+	$"0030 000E 0101 0100 0001 0000 00A3 0000"            /* .0...........£.. */
 	$"0006 0000 0000 FFFF FFFF 0000 0000 0000"            /* ......ˇˇˇˇ...... */
 	$"0000 0000 0000 0000 0000 0120 008B 074F"            /* ........... .ã.O */
 	$"6666 7365 743A 646F 706C 5265 7478 6F62"            /* ffset:doplRetxob */
@@ -3293,7 +4066,20 @@ data 'PPob' (3000, "Hex Editing Window") {
 	$"0014 0101 0100 0001 0000 00D1 0000 0002"            /* ...........—.... */
 	$"0000 0000 FFFF FFFF 0000 0BBD 0000 0000"            /* ....ˇˇˇˇ...Ω.... */
 	$"0000 0000 0000 0000 0110 008B 0000 FF20"            /* ...........ã..ˇ  */
-	$"0165 6E64 7365 6E64 7365 6E64 2E"                   /* .endsendsend. */
+	$"016F 626A 6400 0000 3C70 7573 6856 6C69"            /* .objd...<pushVli */
+	$"6400 4100 1401 0100 0001 0100 0001 BF00"            /* d.A...........ø. */
+	$"0000 1D00 0000 00FF FFFF FF00 0003 8400"            /* .......ˇˇˇˇ...Ñ. */
+	$"0000 0000 0000 0000 0000 0001 7000 0004"            /* ............p... */
+	$"5361 7665 016F 626A 6400 0000 3E70 7573"            /* Save.objd...>pus */
+	$"6843 6E63 6C00 4100 1401 0100 0001 0100"            /* hCncl.A......... */
+	$"0001 7100 0000 1D00 0000 00FF FFFF FF00"            /* ..q........ˇˇˇˇ. */
+	$"0003 8500 0000 0000 0000 0000 0000 0001"            /* ..Ö............. */
+	$"7000 0006 4361 6E63 656C 006F 626A 6400"            /* p...Cancel.objd. */
+	$"0000 3E70 7573 6852 7672 7400 4100 1401"            /* ..>pushRvrt.A... */
+	$"0101 0000 0100 0000 3500 0000 1D00 0000"            /* ........5....... */
+	$"00FF FFFF FF00 0000 0700 0000 0000 0000"            /* .ˇˇˇˇ........... */
+	$"0000 0000 0001 7000 0006 5265 7665 7274"            /* ......p...Revert */
+	$"0065 6E64 7365 6E64 7365 6E64 2E"                   /* .endsendsend. */
 };
 
 data 'PPob' (5000, "About Window") {
@@ -3330,7 +4116,7 @@ data 'PPob' (5000, "About Window") {
 	$"7573 684C 636E 6300 4600 1401 0100 0001"            /* ushLcnc.F....... */
 	$"0100 0000 AF00 0001 5300 0000 00FF FFFF"            /* ....Ø...S....ˇˇˇ */
 	$"FF4C 636E 6300 0000 0000 0000 0000 0000"            /* ˇLcnc........... */
-	$"0001 7000 0007 4C69 6365 6E63 6500 646F"            /* ..p...Licence.do */
+	$"0001 7000 0007 4C69 6365 6E73 6500 646F"            /* ..p...License.do */
 	$"706C 5354 5855 6F62 6A64 0000 0037 7374"            /* plSTXUobjd...7st */
 	$"7874 0000 000B 00D2 0012 0101 0100 0100"            /* xt.....“........ */
 	$"0000 0071 0000 00B1 0000 0000 FFFF FFFF"            /* ...q...±....ˇˇˇˇ */
@@ -3365,7 +4151,7 @@ data 'PPob' (5000, "About Window") {
 	$"9200 656E 6473 656E 642E"                           /* í.endsend. */
 };
 
-data 'PPob' (5100, "Licence Window") {
+data 'PPob' (5100, "License Window") {
 	$"0002 6F62 6A64 0000 001C 7769 6E64 13EC"            /* ..objd....wind.Ï */
 	$"0002 1FE2 0000 0064 0064 FFFF FFFF FFFF"            /* ...‚...d.dˇˇˇˇˇˇ */
 	$"FFFF 0000 0000 6265 6773 6F62 6A64 0000"            /* ˇˇ....begsobjd.. */
@@ -3600,32 +4386,32 @@ data 'PPob' (7000, "Preferences Window") {
 	$"FFFF 0000 0000 0000 0001 0000 0002 FFFF"            /* ˇˇ............ˇˇ */
 	$"FFFF 6265 6773 6F62 6A64 0000 0012 7774"            /* ˇˇbegsobjd....wt */
 	$"6861 FFFF FFFE 0101 0001 0002 0001 0002"            /* haˇˇˇ˛.......... */
-	$"6F62 6A64 0000 0040 7075 7368 0000 0001"            /* objd...@push.... */
+	$"6F62 6A64 0000 003A 7075 7368 0000 0001"            /* objd...:push.... */
 	$"0050 0014 0101 0000 0101 0000 0169 0000"            /* .P...........i.. */
 	$"00FE 0000 0000 FFFF FFFF 0000 0384 0000"            /* .˛....ˇˇˇˇ...Ñ.. */
-	$"0000 0000 0000 0000 0000 0170 0000 0856"            /* ...........p...V */
-	$"616C 6964 6174 6501 6F62 6A64 0000 003E"            /* alidate.objd...> */
-	$"7075 7368 0000 0002 0041 0014 0101 0000"            /* push.....A...... */
-	$"0101 0000 011C 0000 00FE 0000 0000 FFFF"            /* .........˛....ˇˇ */
-	$"FFFF 0000 0385 0000 0000 0000 0000 0000"            /* ˇˇ...Ö.......... */
-	$"0000 0170 0000 0643 616E 6365 6C00 6F62"            /* ...p...Cancel.ob */
-	$"6A64 0000 003E 7075 7368 0000 0003 0041"            /* jd...>push.....A */
-	$"0014 0101 0100 0001 0000 0009 0000 00FE"            /* ...........∆...˛ */
-	$"0000 0000 FFFF FFFF 0000 1B5B 0000 0000"            /* ....ˇˇˇˇ...[.... */
-	$"0000 0000 0000 0000 0170 0000 0652 6576"            /* .........p...Rev */
-	$"6572 7400 6F62 6A64 0000 0059 7063 746C"            /* ert.objd...Ypctl */
-	$"5043 544C 01C2 001E 0101 0100 0100 0000"            /* PCTL.¬.......... */
-	$"0000 0000 0000 0000 0000 FFFF FFFF 0000"            /* ..........ˇˇˇˇ.. */
-	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0001 0000 0001 0000 0086 5043 544C 03E8"            /* .........ÜPCTL.Ë */
-	$"0001 FFFF FFFF FFFF 0000 3333 9999 FFFF"            /* ..ˇˇˇˇˇˇ..33ôôˇˇ */
-	$"FFFF 0000 006F 626A 6400 0000 536D 7076"            /* ˇˇ...objd...Smpv */
-	$"7750 4D50 5601 8600 D201 0100 0000 0000"            /* wPMPV.Ü.“....... */
-	$"0000 1E00 0000 1E00 0000 00FF FFFF FF00"            /* ...........ˇˇˇˇ. */
-	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0000 0100 0000 0100 0000 071B BC1C 201C"            /* ............º. . */
-	$"841C E81D 4C1D B01E 1400 0150 4354 4C00"            /* Ñ.Ë.L.∞....PCTL. */
-	$"656E 6473 656E 642E"                                /* endsend. */
+	$"0000 0000 0000 0000 0000 0170 0000 024F"            /* ...........p...O */
+	$"4B01 6F62 6A64 0000 003E 7075 7368 0000"            /* K.objd...>push.. */
+	$"0002 0041 0014 0101 0000 0101 0000 011C"            /* ...A............ */
+	$"0000 00FE 0000 0000 FFFF FFFF 0000 0385"            /* ...˛....ˇˇˇˇ...Ö */
+	$"0000 0000 0000 0000 0000 0000 0170 0000"            /* .............p.. */
+	$"0643 616E 6365 6C00 6F62 6A64 0000 003E"            /* .Cancel.objd...> */
+	$"7075 7368 0000 0003 0041 0014 0101 0100"            /* push.....A...... */
+	$"0001 0000 0009 0000 00FE 0000 0000 FFFF"            /* .....∆...˛....ˇˇ */
+	$"FFFF 0000 1B5B 0000 0000 0000 0000 0000"            /* ˇˇ...[.......... */
+	$"0000 0170 0000 0652 6576 6572 7400 6F62"            /* ...p...Revert.ob */
+	$"6A64 0000 0059 7063 746C 5043 544C 01C2"            /* jd...YpctlPCTL.¬ */
+	$"001E 0101 0100 0100 0000 0001 0000 0000"            /* ................ */
+	$"0000 0000 FFFF FFFF 0000 0000 0000 0000"            /* ....ˇˇˇˇ........ */
+	$"0000 0000 0000 0000 0000 0001 0000 0001"            /* ................ */
+	$"0000 0086 5043 544C 03E8 0001 FFFF FFFF"            /* ...ÜPCTL.Ë..ˇˇˇˇ */
+	$"FFFF 0000 3333 9999 FFFF FFFF 0000 006F"            /* ˇˇ..33ôôˇˇˇˇ...o */
+	$"626A 6400 0000 536D 7076 7750 4D50 5601"            /* bjd...SmpvwPMPV. */
+	$"8600 D201 0100 0000 0000 0000 1E00 0000"            /* Ü.“............. */
+	$"1E00 0000 00FF FFFF FF00 0000 0000 0000"            /* .....ˇˇˇˇ....... */
+	$"0000 0000 0000 0000 0000 0000 0100 0000"            /* ................ */
+	$"0100 0000 071B BC1C 201C 841C E81D 4C1D"            /* ......º. .Ñ.Ë.L. */
+	$"B01E 1400 0150 4354 4C00 656E 6473 656E"            /* ∞....PCTL.endsen */
+                                              /* d. */
 };
 
 data 'PPob' (7100, "General Prefs Pane") {
@@ -3830,62 +4616,43 @@ data 'PPob' (7600, "Export Prefs Pane") {
 	$"0000 0000 0000 0001 0000 0001 0000 0000"            /* ................ */
 	$"0000 0000 0000 0000 0000 0000 0000 00A0"            /* ...............† */
 	$"0085 0645 7870 6F72 7462 6567 736F 626A"            /* .Ö.Exportbegsobj */
-	$"6400 0000 3E73 7478 7400 0000 0000 3200"            /* d...>stxt.....2. */
-	$"1001 0100 0000 0000 0000 4400 0000 1800"            /* ..........D..... */
-	$"0000 00FF FFFF FF00 0000 0000 0000 0000"            /* ...ˇˇˇˇ......... */
-	$"0000 0000 0000 0001 2000 8507 466F 726D"            /* ........ .Ö.Form */
-	$"6174 3A6F 626A 6400 0000 3C72 6770 7600"            /* at:objd...<rgpv. */
-	$"0000 0200 A800 3101 0100 0000 0000 0000"            /* ....®.1......... */
-	$"7C00 0000 1100 0000 00FF FFFF FF00 0000"            /* |........ˇˇˇˇ... */
-	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0100 0000 0100 0062 6567 736F 626A 6400"            /* .......begsobjd. */
-	$"0000 4872 6275 7400 0000 0300 7800 1001"            /* ..Hrbut.....x... */
-	$"0100 0000 0000 0000 0900 0000 0600 0000"            /* ........∆....... */
-	$"00FF FFFF FF00 001D B300 0000 0100 0000"            /* .ˇˇˇˇ...≥....... */
-	$"0000 0000 0100 0200 8B0D 4B65 792D 6261"            /* ........ã.Key-ba */
-	$"7365 6420 4454 4400 0000 006F 626A 6400"            /* sed DTD....objd. */
-	$"0000 4F72 6275 7400 0000 0400 9600 1001"            /* ..Orbut.....ñ... */
+	$"6400 0000 5463 6862 7800 0000 0500 D200"            /* d...Tchbx.....“. */
+	$"1001 0100 0000 0000 0000 4500 0000 1A00"            /* ..........E..... */
+	$"0000 00FF FFFF FF00 001D B500 0000 0100"            /* ...ˇˇˇˇ...µ..... */
+	$"0000 0000 0000 0100 0100 8B1D 496E 636C"            /* ..........ã.Incl */
+	$"7564 6520 6269 6E61 7279 2064 6174 6120"            /* ude binary data  */
+	$"696E 206F 7574 7075 746F 626A 6400 0000"            /* in outputobjd... */
+	$"5073 7478 7400 0000 0000 9600 1001 0100"            /* Pstxt.....ñ..... */
+	$"0000 0000 0000 4500 0000 3800 0000 00FF"            /* ......E...8....ˇ */
+	$"FFFF FF00 0000 0000 0000 0000 0000 0000"            /* ˇˇˇ............. */
+	$"0000 0001 2000 8519 456E 636F 6469 6E67"            /* .... .Ö.Encoding */
+	$"2066 6F72 2074 6578 7420 6578 706F 7274"            /*  for text export */
+	$"3A6F 626A 6400 0000 3C72 6770 7600 0000"            /* :objd...<rgpv... */
+	$"0600 A700 3101 0100 0000 0000 0000 6E00"            /* ..ß.1.........n. */
+	$"0000 4800 0000 00FF FFFF FF00 0000 0000"            /* ..H....ˇˇˇˇ..... */
+	$"0000 0000 0000 0000 0000 0000 0000 0100"            /* ................ */
+	$"0000 0100 0062 6567 736F 626A 6400 0000"            /* .....begsobjd... */
+	$"4A72 6275 7400 0000 0700 9600 1001 0100"            /* Jrbut.....ñ..... */
+	$"0000 0000 0000 0900 0000 0600 0000 00FF"            /* ......∆........ˇ */
+	$"FFFF FF00 001D B700 0000 0100 0000 0000"            /* ˇˇˇ...∑......... */
+	$"0000 0100 0200 8B0F 4261 7365 3634 2065"            /* ......ã.Base64 e */
+	$"6E63 6F64 696E 6700 0000 006F 626A 6400"            /* ncoding....objd. */
+	$"0000 4F72 6275 7400 0000 0800 9600 1001"            /* ..Orbut.....ñ... */
 	$"0100 0000 0000 0000 0900 0000 1A00 0000"            /* ........∆....... */
-	$"00FF FFFF FF00 001D B400 0000 0000 0000"            /* .ˇˇˇˇ...¥....... */
-	$"0000 0000 0100 0200 8B14 4174 7472 6962"            /* ........ã.Attrib */
-	$"7574 6573 2D62 6173 6564 2044 5444 0000"            /* utes-based DTD.. */
-	$"0000 656E 6473 6F62 6A64 0000 0054 6368"            /* ..endsobjd...Tch */
-	$"6278 0000 0005 00D2 0010 0101 0000 0000"            /* bx.....“........ */
-	$"0000 004D 0000 004B 0000 0000 FFFF FFFF"            /* ...M...K....ˇˇˇˇ */
-	$"0000 1DB5 0000 0001 0000 0000 0000 0001"            /* ...µ............ */
-	$"0001 008B 1D49 6E63 6C75 6465 2062 696E"            /* ...ã.Include bin */
-	$"6172 7920 6461 7461 2069 6E20 6F75 7470"            /* ary data in outp */
-	$"7574 6F62 6A64 0000 0040 7374 7874 0000"            /* utobjd...@stxt.. */
-	$"0000 0032 0010 0101 0000 0000 0000 0044"            /* ...2...........D */
-	$"0000 006A 0000 0000 FFFF FFFF 0000 0000"            /* ...j....ˇˇˇˇ.... */
-	$"0000 0000 0000 0000 0000 0000 0120 0085"            /* ............. .Ö */
-	$"0945 6E63 6F64 696E 673A 6F62 6A64 0000"            /* ∆Encoding:objd.. */
-	$"003C 7267 7076 0000 0006 00A7 0031 0101"            /* .<rgpv.....ß.1.. */
-	$"0000 0000 0000 0079 0000 0063 0000 0000"            /* .......y...c.... */
-	$"FFFF FFFF 0000 0000 0000 0000 0000 0000"            /* ˇˇˇˇ............ */
-	$"0000 0000 0000 0001 0000 0001 0000 6265"            /* ..............be */
-	$"6773 6F62 6A64 0000 004A 7262 7574 0000"            /* gsobjd...Jrbut.. */
-	$"0007 0096 0010 0101 0000 0000 0000 0009"            /* ...ñ...........∆ */
-	$"0000 0006 0000 0000 FFFF FFFF 0000 1DB7"            /* ........ˇˇˇˇ...∑ */
-	$"0000 0001 0000 0000 0000 0001 0002 008B"            /* ...............ã */
-	$"0F42 6173 6536 3420 656E 636F 6469 6E67"            /* .Base64 encoding */
-	$"0000 0000 6F62 6A64 0000 004F 7262 7574"            /* ....objd...Orbut */
-	$"0000 0008 0096 0010 0101 0000 0000 0000"            /* .....ñ.......... */
-	$"0009 0000 001A 0000 0000 FFFF FFFF 0000"            /* .∆........ˇˇˇˇ.. */
-	$"1DB8 0000 0000 0000 0000 0000 0001 0002"            /* .∏.............. */
-	$"008B 1448 6578 6164 6563 696D 616C 2065"            /* .ã.Hexadecimal e */
-	$"6E63 6F64 696E 6700 0000 0065 6E64 736F"            /* ncoding....endso */
-	$"626A 6400 0000 4D73 7478 7400 0000 0000"            /* bjd...Mstxt..... */
-	$"7B00 1001 0100 0000 0000 0000 4400 0000"            /* {...........D... */
-	$"9D00 0000 00FF FFFF FF00 0000 0000 0000"            /* ù....ˇˇˇˇ....... */
-	$"0000 0000 0000 0000 0001 2000 8516 5465"            /* .......... .Ö.Te */
-	$"7874 2065 6469 746F 7220 7369 676E 6174"            /* xt editor signat */
-	$"7572 653A 6F62 6A64 0000 003F 6574 7874"            /* ure:objd...?etxt */
-	$"0000 0009 0032 0015 0101 0000 0000 0000"            /* ...∆.2.......... */
-	$"00C0 0000 0099 0000 0000 FFFF FFFF 0000"            /* .¿...ô....ˇˇˇˇ.. */
-	$"1DB9 0000 0000 0000 0000 0000 0000 0110"            /* .π.............. */
-	$"008C 0474 7478 7400 0420 0365 6E64 7365"            /* .å.ttxt.. .endse */
-	$"6E64 7365 6E64 2E"                                  /* ndsend. */
+	$"00FF FFFF FF00 001D B800 0000 0000 0000"            /* .ˇˇˇˇ...∏....... */
+	$"0000 0000 0100 0200 8B14 4865 7861 6465"            /* ........ã.Hexade */
+	$"6369 6D61 6C20 656E 636F 6469 6E67 0000"            /* cimal encoding.. */
+	$"0000 656E 6473 6F62 6A64 0000 004D 7374"            /* ..endsobjd...Mst */
+	$"7874 0000 0000 007B 0010 0101 0000 0000"            /* xt.....{........ */
+	$"0000 0045 0000 0088 0000 0000 FFFF FFFF"            /* ...E...à....ˇˇˇˇ */
+	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"0120 0085 1654 6578 7420 6564 6974 6F72"            /* . .Ö.Text editor */
+	$"2073 6967 6E61 7475 7265 3A6F 626A 6400"            /*  signature:objd. */
+	$"0000 3F65 7478 7400 0000 0900 3200 1501"            /* ..?etxt...∆.2... */
+	$"0100 0000 0000 0000 C000 0000 8400 0000"            /* ........¿...Ñ... */
+	$"00FF FFFF FF00 001D B900 0000 0000 0000"            /* .ˇˇˇˇ...π....... */
+	$"0000 0000 0001 1000 8C04 7474 7874 0004"            /* ........å.ttxt.. */
+	$"2003 656E 6473 656E 6473 656E 642E"                 /*  .endsendsend. */
 };
 
 data 'PPob' (7700, "Misc Prefs Pane") {
@@ -3938,7 +4705,7 @@ data 'PPob' (7700, "Misc Prefs Pane") {
 	$"2455 7365 2052 657A 696C 6C61 2773 2073"            /* $Use Rezilla's s */
 	$"6967 6E61 7475 7265 2066 6F72 206E 6577"            /* ignature for new */
 	$"206D 6170 7365 6E64 7365 6E64 7365 6E64"            /*  mapsendsendsend */
-	$"2E"                                                 /* . */
+                                              /* . */
 };
 
 data 'PPob' (8400, "Get Value Dialog") {
@@ -4041,7 +4808,7 @@ data 'PPob' (8600, "Set Font Size Dialog") {
 	$"6473 656E 642E"                                     /* dsend. */
 };
 
-data 'PPob' (8700, "Resource Type Picker") {
+data 'PPob' (8700, "Resource Type Chooser") {
 	$"0002 6F62 6A64 0000 0028 5442 4278 21FC"            /* ..objd...(TBBx!¸ */
 	$"0000 08E2 0000 0040 0040 FFFF FFFF FFFF"            /* ...‚...@.@ˇˇˇˇˇˇ */
 	$"FFFF 0000 0000 6F6B 2020 636E 636C FFFF"            /* ˇˇ....ok  cnclˇˇ */
@@ -4080,7 +4847,7 @@ data 'PPob' (8700, "Resource Type Picker") {
 	$"0000 0000 0000 0165 6E64 7365 6E64 2E"              /* .......endsend. */
 };
 
-data 'PPob' (8800, "Template Key Picker") {
+data 'PPob' (8800, "Template Key Chooser") {
 	$"0002 6F62 6A64 0000 0028 5442 4278 2260"            /* ..objd...(TBBx"` */
 	$"0000 08E2 0000 0040 0040 FFFF FFFF FFFF"            /* ...‚...@.@ˇˇˇˇˇˇ */
 	$"FFFF 0000 0000 6F6B 2020 636E 636C FFFF"            /* ˇˇ....ok  cnclˇˇ */
@@ -4161,7 +4928,7 @@ data 'PPob' (8900, "Set Image Size Dialog") {
 	$"7400 0000 0000 2D00 0F01 0100 0000 0000"            /* t.....-......... */
 	$"0000 5D00 0000 2300 0000 00FF FFFF FF07"            /* ..]...#....ˇˇˇˇ. */
 	$"4865 6967 6874 3A00 8365 6E64 7365 6E64"            /* Height:.Éendsend */
-	$"2E"                                                 /* . */
+                                              /* . */
 };
 
 data 'PPob' (9500, "Alert") {
@@ -4395,7 +5162,7 @@ data 'PPob' (10300, "MENU Editor Window") {
 	$"0000 001C 0000 0000 FFFF FFFF 0000 0001"            /* ........ˇˇˇˇ.... */
 	$"0000 0001 0000 0000 0000 0000 0000 0000"            /* ................ */
 	$"0000 0000 0000 FFFF 000F 0000 0000 436E"            /* ......ˇˇ......Cn */
-	$"7473 0162 6567 7364 6F70 6C44 6E44 546F"            /* ts.begsdoplDnDTo */
+	$"7473 0162 6567 7364 6F70 6C4D 6E75 546F"            /* ts.begsdoplMnuTo */
 	$"626A 6400 0000 5074 6162 6C43 6E74 7300"            /* bjd...PtablCnts. */
 	$"CD01 A401 0101 0101 0100 0000 0200 0000"            /* Õ.§............. */
 	$"0200 0000 00FF FFFF FF00 0000 0000 0000"            /* .....ˇˇˇˇ....... */
@@ -4927,7 +5694,7 @@ data 'PPob' (10600, "Icon Family Editor Window") {
 	$"2469 636E 704C 6F63 6B00 1000 1001 0101"            /* $icnpLock....... */
 	$"0000 0100 0000 0600 0000 0B00 0000 00FF"            /* ...............ˇ */
 	$"FFFF FF00 0065 6E64 7365 6E64 7365 6E64"            /* ˇˇˇ..endsendsend */
-	$"2E"                                                 /* . */
+                                              /* . */
 };
 
 data 'PPob' (10601, "Cicn Editor Window") {
@@ -4935,7 +5702,7 @@ data 'PPob' (10601, "Cicn Editor Window") {
 	$"001C 7769 6E64 2969 0002 1862 0000 0190"            /* ..wind)i...b...ê */
 	$"0190 FFFF FFFF 0208 0190 0000 0000 6265"            /* .êˇˇˇˇ...ê....be */
 	$"6773 6F62 6A64 0000 0051 706C 6364 0000"            /* gsobjd...Qplcd.. */
-	$"0000 01FD 0154 0101 0101 0101 0000 0000"            /* ...˝.T.......... */
+	$"0000 01FD 0198 0101 0101 0101 0000 0000"            /* ...˝.ò.......... */
 	$"0000 0000 0000 0000 FFFF FFFF 0000 0000"            /* ........ˇˇˇˇ.... */
 	$"0000 0000 0000 0000 0000 0000 0000 0001"            /* ................ */
 	$"0000 0001 0000 0000 0000 0000 0000 0000"            /* ................ */
@@ -5056,12 +5823,12 @@ data 'PPob' (10601, "Cicn Editor Window") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
 	$"0000 0001 0000 0001 0000 656E 6473 6F62"            /* ..........endsob */
 	$"6A64 0000 0037 7374 7874 434F 4F52 003C"            /* jd...7stxtCOOR.< */
-	$"0010 0101 0000 0000 0000 000B 0000 0138"            /* ...............8 */
+	$"0010 0101 0000 0000 0000 000B 0000 0186"            /* ...............Ü */
 	$"0000 0000 FFFF FFFF 0000 0000 0000 0000"            /* ....ˇˇˇˇ........ */
 	$"0000 0000 0000 0000 0120 0000 0065 6E64"            /* ......... ...end */
 	$"736F 626A 6400 0000 5170 6C63 6446 4F4F"            /* sobjd...QplcdFOO */
 	$"5401 FD00 2801 0101 0001 0100 0000 0000"            /* T.˝.(........... */
-	$"0001 5400 0000 00FF FFFF FF00 0000 0000"            /* ..T....ˇˇˇˇ..... */
+	$"0001 9800 0000 00FF FFFF FF00 0000 0000"            /* ..ò....ˇˇˇˇ..... */
 	$"0000 0000 0000 0000 0000 0000 0000 0100"            /* ................ */
 	$"0000 0100 0000 0000 0000 0000 0000 0000"            /* ................ */
 	$"0000 0000 0000 E000 0000 6265 6773 6F62"            /* ......‡...begsob */
@@ -5845,7 +6612,7 @@ data 'PPob' (10607, "PixPat Editor Window") {
 	$"001C 7769 6E64 296F 0002 1862 0000 0190"            /* ..wind)o...b...ê */
 	$"0190 FFFF FFFF 0208 0190 0000 0000 6265"            /* .êˇˇˇˇ...ê....be */
 	$"6773 6F62 6A64 0000 0051 706C 6364 0000"            /* gsobjd...Qplcd.. */
-	$"0000 0119 0118 0101 0101 0101 0000 0000"            /* ................ */
+	$"0000 0119 019A 0101 0101 0101 0000 0000"            /* .....ö.......... */
 	$"0000 0000 0000 0000 FFFF FFFF 0000 0000"            /* ........ˇˇˇˇ.... */
 	$"0000 0000 0000 0000 0000 0000 0000 0001"            /* ................ */
 	$"0000 0001 0000 0000 0000 0000 0000 0000"            /* ................ */
@@ -5970,11 +6737,11 @@ data 'PPob' (10607, "PixPat Editor Window") {
 	$"0000 0000 0000 0000 0000 0001 2000 8D04"            /* ............ .ç. */
 	$"5041 5420 656E 6473 6F62 6A64 0000 0037"            /* PAT endsobjd...7 */
 	$"7374 7874 434F 4F52 003C 0010 0101 0000"            /* stxtCOOR.<...... */
-	$"0000 0000 000A 0000 0107 0000 0000 FFFF"            /* .....¬........ˇˇ */
+	$"0000 0000 000A 0000 0157 0000 0000 FFFF"            /* .....¬...W....ˇˇ */
 	$"FFFF 0000 0000 0000 0000 0000 0000 0000"            /* ˇˇ.............. */
 	$"0000 0120 0000 0065 6E64 736F 626A 6400"            /* ... ...endsobjd. */
 	$"0000 5170 6C63 6446 4F4F 5401 1900 2801"            /* ..QplcdFOOT...(. */
-	$"0101 0001 0100 0000 0000 0001 1800 0000"            /* ................ */
+	$"0101 0001 0100 0000 0000 0001 9A00 0000"            /* ............ö... */
 	$"00FF FFFF FF00 0000 0000 0000 0000 0000"            /* .ˇˇˇˇ........... */
 	$"0000 0000 0000 0000 0100 0000 0100 0000"            /* ................ */
 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
@@ -6159,7 +6926,7 @@ data 'PPob' (10608, "Pattern Suite Editor Window") {
 };
 
 data 'PPob' (10609, "Icon Suite Editor Window") {
-	$"0002 646F 706C 4963 5356 6F62 6A64 0000"            /* ..doplIcSVobjd.. */
+	$"0002 646F 706C 5349 4357 6F62 6A64 0000"            /* ..doplSICWobjd.. */
 	$"001C 7769 6E64 2971 0002 1862 0000 0190"            /* ..wind)q...b...ê */
 	$"0190 FFFF FFFF 0208 0190 0000 0000 6265"            /* .êˇˇˇˇ...ê....be */
 	$"6773 6F62 6A64 0000 0051 706C 6364 0000"            /* gsobjd...Qplcd.. */
@@ -6479,160 +7246,164 @@ data 'PPob' (11000, "AETE Editor Window") {
 	$"FFFF FFFF FFFF 029E 01F9 0000 0000 6265"            /* ˇˇˇˇˇˇ.û.˘....be */
 	$"6773 6F62 6A64 0000 0012 7774 6861 FFFF"            /* gsobjd....wthaˇˇ */
 	$"FFFE 0101 0003 0004 0001 0002 6F62 6A64"            /* ˇ˛..........objd */
-	$"0000 0051 7769 6E68 0000 0000 02A0 008C"            /* ...Qwinh.....†.å */
+	$"0000 0051 7769 6E68 0000 0000 02A0 0099"            /* ...Qwinh.....†.ô */
 	$"0101 0101 0100 FFFF FFFF 0000 0000 0000"            /* ......ˇˇˇˇ...... */
 	$"0000 FFFF FFFF 0000 0000 0000 0000 0000"            /* ..ˇˇˇˇ.......... */
 	$"0000 0000 0000 0000 0001 0000 0001 0000"            /* ................ */
 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
 	$"0150 0000 0062 6567 736F 626A 6400 0000"            /* .P...begsobjd... */
-	$"3C74 6267 7600 0000 0001 9F00 1D01 0101"            /* <tbgv.....ü..... */
-	$"0101 0000 0000 9400 0000 0300 0000 00FF"            /* ......î........ˇ */
+	$"3C73 7478 7400 0000 0000 2200 0E01 0101"            /* <stxt....."..... */
+	$"0000 0100 0000 0C00 0000 0300 0000 00FF"            /* ...............ˇ */
 	$"FFFF FF00 0000 0000 0000 0000 0000 0000"            /* ˇˇˇ............. */
-	$"0000 0000 0000 0100 0000 0100 0062 6567"            /* .............beg */
-	$"736F 626A 6400 0000 4473 7478 7400 0000"            /* sobjd...Dstxt... */
-	$"0000 4B00 0E01 0100 0000 0000 0000 0800"            /* ..K............. */
-	$"0000 0700 0000 00FF FFFF FF00 0000 0000"            /* .......ˇˇˇˇ..... */
-	$"0000 0000 0000 0000 0000 0001 2000 850D"            /* ............ .Ö. */
-	$"4D61 6A6F 7220 7665 7273 696F 6E6F 626A"            /* Major versionobj */
-	$"6400 0000 3B65 7478 7400 0000 0100 1900"            /* d...;etxt....... */
-	$"1601 0100 0000 0000 0000 5400 0000 0100"            /* ..........T..... */
-	$"0000 00FF FFFF FF45 644D 6400 0000 0000"            /* ...ˇˇˇˇEdMd..... */
-	$"0000 0000 0000 0001 1000 8200 0002 2001"            /* ..........Ç... . */
-	$"6F62 6A64 0000 0044 7374 7874 0000 0000"            /* objd...Dstxt.... */
-	$"004B 000E 0101 0000 0000 0000 0079 0000"            /* .K...........y.. */
-	$"0007 0000 0000 FFFF FFFF 0000 0000 0000"            /* ......ˇˇˇˇ...... */
-	$"0000 0000 0000 0000 0000 0120 0085 0D4D"            /* ........... .Ö.M */
-	$"696E 6F72 2076 6572 7369 6F6E 6F62 6A64"            /* inor versionobjd */
-	$"0000 003B 6574 7874 0000 0002 0019 0016"            /* ...;etxt........ */
-	$"0101 0000 0000 0000 00C4 0000 0001 0000"            /* .........ƒ...... */
-	$"0000 FFFF FFFF 4564 4D64 0000 0000 0000"            /* ..ˇˇˇˇEdMd...... */
-	$"0000 0000 0000 0110 0082 0000 0220 016F"            /* .........Ç... .o */
-	$"626A 6400 0000 3D73 7478 7400 0000 0000"            /* bjd...=stxt..... */
-	$"2500 0E01 0100 0000 0000 0001 4400 0000"            /* %...........D... */
-	$"0700 0000 00FF FFFF FF00 0000 0000 0000"            /* .....ˇˇˇˇ....... */
-	$"0000 0000 0000 0000 0001 2000 8506 5363"            /* .......... .Ö.Sc */
-	$"7269 7074 6F62 6A64 0000 003B 6574 7874"            /* riptobjd...;etxt */
-	$"0000 0003 0024 0016 0101 0000 0000 0000"            /* .....$.......... */
-	$"0115 0000 0001 0000 0000 FFFF FFFF 4564"            /* ..........ˇˇˇˇEd */
-	$"4D64 0000 0000 0000 0000 0000 0000 0110"            /* Md.............. */
-	$"0082 0000 0220 016F 626A 6400 0000 3F73"            /* .Ç... .objd...?s */
-	$"7478 7400 0000 0000 3000 0E01 0100 0000"            /* txt.....0....... */
-	$"0000 0000 E700 0000 0700 0000 00FF FFFF"            /* ....Á........ˇˇˇ */
-	$"FF00 0000 0000 0000 0000 0000 0000 0000"            /* ˇ............... */
-	$"0001 2000 8508 4C61 6E67 7561 6765 6F62"            /* .. .Ö.Languageob */
-	$"6A64 0000 003B 6574 7874 0000 0004 0024"            /* jd...;etxt.....$ */
-	$"0016 0101 0000 0000 0000 0169 0000 0001"            /* ...........i.... */
-	$"0000 0000 FFFF FFFF 4564 4D64 0000 0000"            /* ....ˇˇˇˇEdMd.... */
-	$"0000 0000 0000 0000 0110 0082 0000 0220"            /* ...........Ç...  */
-	$"0165 6E64 736F 626A 6400 0000 5674 6762"            /* .endsobjd...Vtgb */
-	$"7853 5549 4201 B800 6401 0101 0101 0000"            /* xSUIB.∏.d....... */
-	$"0000 DD00 0000 2200 0000 00FF FFFF FF00"            /* ..›..."....ˇˇˇˇ. */
-	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0000 0100 0000 0100 0000 0000 0000 0000"            /* ................ */
-	$"0000 0000 0000 0000 0000 A000 8505 5375"            /* ..........†.Ö.Su */
-	$"6974 6562 6567 736F 626A 6400 0000 3C74"            /* itebegsobjd...<t */
-	$"6267 7600 0000 0001 B000 4F01 0100 0000"            /* bgv.....∞.O..... */
-	$"0000 0000 0400 0000 1200 0000 00FF FFFF"            /* .............ˇˇˇ */
-	$"FF00 0000 0000 0000 0000 0000 0000 0000"            /* ˇ............... */
-	$"0000 0000 0100 0000 0100 0062 6567 736F"            /* ...........begso */
-	$"626A 6400 0000 3B73 7478 7400 0000 0000"            /* bjd...;stxt..... */
-	$"1E00 1001 0100 0000 0000 0000 0600 0000"            /* ................ */
-	$"0600 0000 00FF FFFF FF00 0000 0000 0000"            /* .....ˇˇˇˇ....... */
-	$"0000 0000 0000 0000 0001 2000 8504 4E61"            /* .......... .Ö.Na */
-	$"6D65 6F62 6A64 0000 003B 6574 7874 0000"            /* meobjd...;etxt.. */
-	$"0005 0110 0016 0101 0000 0000 0000 002C"            /* ..............., */
-	$"0000 0003 0000 0000 FFFF FFFF 0000 2AFD"            /* ........ˇˇˇˇ..*˝ */
-	$"0000 0000 0000 0000 0000 0000 0110 0082"            /* ...............Ç */
-	$"0000 FF20 036F 626A 6400 0000 4273 7478"            /* ..ˇ .objd...Bstx */
-	$"7400 0000 0000 4300 1001 0100 0000 0000"            /* t.....C......... */
-	$"0000 0600 0000 1F00 0000 00FF FFFF FF00"            /* ...........ˇˇˇˇ. */
-	$"0000 0000 0000 0000 0000 0000 0000 0001"            /* ................ */
-	$"2000 850B 4465 7363 7269 7074 696F 6E6F"            /*  .Ö.Descriptiono */
-	$"626A 6400 0000 3B65 7478 7400 0000 0600"            /* bjd...;etxt..... */
-	$"F100 2C01 0100 0000 0000 0000 4A00 0000"            /* Ò.,.........J... */
-	$"1C00 0000 00FF FFFF FF45 644D 6400 0000"            /* .....ˇˇˇˇEdMd... */
-	$"0000 0000 0000 0000 0001 1000 8200 00FF"            /* ............Ç..ˇ */
-	$"6003 6F62 6A64 0000 0039 7374 7874 0000"            /* `.objd...9stxt.. */
-	$"0000 0018 000F 0101 0000 0000 0000 014A"            /* ...............J */
-	$"0000 0008 0000 0000 FFFF FFFF 0000 0000"            /* ........ˇˇˇˇ.... */
-	$"0000 0000 0000 0000 0000 0000 0120 0085"            /* ............. .Ö */
-	$"0249 446F 626A 6400 0000 3B65 7478 7400"            /* .IDobjd...;etxt. */
-	$"0000 0700 3200 1601 0100 0000 0000 0001"            /* ....2........... */
-	$"7600 0000 0500 0000 00FF FFFF FF45 644D"            /* v........ˇˇˇˇEdM */
-	$"6400 0000 0000 0000 0000 0000 0001 1000"            /* d............... */
-	$"8200 0004 2003 6F62 6A64 0000 003C 7374"            /* Ç... .objd...<st */
-	$"7874 0000 0000 0022 0011 0101 0000 0000"            /* xt....."........ */
-	$"0000 014A 0000 0020 0000 0000 FFFF FFFF"            /* ...J... ....ˇˇˇˇ */
-	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0120 0085 054C 6576 656C 6F62 6A64 0000"            /* . .Ö.Levelobjd.. */
-	$"003B 6574 7874 0000 0008 0032 0016 0101"            /* .;etxt.....2.... */
-	$"0000 0000 0000 0176 0000 001D 0000 0000"            /* .......v........ */
-	$"FFFF FFFF 4564 4D64 0000 0000 0000 0000"            /* ˇˇˇˇEdMd........ */
-	$"0000 0000 0110 0082 0000 0420 016F 626A"            /* .......Ç... .obj */
-	$"6400 0000 3E73 7478 7400 0000 0000 2C00"            /* d...>stxt.....,. */
-	$"1101 0100 0000 0000 0001 4A00 0000 3800"            /* ..........J...8. */
-	$"0000 00FF FFFF FF00 0000 0000 0000 0000"            /* ...ˇˇˇˇ......... */
-	$"0000 0000 0000 0001 2000 8507 5665 7273"            /* ........ .Ö.Vers */
-	$"696F 6E6F 626A 6400 0000 3B65 7478 7400"            /* ionobjd...;etxt. */
-	$"0000 0900 3200 1601 0100 0000 0000 0001"            /* ..∆.2........... */
-	$"7600 0000 3500 0000 00FF FFFF FF45 644D"            /* v...5....ˇˇˇˇEdM */
-	$"6400 0000 0000 0000 0000 0000 0001 1000"            /* d............... */
-	$"8200 0004 2001 656E 6473 656E 6473 6F62"            /* Ç... .endsendsob */
-	$"6A64 0000 0037 7374 7874 4E61 6D65 0079"            /* jd...7stxtName.y */
-	$"0030 0101 0101 0100 0000 0007 0000 0006"            /* .0.............. */
-	$"0000 0000 FFFF FFFF 0000 0000 0000 0000"            /* ....ˇˇˇˇ........ */
-	$"0000 0000 0000 0000 0120 0085 006F 626A"            /* ......... .Ö.obj */
-	$"6400 0000 3E73 7478 7400 0000 0000 2D00"            /* d...>stxt.....-. */
-	$"1001 0100 0000 0000 0000 0800 0000 3A00"            /* ..............:. */
-	$"0000 00FF FFFF FF00 0000 0000 0000 0000"            /* ...ˇˇˇˇ......... */
-	$"0000 0000 0000 0001 2000 8507 5375 6974"            /* ........ .Ö.Suit */
-	$"6573 3A6F 626A 6400 0000 3D70 6F70 6253"            /* es:objd...=popbS */
-	$"5549 5400 BE00 1401 0101 0100 0000 0000"            /* UIT.æ........... */
-	$"0700 0000 4A00 0000 00FF FFFF FF53 5549"            /* ....J....ˇˇˇˇSUI */
-	$"5400 0000 0000 0000 FE00 00FF FF01 9000"            /* T.......˛..ˇˇ.ê. */
-	$"8500 0000 0000 0001 656E 6473 6F62 6A64"            /* Ö.......endsobjd */
-	$"0000 0059 7063 746C 4143 544C 0154 001E"            /* ...YpctlACTL.T.. */
-	$"0101 0101 0000 0000 0003 0000 008C 0000"            /* .............å.. */
-	$"0000 FFFF FFFF 0000 0000 0000 0000 0000"            /* ..ˇˇˇˇ.......... */
-	$"0000 0000 0000 0000 0001 0000 0001 0000"            /* ................ */
-	$"0086 4143 544C 03E9 0001 FFFF FFFF FFFF"            /* .ÜACTL.È..ˇˇˇˇˇˇ */
-	$"0000 3333 9999 FFFF FFFF 0000 006F 626A"            /* ..33ôôˇˇˇˇ...obj */
-	$"6400 0000 4D6D 7076 7741 4D50 5602 7601"            /* d...MmpvwAMPV.v. */
-	$"2701 0101 0101 0100 0000 1400 0000 AA00"            /* '.............™. */
+	$"0000 0001 2000 8B05 4E61 6D65 3A6F 626A"            /* .... .ã.Name:obj */
+	$"6400 0000 3C74 6267 7600 0000 0001 9F00"            /* d...<tbgv.....ü. */
+	$"1A01 0101 0101 0000 0000 9400 0000 1300"            /* ..........î..... */
 	$"0000 00FF FFFF FF00 0000 0000 0000 0000"            /* ...ˇˇˇˇ......... */
 	$"0000 0000 0000 0000 0000 0100 0000 0100"            /* ................ */
-	$"0000 042B 5C2B C02C 242C 8800 0141 4354"            /* ...+\+¿,$,à..ACT */
-	$"4C00 6F62 6A64 0000 0036 736C 6964 534C"            /* L.objd...6slidSL */
-	$"4944 00D2 0015 0001 0101 0100 0000 0170"            /* ID.“...........p */
-	$"0000 0090 0000 0000 FFFF FFFF 534C 4944"            /* ...ê....ˇˇˇˇSLID */
-	$"0000 0000 0000 0000 0000 0000 0031 0004"            /* .............1.. */
-	$"6F62 6A64 0000 0037 7374 7874 5349 4443"            /* objd...7stxtSIDC */
-	$"004F 0011 0101 0001 0100 0000 0246 0000"            /* .O...........F.. */
-	$"0093 0000 0000 FFFF FFFF 0000 0000 0000"            /* .ì....ˇˇˇˇ...... */
-	$"0000 0000 0000 0000 0000 0120 0082 006F"            /* ........... .Ç.o */
-	$"626A 6400 0000 5170 6C63 6400 0000 0002"            /* bjd...Qplcd..... */
-	$"A000 2801 0101 0001 01FF FFFF FF00 0001"            /* †.(......ˇˇˇˇ... */
-	$"D200 0000 00FF FFFF FF00 0000 0000 0000"            /* “....ˇˇˇˇ....... */
-	$"0000 0000 0000 0000 0000 0000 0100 0000"            /* ................ */
-	$"0100 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0000 0000 E000 0000 6265 6773 6F62 6A64"            /* ....‡...begsobjd */
-	$"0000 003C 7075 7368 566C 6964 0041 0014"            /* ...<pushVlid.A.. */
-	$"0101 0000 0101 0000 0247 0000 0009 0000"            /* .........G...∆.. */
-	$"0000 FFFF FFFF 0000 0384 0000 0000 0000"            /* ..ˇˇˇˇ...Ñ...... */
-	$"0000 0000 0000 0170 0000 0453 6176 6501"            /* .......p...Save. */
-	$"6F62 6A64 0000 003E 7075 7368 436E 636C"            /* objd...>pushCncl */
-	$"0041 0014 0101 0000 0101 0000 01F9 0000"            /* .A...........˘.. */
-	$"0009 0000 0000 FFFF FFFF 0000 0385 0000"            /* .∆....ˇˇˇˇ...Ö.. */
-	$"0000 0000 0000 0000 0000 0170 0000 0643"            /* ...........p...C */
-	$"616E 6365 6C00 6F62 6A64 0000 003E 7075"            /* ancel.objd...>pu */
-	$"7368 5276 7274 0041 0014 0101 0100 0001"            /* shRvrt.A........ */
-	$"0000 001C 0000 0009 0000 0000 FFFF FFFF"            /* .......∆....ˇˇˇˇ */
-	$"0000 0007 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0170 0000 0652 6576 6572 7400 6F62 6A64"            /* .p...Revert.objd */
-	$"0000 0024 6963 6E70 4C6F 636B 0010 0010"            /* ...$icnpLock.... */
-	$"0101 0100 0001 0000 0006 0000 000B 0000"            /* ................ */
-	$"0000 FFFF FFFF 0000 656E 6473 656E 6473"            /* ..ˇˇˇˇ..endsends */
-	$"656E 642E"                                          /* end. */
+	$"0062 6567 736F 626A 6400 0000 4473 7478"            /* .begsobjd...Dstx */
+	$"7400 0000 0000 4B00 0E01 0100 0000 0000"            /* t.....K......... */
+	$"0000 0800 0000 0700 0000 00FF FFFF FF00"            /* ...........ˇˇˇˇ. */
+	$"0000 0000 0000 0000 0000 0000 0000 0001"            /* ................ */
+	$"2000 850D 4D61 6A6F 7220 7665 7273 696F"            /*  .Ö.Major versio */
+	$"6E6F 626A 6400 0000 3B65 7478 7400 0000"            /* nobjd...;etxt... */
+	$"0100 1900 1601 0100 0000 0000 0000 5400"            /* ..............T. */
+	$"0000 0100 0000 00FF FFFF FF45 644D 6400"            /* .......ˇˇˇˇEdMd. */
+	$"0000 0000 0000 0000 0000 0001 1000 8200"            /* ..............Ç. */
+	$"0002 2001 6F62 6A64 0000 0044 7374 7874"            /* .. .objd...Dstxt */
+	$"0000 0000 004B 000E 0101 0000 0000 0000"            /* .....K.......... */
+	$"0079 0000 0007 0000 0000 FFFF FFFF 0000"            /* .y........ˇˇˇˇ.. */
+	$"0000 0000 0000 0000 0000 0000 0000 0120"            /* ...............  */
+	$"0085 0D4D 696E 6F72 2076 6572 7369 6F6E"            /* .Ö.Minor version */
+	$"6F62 6A64 0000 003B 6574 7874 0000 0002"            /* objd...;etxt.... */
+	$"0019 0016 0101 0000 0000 0000 00C4 0000"            /* .............ƒ.. */
+	$"0001 0000 0000 FFFF FFFF 4564 4D64 0000"            /* ......ˇˇˇˇEdMd.. */
+	$"0000 0000 0000 0000 0000 0110 0082 0000"            /* .............Ç.. */
+	$"0220 016F 626A 6400 0000 3D73 7478 7400"            /* . .objd...=stxt. */
+	$"0000 0000 2500 0E01 0100 0000 0000 0001"            /* ....%........... */
+	$"4400 0000 0700 0000 00FF FFFF FF00 0000"            /* D........ˇˇˇˇ... */
+	$"0000 0000 0000 0000 0000 0000 0001 2000"            /* .............. . */
+	$"8506 5363 7269 7074 6F62 6A64 0000 003B"            /* Ö.Scriptobjd...; */
+	$"6574 7874 0000 0003 0024 0016 0101 0000"            /* etxt.....$...... */
+	$"0000 0000 0115 0000 0001 0000 0000 FFFF"            /* ..............ˇˇ */
+	$"FFFF 4564 4D64 0000 0000 0000 0000 0000"            /* ˇˇEdMd.......... */
+	$"0000 0110 0082 0000 0220 016F 626A 6400"            /* .....Ç... .objd. */
+	$"0000 3F73 7478 7400 0000 0000 3000 0E01"            /* ..?stxt.....0... */
+	$"0100 0000 0000 0000 E700 0000 0700 0000"            /* ........Á....... */
+	$"00FF FFFF FF00 0000 0000 0000 0000 0000"            /* .ˇˇˇˇ........... */
+	$"0000 0000 0001 2000 8508 4C61 6E67 7561"            /* ...... .Ö.Langua */
+	$"6765 6F62 6A64 0000 003B 6574 7874 0000"            /* geobjd...;etxt.. */
+	$"0004 0024 0016 0101 0000 0000 0000 0169"            /* ...$...........i */
+	$"0000 0001 0000 0000 FFFF FFFF 4564 4D64"            /* ........ˇˇˇˇEdMd */
+	$"0000 0000 0000 0000 0000 0000 0110 0082"            /* ...............Ç */
+	$"0000 0220 0165 6E64 736F 626A 6400 0000"            /* ... .endsobjd... */
+	$"5674 6762 7853 5549 4201 B800 6401 0101"            /* VtgbxSUIB.∏.d... */
+	$"0101 0000 0000 DD00 0000 2F00 0000 00FF"            /* ......›.../....ˇ */
+	$"FFFF FF00 0000 0000 0000 0000 0000 0000"            /* ˇˇˇ............. */
+	$"0000 0000 0000 0100 0000 0100 0000 0000"            /* ................ */
+	$"0000 0000 0000 0000 0000 0000 0000 A000"            /* ..............†. */
+	$"8505 5375 6974 6562 6567 736F 626A 6400"            /* Ö.Suitebegsobjd. */
+	$"0000 3C74 6267 7600 0000 0001 B000 4F01"            /* ..<tbgv.....∞.O. */
+	$"0100 0000 0000 0000 0400 0000 1200 0000"            /* ................ */
+	$"00FF FFFF FF00 0000 0000 0000 0000 0000"            /* .ˇˇˇˇ........... */
+	$"0000 0000 0000 0000 0100 0000 0100 0062"            /* ...............b */
+	$"6567 736F 626A 6400 0000 3B73 7478 7400"            /* egsobjd...;stxt. */
+	$"0000 0000 1E00 1001 0100 0000 0000 0000"            /* ................ */
+	$"0600 0000 0600 0000 00FF FFFF FF00 0000"            /* .........ˇˇˇˇ... */
+	$"0000 0000 0000 0000 0000 0000 0001 2000"            /* .............. . */
+	$"8504 4E61 6D65 6F62 6A64 0000 003B 6574"            /* Ö.Nameobjd...;et */
+	$"7874 0000 0005 0110 0016 0101 0000 0000"            /* xt.............. */
+	$"0000 002C 0000 0003 0000 0000 FFFF FFFF"            /* ...,........ˇˇˇˇ */
+	$"0000 2AFD 0000 0000 0000 0000 0000 0000"            /* ..*˝............ */
+	$"0110 0082 0000 FF20 036F 626A 6400 0000"            /* ...Ç..ˇ .objd... */
+	$"4273 7478 7400 0000 0000 4300 1001 0100"            /* Bstxt.....C..... */
+	$"0000 0000 0000 0600 0000 1F00 0000 00FF"            /* ...............ˇ */
+	$"FFFF FF00 0000 0000 0000 0000 0000 0000"            /* ˇˇˇ............. */
+	$"0000 0001 2000 850B 4465 7363 7269 7074"            /* .... .Ö.Descript */
+	$"696F 6E6F 626A 6400 0000 3B65 7478 7400"            /* ionobjd...;etxt. */
+	$"0000 0600 F100 2C01 0100 0000 0000 0000"            /* ....Ò.,......... */
+	$"4A00 0000 1C00 0000 00FF FFFF FF45 644D"            /* J........ˇˇˇˇEdM */
+	$"6400 0000 0000 0000 0000 0000 0001 1000"            /* d............... */
+	$"8200 00FF 6003 6F62 6A64 0000 0039 7374"            /* Ç..ˇ`.objd...9st */
+	$"7874 0000 0000 0018 000F 0101 0000 0000"            /* xt.............. */
+	$"0000 014A 0000 0008 0000 0000 FFFF FFFF"            /* ...J........ˇˇˇˇ */
+	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"0120 0085 0249 446F 626A 6400 0000 3B65"            /* . .Ö.IDobjd...;e */
+	$"7478 7400 0000 0700 3200 1601 0100 0000"            /* txt.....2....... */
+	$"0000 0001 7600 0000 0500 0000 00FF FFFF"            /* ....v........ˇˇˇ */
+	$"FF45 644D 6400 0000 0000 0000 0000 0000"            /* ˇEdMd........... */
+	$"0001 1000 8200 0004 2003 6F62 6A64 0000"            /* ....Ç... .objd.. */
+	$"003C 7374 7874 0000 0000 0022 0011 0101"            /* .<stxt.....".... */
+	$"0000 0000 0000 014A 0000 0020 0000 0000"            /* .......J... .... */
+	$"FFFF FFFF 0000 0000 0000 0000 0000 0000"            /* ˇˇˇˇ............ */
+	$"0000 0000 0120 0085 054C 6576 656C 6F62"            /* ..... .Ö.Levelob */
+	$"6A64 0000 003B 6574 7874 0000 0008 0032"            /* jd...;etxt.....2 */
+	$"0016 0101 0000 0000 0000 0176 0000 001D"            /* ...........v.... */
+	$"0000 0000 FFFF FFFF 4564 4D64 0000 0000"            /* ....ˇˇˇˇEdMd.... */
+	$"0000 0000 0000 0000 0110 0082 0000 0420"            /* ...........Ç...  */
+	$"016F 626A 6400 0000 3E73 7478 7400 0000"            /* .objd...>stxt... */
+	$"0000 2C00 1101 0100 0000 0000 0001 4A00"            /* ..,...........J. */
+	$"0000 3800 0000 00FF FFFF FF00 0000 0000"            /* ..8....ˇˇˇˇ..... */
+	$"0000 0000 0000 0000 0000 0001 2000 8507"            /* ............ .Ö. */
+	$"5665 7273 696F 6E6F 626A 6400 0000 3B65"            /* Versionobjd...;e */
+	$"7478 7400 0000 0900 3200 1601 0100 0000"            /* txt...∆.2....... */
+	$"0000 0001 7600 0000 3500 0000 00FF FFFF"            /* ....v...5....ˇˇˇ */
+	$"FF45 644D 6400 0000 0000 0000 0000 0000"            /* ˇEdMd........... */
+	$"0001 1000 8200 0004 2001 656E 6473 656E"            /* ....Ç... .endsen */
+	$"6473 6F62 6A64 0000 0037 7374 7874 4E61"            /* dsobjd...7stxtNa */
+	$"6D65 01F4 0010 0101 0101 0100 0000 002F"            /* me.Ù.........../ */
+	$"0000 0003 0000 0000 FFFF FFFF 0000 0000"            /* ........ˇˇˇˇ.... */
+	$"0000 0000 0000 0000 0000 0000 0120 0085"            /* ............. .Ö */
+	$"006F 626A 6400 0000 3E73 7478 7400 0000"            /* .objd...>stxt... */
+	$"0000 2D00 1001 0100 0000 0000 0000 0800"            /* ..-............. */
+	$"0000 4700 0000 00FF FFFF FF00 0000 0000"            /* ..G....ˇˇˇˇ..... */
+	$"0000 0000 0000 0000 0000 0001 2000 8507"            /* ............ .Ö. */
+	$"5375 6974 6573 3A6F 626A 6400 0000 3D70"            /* Suites:objd...=p */
+	$"6F70 6253 5549 5400 BE00 1401 0101 0100"            /* opbSUIT.æ....... */
+	$"0000 0000 0700 0000 5700 0000 00FF FFFF"            /* ........W....ˇˇˇ */
+	$"FF53 5549 5400 0000 0000 0000 FE00 00FF"            /* ˇSUIT.......˛..ˇ */
+	$"FF01 9000 8500 0000 0000 0001 656E 6473"            /* ˇ.ê.Ö.......ends */
+	$"6F62 6A64 0000 0059 7063 746C 4143 544C"            /* objd...YpctlACTL */
+	$"0154 001E 0101 0101 0000 0000 0003 0000"            /* .T.............. */
+	$"0099 0000 0000 FFFF FFFF 0000 0000 0000"            /* .ô....ˇˇˇˇ...... */
+	$"0000 0000 0000 0000 0000 0000 0001 0000"            /* ................ */
+	$"0001 0000 0086 4143 544C 03E9 0001 FFFF"            /* .....ÜACTL.È..ˇˇ */
+	$"FFFF FFFF 0000 3333 9999 FFFF FFFF 0000"            /* ˇˇˇˇ..33ôôˇˇˇˇ.. */
+	$"006F 626A 6400 0000 4D6D 7076 7741 4D50"            /* .objd...MmpvwAMP */
+	$"5602 7601 2701 0101 0101 0100 0000 1400"            /* V.v.'........... */
+	$"0000 B700 0000 00FF FFFF FF00 0000 0000"            /* ..∑....ˇˇˇˇ..... */
+	$"0000 0000 0000 0000 0000 0000 0000 0100"            /* ................ */
+	$"0000 0100 0000 042B 5C2B C02C 242C 8800"            /* .......+\+¿,$,à. */
+	$"0141 4354 4C00 6F62 6A64 0000 0036 736C"            /* .ACTL.objd...6sl */
+	$"6964 534C 4944 00D2 0015 0001 0101 0100"            /* idSLID.“........ */
+	$"0000 0170 0000 009D 0000 0000 FFFF FFFF"            /* ...p...ù....ˇˇˇˇ */
+	$"534C 4944 0000 0000 0000 0000 0000 0000"            /* SLID............ */
+	$"0031 0004 6F62 6A64 0000 0037 7374 7874"            /* .1..objd...7stxt */
+	$"5349 4443 004F 0011 0101 0001 0100 0000"            /* SIDC.O.......... */
+	$"0246 0000 00A0 0000 0000 FFFF FFFF 0000"            /* .F...†....ˇˇˇˇ.. */
+	$"0000 0000 0000 0000 0000 0000 0000 0120"            /* ...............  */
+	$"0082 006F 626A 6400 0000 5170 6C63 6400"            /* .Ç.objd...Qplcd. */
+	$"0000 0002 A000 2801 0101 0001 01FF FFFF"            /* ....†.(......ˇˇˇ */
+	$"FF00 0001 DF00 0000 00FF FFFF FF00 0000"            /* ˇ...ﬂ....ˇˇˇˇ... */
+	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"0100 0000 0100 0000 0000 0000 0000 0000"            /* ................ */
+	$"0000 0000 0000 0000 E000 0000 6265 6773"            /* ........‡...begs */
+	$"6F62 6A64 0000 003C 7075 7368 566C 6964"            /* objd...<pushVlid */
+	$"0041 0014 0101 0000 0101 0000 0247 0000"            /* .A...........G.. */
+	$"0009 0000 0000 FFFF FFFF 0000 0384 0000"            /* .∆....ˇˇˇˇ...Ñ.. */
+	$"0000 0000 0000 0000 0000 0170 0000 0453"            /* ...........p...S */
+	$"6176 6501 6F62 6A64 0000 003E 7075 7368"            /* ave.objd...>push */
+	$"436E 636C 0041 0014 0101 0000 0101 0000"            /* Cncl.A.......... */
+	$"01F9 0000 0009 0000 0000 FFFF FFFF 0000"            /* .˘...∆....ˇˇˇˇ.. */
+	$"0385 0000 0000 0000 0000 0000 0000 0170"            /* .Ö.............p */
+	$"0000 0643 616E 6365 6C00 6F62 6A64 0000"            /* ...Cancel.objd.. */
+	$"003E 7075 7368 5276 7274 0041 0014 0101"            /* .>pushRvrt.A.... */
+	$"0100 0001 0000 001C 0000 0009 0000 0000"            /* ...........∆.... */
+	$"FFFF FFFF 0000 0007 0000 0000 0000 0000"            /* ˇˇˇˇ............ */
+	$"0000 0000 0170 0000 0652 6576 6572 7400"            /* .....p...Revert. */
+	$"6F62 6A64 0000 0024 6963 6E70 4C6F 636B"            /* objd...$icnpLock */
+	$"0010 0010 0101 0100 0001 0000 0006 0000"            /* ................ */
+	$"000B 0000 0000 FFFF FFFF 0000 656E 6473"            /* ......ˇˇˇˇ..ends */
+	$"656E 6473 656E 642E"                                /* endsend. */
 };
 
 data 'PPob' (11100, "Event Pane") {
@@ -7184,137 +7955,109 @@ data 'PPob' (7300, "Templates Prefs Pane") {
 	$"0000 0000 0000 0000 0001 0002 008B 1874"            /* .............ã.t */
 	$"6F70 2C20 6C65 6674 2C20 7769 6474 682C"            /* op, left, width, */
 	$"2068 6569 6768 7400 0000 0065 6E64 736F"            /*  height....endso */
-	$"626A 6400 0000 5963 6862 7800 0000 0800"            /* bjd...Ychbx..... */
-	$"DC00 1001 0100 0000 0000 0000 4400 0000"            /* ‹...........D... */
+	$"626A 6400 0000 4C63 6862 7800 0000 0800"            /* bjd...Lchbx..... */
+	$"9300 1001 0100 0000 0000 0000 1100 0000"            /* ì............... */
 	$"8700 0000 00FF FFFF FF00 001C 8C00 0000"            /* á....ˇˇˇˇ...å... */
-	$"0000 0000 0000 0000 0100 0100 8B22 4469"            /* ............ã"Di */
+	$"0000 0000 0000 0000 0100 0100 8B15 4469"            /* ............ã.Di */
 	$"7370 6C61 7920 6669 6C6C 6572 2066 6965"            /* splay filler fie */
-	$"6C64 7320 696E 2074 656D 706C 6174 6573"            /* lds in templates */
-	$"6F62 6A64 0000 0058 6368 6278 0000 0009"            /* objd...Xchbx...∆ */
-	$"00DC 0010 0101 0000 0000 0000 0044 0000"            /* .‹...........D.. */
-	$"009D 0000 0000 FFFF FFFF 0000 1C8D 0000"            /* .ù....ˇˇˇˇ...ç.. */
-	$"0000 0000 0000 0000 0001 0001 008B 2145"            /* .............ã!E */
-	$"6E61 626C 6520 6669 6C6C 6572 2066 6965"            /* nable filler fie */
-	$"6C64 7320 696E 2074 656D 706C 6174 6573"            /* lds in templates */
-	$"656E 6473 656E 6473 656E 642E"                      /* endsendsend. */
+	$"6C64 736F 626A 6400 0000 4B63 6862 7800"            /* ldsobjd...Kchbx. */
+	$"0000 0900 9300 1001 0100 0000 0000 0000"            /* ..∆.ì........... */
+	$"BF00 0000 8700 0000 00FF FFFF FF00 001C"            /* ø...á....ˇˇˇˇ... */
+	$"8D00 0000 0000 0000 0000 0000 0100 0100"            /* ç............... */
+	$"8B14 456E 6162 6C65 2066 696C 6C65 7220"            /* ã.Enable filler  */
+	$"6669 656C 6473 6F62 6A64 0000 0050 6368"            /* fieldsobjd...Pch */
+	$"6278 0000 000D 00AA 0010 0101 0000 0000"            /* bx.....™........ */
+	$"0000 0011 0000 009D 0000 0000 FFFF FFFF"            /* .......ù....ˇˇˇˇ */
+	$"0000 1C91 0000 0001 0000 0000 0000 0001"            /* ...ë............ */
+	$"0001 008B 1945 6E61 626C 6520 5441 4220"            /* ...ã.Enable TAB  */
+	$"6B65 7920 6E61 7669 6761 7469 6F6E 656E"            /* key navigationen */
+	$"6473 656E 6473 656E 642E"                           /* dsendsend. */
 };
 
-data 'PPob' (2200, "Plugin Info Window") {
-	$"0002 646F 706C 506C 6957 6F62 6A64 0000"            /* ..doplPliWobjd.. */
-	$"001C 7769 6E64 0898 0000 0862 0000 FFFF"            /* ..wind.ò...b..ˇˇ */
-	$"FFFF FFFF FFFF FFFF FFFF 0000 0000 6265"            /* ˇˇˇˇˇˇˇˇˇˇ....be */
-	$"6773 6F62 6A64 0000 0012 7774 6861 FFFF"            /* gsobjd....wthaˇˇ */
-	$"FFFE 0101 0003 0004 0005 0006 6F62 6A64"            /* ˇ˛..........objd */
-	$"0000 0051 7769 6E68 0000 0000 0138 00E6"            /* ...Qwinh.....8.Ê */
-	$"0101 0000 0000 FFFF FFFF 0000 0000 0000"            /* ......ˇˇˇˇ...... */
-	$"0000 FFFF FFFF 0000 0000 0000 0000 0000"            /* ..ˇˇˇˇ.......... */
-	$"0000 0000 0000 0000 0001 0000 0001 0000"            /* ................ */
+data 'PPob' (2200, "Plugins Window") {
+	$"0002 6F62 6A64 0000 0028 5442 4278 0898"            /* ..objd...(TBBx.ò */
+	$"0000 0862 0000 FFFF FFFF FFFF FFFF FFFF"            /* ...b..ˇˇˇˇˇˇˇˇˇˇ */
+	$"FFFF 0000 0000 6F6B 2020 636E 636C FFFF"            /* ˇˇ....ok  cnclˇˇ */
+	$"FFFF 6265 6773 6F62 6A64 0000 0012 7774"            /* ˇˇbegsobjd....wt */
+	$"6861 FFFF FFFE 0101 0003 0004 0005 0006"            /* haˇˇˇ˛.......... */
+	$"6F62 6A64 0000 0051 7769 6E68 0000 0000"            /* objd...Qwinh.... */
+	$"0160 012C 0101 0101 0101 FFFF FFFF 0000"            /* .`.,......ˇˇˇˇ.. */
+	$"0000 0000 0000 FFFF FFFF 0000 0000 0000"            /* ......ˇˇˇˇ...... */
+	$"0000 0000 0000 0000 0000 0000 0001 0000"            /* ................ */
+	$"0001 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"0000 0000 0150 0000 0062 6567 736F 626A"            /* .....P...begsobj */
+	$"6400 0000 3A70 7573 686F 6B20 2000 5000"            /* d...:pushok  .P. */
+	$"1401 0100 0001 0100 0001 0000 0001 0C00"            /* ................ */
+	$"0000 00FF FFFF FF00 0003 8400 0000 0000"            /* ...ˇˇˇˇ...Ñ..... */
+	$"0000 0000 0000 0001 7000 0002 4F4B 016F"            /* ........p...OK.o */
+	$"626A 6400 0000 3E70 7573 6863 6E63 6C00"            /* bjd...>pushcncl. */
+	$"4600 1401 0100 0001 0100 0000 A800 0001"            /* F...........®... */
+	$"0C00 0000 00FF FFFF FF00 0003 8500 0000"            /* .....ˇˇˇˇ...Ö... */
+	$"0000 0000 0000 0000 0001 7000 0006 4361"            /* ..........p...Ca */
+	$"6E63 656C 006F 626A 6400 0000 5970 6374"            /* ncel.objd...Ypct */
+	$"6C50 4354 4C01 C200 1E01 0101 0001 00FF"            /* lPCTL.¬........ˇ */
+	$"FFFF FCFF FFFF FF00 0000 00FF FFFF FF00"            /* ˇˇ¸ˇˇˇˇ....ˇˇˇˇ. */
 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0150 0000 0062 6567 736F 626A 6400 0000"            /* .P...begsobjd... */
-	$"5174 6762 7800 0000 0001 0C00 A401 0101"            /* Qtgbx.......§... */
-	$"0101 0000 0000 1600 0000 2F00 0000 00FF"            /* ........../....ˇ */
-	$"FFFF FF00 0000 0000 0000 0000 0000 0000"            /* ˇˇˇ............. */
-	$"0000 0000 0000 0100 0000 0100 0000 0000"            /* ................ */
-	$"0000 0000 0000 0000 0000 0000 0000 A400"            /* ..............§. */
-	$"0000 6265 6773 6F62 6A64 0000 003B 7374"            /* ..begsobjd...;st */
-	$"7874 0000 0000 0023 0010 0101 0000 0000"            /* xt.....#........ */
-	$"0000 000A 0000 0025 0000 0000 FFFF FFFF"            /* ...¬...%....ˇˇˇˇ */
+	$"0000 0100 0000 0100 0000 8650 4354 4C03"            /* ..........ÜPCTL. */
+	$"EA00 01FF FFFF FFFF FF00 0033 3399 99FF"            /* Í..ˇˇˇˇˇˇ..33ôôˇ */
+	$"FFFF FF00 0000 6F62 6A64 0000 0049 6D70"            /* ˇˇˇ...objd...Imp */
+	$"7677 504D 5056 015E 00D2 0101 0000 0000"            /* vwPMPV.^.“...... */
+	$"0000 0000 0000 0026 0000 0000 FFFF FFFF"            /* .......&....ˇˇˇˇ */
 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0120 0098 0454 7970 656F 626A 6400 0000"            /* . .ò.Typeobjd... */
-	$"3773 7478 7400 0000 0200 2800 1001 0100"            /* 7stxt.....(..... */
-	$"0000 0000 0000 2E00 0000 2500 0000 00FF"            /* ..........%....ˇ */
-	$"FFFF FF00 0000 0000 0000 0000 0000 0000"            /* ˇˇˇ............. */
-	$"0000 0001 2000 8200 6F62 6A64 0000 003E"            /* .... .Ç.objd...> */
-	$"7374 7874 0000 0000 002E 0010 0101 0000"            /* stxt............ */
-	$"0000 0000 0065 0000 0025 0000 0000 FFFF"            /* .....e...%....ˇˇ */
-	$"FFFF 0000 0000 0000 0000 0000 0000 0000"            /* ˇˇ.............. */
-	$"0000 0120 0098 0743 7265 6174 6F72 6F62"            /* ... .ò.Creatorob */
-	$"6A64 0000 0037 7374 7874 0000 0003 002E"            /* jd...7stxt...... */
-	$"0010 0101 0000 0000 0000 0094 0000 0025"            /* ...........î...% */
-	$"0000 0000 FFFF FFFF 0000 0000 0000 0000"            /* ....ˇˇˇˇ........ */
-	$"0000 0000 0000 0000 0120 0082 006F 626A"            /* ......... .Ç.obj */
-	$"6400 0000 3B73 7478 7400 0000 0000 2300"            /* d...;stxt.....#. */
-	$"0F01 0100 0000 0000 0000 0A00 0000 0D00"            /* ..........¬..... */
-	$"0000 00FF FFFF FF00 0000 0000 0000 0000"            /* ...ˇˇˇˇ......... */
-	$"0000 0000 0000 0001 2000 9804 4E61 6D65"            /* ........ .ò.Name */
-	$"6F62 6A64 0000 0037 7374 7874 0000 0001"            /* objd...7stxt.... */
-	$"00CC 000F 0101 0000 0000 0000 002E 0000"            /* .Ã.............. */
-	$"000D 0000 0000 FFFF FFFF 0000 0000 0000"            /* ......ˇˇˇˇ...... */
-	$"0000 0000 0000 0000 0000 0120 0082 006F"            /* ........... .Ç.o */
-	$"626A 6400 0000 4673 7478 7400 0000 0000"            /* bjd...Fstxt..... */
-	$"5B00 1001 0100 0000 0000 0000 0600 0000"            /* [............... */
-	$"3C00 0000 00FF FFFF FF00 0000 0000 0000"            /* <....ˇˇˇˇ....... */
-	$"0000 0000 0000 0000 0001 2000 850F 5375"            /* .......... .Ö.Su */
-	$"706F 6F72 7465 6420 7479 7065 736F 626A"            /* poorted typesobj */
-	$"6400 0000 4873 6372 6C00 0000 0000 3C00"            /* d...Hscrl.....<. */
-	$"5801 0100 0000 0000 0000 6800 0000 3D00"            /* X.........h...=. */
-	$"0000 00FF FFFF FF00 0000 0100 0000 0100"            /* ...ˇˇˇˇ......... */
-	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"00FF FF00 0F00 0000 0FFF FFFF FF62 6567"            /* .ˇˇ......ˇˇˇˇbeg */
-	$"736F 626A 6400 0000 5274 7863 6C00 0000"            /* sobjd...Rtxcl... */
-	$"0400 2D00 5801 0101 0101 0100 0000 0000"            /* ..-.X........... */
-	$"0000 0000 0000 00FF FFFF FF00 0000 0000"            /* .......ˇˇˇˇ..... */
-	$"0000 0000 0000 0000 0000 0000 0000 0100"            /* ................ */
-	$"0000 0100 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0000 0000 0000 0000 0000 0065 6E64 7365"            /* ...........endse */
-	$"6E64 7364 6F70 6C52 7A69 706F 626A 6400"            /* ndsdoplRzipobjd. */
-	$"0000 2469 636E 7000 0000 0900 2000 2001"            /* ..$icnp...∆. . . */
-	$"0100 0000 0000 0000 0900 0000 0500 0000"            /* ........∆....... */
-	$"00FF FFFF FF00 0065 6E64 7365 6E64 7365"            /* .ˇˇˇˇ..endsendse */
+	$"0000 0001 0000 0001 0000 0002 08A2 08AC"            /* .............¢.¨ */
+	$"0001 5043 544C 0065 6E64 7365 6E64 7365"            /* ..PCTL.endsendse */
 	$"6E64 2E"                                            /* nd. */
 };
 
 data 'PPob' (4000, "Resource Picker Window") {
 	$"0002 646F 706C 5069 6B57 6F62 6A64 0000"            /* ..doplPikWobjd.. */
-	$"001C 7769 6E64 0FA0 0002 1F62 0000 017C"            /* ..wind.†...b...| */
+	$"001C 7769 6E64 0FA0 0002 1F62 0000 00FA"            /* ..wind.†...b...˙ */
 	$"00C8 FFFF FFFF 01F4 0190 0000 0000 6265"            /* .»ˇˇˇˇ.Ù.ê....be */
 	$"6773 6F62 6A64 0000 0049 7363 6C76 5363"            /* gsobjd...IsclvSc */
 	$"726C 0208 0208 0101 0101 0101 0000 0000"            /* rl.............. */
 	$"0000 0000 0000 0000 FFFF FFFF 0000 0001"            /* ........ˇˇˇˇ.... */
 	$"0000 0001 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0000 0000 0000 0000 000F 0000 000F 436E"            /* ..............Cn */
-	$"7473 0162 6567 7364 6F70 6C50 4943 566F"            /* ts.begsdoplPICVo */
-	$"626A 6400 0000 3C76 6965 7743 6E74 7301"            /* bjd...<viewCnts. */
-	$"F801 F801 0101 0101 0100 0000 0100 0000"            /* ¯.¯............. */
-	$"0100 0000 00FF FFFF FF00 0000 0000 0000"            /* .....ˇˇˇˇ....... */
-	$"0000 0000 0000 0000 0000 0000 0A00 0000"            /* ............¬... */
-	$"0A00 0165 6E64 736F 626A 6400 0000 5170"            /* ¬..endsobjd...Qp */
-	$"6C63 6400 0000 0002 0A00 1801 0101 0001"            /* lcd.....¬....... */
-	$"01FF FFFF FF00 0002 0800 0000 00FF FFFF"            /* .ˇˇˇˇ........ˇˇˇ */
+	$"0000 0000 0000 FFFF FFFF 0000 0000 436E"            /* ......ˇˇˇˇ....Cn */
+	$"7473 0162 6567 736F 626A 6400 0000 3C76"            /* ts.begsobjd...<v */
+	$"6965 7743 6E74 7301 F702 0601 0101 0101"            /* iewCnts.˜....... */
+	$"0100 0000 0100 0000 0100 0000 00FF FFFF"            /* .............ˇˇˇ */
 	$"FF00 0000 0000 0000 0000 0000 0000 0000"            /* ˇ............... */
-	$"0000 0000 0100 0000 0100 0000 0000 0000"            /* ................ */
-	$"0000 0000 0000 0000 0000 0000 E000 0000"            /* ............‡... */
-	$"6265 6773 6F62 6A64 0000 0024 6963 6E70"            /* begsobjd...$icnp */
-	$"4C6F 636B 0010 0010 0101 0100 0001 0000"            /* Lock............ */
-	$"0004 0000 0003 0000 0000 FFFF FFFF 0000"            /* ..........ˇˇˇˇ.. */
-	$"656E 6473 6F62 6A64 0000 0051 7467 6278"            /* endsobjd...Qtgbx */
-	$"0000 0000 009C 0010 0101 0101 0001 0000"            /* .....ú.......... */
-	$"0022 0000 020C 0000 0000 FFFF FFFF 0000"            /* ."........ˇˇˇˇ.. */
+	$"0000 0000 0A00 0000 0A00 0165 6E64 736F"            /* ....¬...¬..endso */
+	$"626A 6400 0000 5170 6C63 6400 0000 0002"            /* bjd...Qplcd..... */
+	$"0A00 1801 0101 0001 01FF FFFF FF00 0002"            /* ¬........ˇˇˇˇ... */
+	$"0800 0000 00FF FFFF FF00 0000 0000 0000"            /* .....ˇˇˇˇ....... */
+	$"0000 0000 0000 0000 0000 0000 0100 0000"            /* ................ */
+	$"0100 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"0000 0000 E000 0000 6265 6773 6F62 6A64"            /* ....‡...begsobjd */
+	$"0000 0051 7467 6278 0000 0000 009C 0010"            /* ...Qtgbx.....ú.. */
+	$"0101 0100 0001 0000 0023 0000 0004 0000"            /* .........#...... */
+	$"0000 FFFF FFFF 0000 0000 0000 0000 0000"            /* ..ˇˇˇˇ.......... */
+	$"0000 0000 0000 0000 0001 0000 0001 0000"            /* ................ */
 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0001 0000 0001 0000 0000 0000 0000 0000"            /* ................ */
-	$"0000 0000 0000 0000 00A4 0000 0062 6567"            /* .........§...beg */
-	$"736F 626A 6400 0000 4173 7478 7400 0000"            /* sobjd...Astxt... */
-	$"0000 4600 0E01 0100 0000 0000 0000 0F00"            /* ..F............. */
-	$"0000 0200 0000 00FF FFFF FF00 0000 0000"            /* .......ˇˇˇˇ..... */
-	$"0000 0000 0000 0000 0000 0001 2000 850A"            /* ............ .Ö¬ */
-	$"5265 736F 7572 6365 733A 6F62 6A64 0000"            /* Resources:objd.. */
-	$"0037 7374 7874 0000 0001 002D 000E 0101"            /* .7stxt.....-.... */
-	$"0100 0001 0000 0055 0000 0002 0000 0000"            /* .......U........ */
-	$"FFFF FFFF 0000 0000 0000 0000 0000 0000"            /* ˇˇˇˇ............ */
-	$"0000 0000 0120 0085 0065 6E64 7365 6E64"            /* ..... .Ö.endsend */
-	$"7365 6E64 2E"                                       /* send. */
+	$"00A4 0000 0062 6567 736F 626A 6400 0000"            /* .§...begsobjd... */
+	$"4173 7478 7400 0000 0000 4600 0E01 0100"            /* Astxt.....F..... */
+	$"0000 0000 0000 0F00 0000 0200 0000 00FF"            /* ...............ˇ */
+	$"FFFF FF00 0000 0000 0000 0000 0000 0000"            /* ˇˇˇ............. */
+	$"0000 0001 2000 850A 5265 736F 7572 6365"            /* .... .Ö¬Resource */
+	$"733A 6F62 6A64 0000 0037 7374 7874 0000"            /* s:objd...7stxt.. */
+	$"0001 002D 000E 0101 0100 0001 0000 0055"            /* ...-...........U */
+	$"0000 0002 0000 0000 FFFF FFFF 0000 0000"            /* ........ˇˇˇˇ.... */
+	$"0000 0000 0000 0000 0000 0000 0120 0085"            /* ............. .Ö */
+	$"0065 6E64 736F 626A 6400 0000 2469 636E"            /* .endsobjd...$icn */
+	$"704C 6F63 6B00 1000 1001 0101 0000 0100"            /* pLock........... */
+	$"0000 0400 0000 0300 0000 00FF FFFF FF00"            /* ...........ˇˇˇˇ. */
+	$"0065 6E64 7365 6E64 7365 6E64 2E"                   /* .endsendsend. */
 };
 
 data 'PPob' (10000, "Standard Editor Window") {
-	$"0002 646F 706C 506C 7557 6F62 6A64 0000"            /* ..doplPluWobjd.. */
-	$"001C 7769 6E64 2710 0002 1F62 0000 017C"            /* ..wind'....b...| */
-	$"00C8 FFFF FFFF 01F4 0190 0000 0000 6265"            /* .»ˇˇˇˇ.Ù.ê....be */
-	$"6773 6F62 6A64 0000 0049 7363 6C76 5363"            /* gsobjd...IsclvSc */
-	$"726C 0208 01F0 0101 0101 0101 0000 0000"            /* rl............. */
-	$"0000 0018 0000 0000 FFFF FFFF 0000 0001"            /* ........ˇˇˇˇ.... */
-	$"0000 0001 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"0000 0000 0000 FFFF 000F 0000 0000 436E"            /* ......ˇˇ......Cn */
-	$"7473 0162 6567 7364 6F70 6C50 6C75 566F"            /* ts.begsdoplPluVo */
+	$"0002 6F62 6A64 0000 001C 7769 6E64 2710"            /* ..objd....wind'. */
+	$"0002 1F62 0000 017C 00C8 FFFF FFFF 01F4"            /* ...b...|.»ˇˇˇˇ.Ù */
+	$"0190 0000 0000 6265 6773 6F62 6A64 0000"            /* .ê....begsobjd.. */
+	$"0049 7363 6C76 5363 726C 0208 01F0 0101"            /* .IsclvScrl..... */
+	$"0101 0101 0000 0000 0000 0018 0000 0000"            /* ................ */
+	$"FFFF FFFF 0000 0001 0000 0001 0000 0000"            /* ˇˇˇˇ............ */
+	$"0000 0000 0000 0000 0000 0000 0000 FFFF"            /* ..............ˇˇ */
+	$"000F 0000 0000 436E 7473 0162 6567 736F"            /* ......Cnts.begso */
 	$"626A 6400 0000 3C76 6965 7743 6E74 7301"            /* bjd...<viewCnts. */
 	$"F901 EE01 0101 0101 0100 0000 0000 0000"            /* ˘.Ó............. */
 	$"0100 0000 00FF FFFF FF00 0000 0000 0000"            /* .....ˇˇˇˇ....... */
@@ -7354,6 +8097,396 @@ data 'PPob' (10000, "Standard Editor Window") {
 	$"656E 6473 656E 6473 656E 642E"                      /* endsendsend. */
 };
 
+data 'PPob' (11600, "ICNS Editor Window") {
+	$"0002 646F 706C 4943 5357 6F62 6A64 0000"            /* ..doplICSWobjd.. */
+	$"001C 7769 6E64 2D50 0002 1F62 0000 0190"            /* ..wind-P...b...ê */
+	$"0190 FFFF FFFF 0208 0190 0000 0000 6265"            /* .êˇˇˇˇ...ê....be */
+	$"6773 6F62 6A64 0000 0051 706C 6364 0000"            /* gsobjd...Qplcd.. */
+	$"0000 01E0 019A 0101 0101 0101 0000 0000"            /* ...‡.ö.......... */
+	$"0000 0000 0000 0000 FFFF FFFF 0000 0000"            /* ........ˇˇˇˇ.... */
+	$"0000 0000 0000 0000 0000 0000 0000 0001"            /* ................ */
+	$"0000 0001 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"0000 0000 0000 0150 0000 0062 6567 736F"            /* .......P...begso */
+	$"626A 6400 0000 4A44 6362 6274 4C41 5300"            /* bjd...JDcbbtLAS. */
+	$"1800 1801 0100 0000 0000 0000 0F00 0000"            /* ................ */
+	$"4000 0000 00FF FFFF FF74 4C41 5300 0000"            /* @....ˇˇˇˇtLAS... */
+	$"0000 0001 0100 0023 2800 2100 0000 0000"            /* .......#(.!..... */
+	$"0000 0000 0000 0000 0000 0000 0044 436C"            /* .............DCl */
+	$"6B6F 626A 6400 0000 4A44 6362 6274 5345"            /* kobjd...JDcbbtSE */
+	$"4C00 1800 1801 0100 0000 0000 0000 2900"            /* L.............). */
+	$"0000 4000 0000 00FF FFFF FF74 5345 4C00"            /* ..@....ˇˇˇˇtSEL. */
+	$"0000 0000 0001 0100 0023 2900 2100 0000"            /* .........#).!... */
+	$"0000 0000 0000 0000 0000 0000 0000 0044"            /* ...............D */
+	$"436C 6B6F 626A 6400 0000 4662 6275 7474"            /* Clkobjd...Fbbutt */
+	$"5458 5400 1800 1801 0100 0000 0000 0000"            /* TXT............. */
+	$"0F00 0000 5A00 0000 00FF FFFF FF74 5458"            /* ....Z....ˇˇˇˇtTX */
+	$"5400 0000 0000 0001 0100 0023 2A00 2100"            /* T..........#*.!. */
+	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"006F 626A 6400 0000 4662 6275 7474 5045"            /* .objd...FbbuttPE */
+	$"4E00 1800 1801 0100 0000 0000 0000 2900"            /* N.............). */
+	$"0000 5A00 0000 00FF FFFF FF74 5045 4E00"            /* ..Z....ˇˇˇˇtPEN. */
+	$"0000 0000 0001 0100 0023 2B00 2100 0000"            /* .........#+.!... */
+	$"0000 0000 0000 0000 0000 0000 0000 006F"            /* ...............o */
+	$"626A 6400 0000 4A44 6362 6274 4552 4100"            /* bjd...JDcbbtERA. */
+	$"1800 1801 0100 0000 0000 0000 0F00 0000"            /* ................ */
+	$"7400 0000 00FF FFFF FF74 4552 4100 0000"            /* t....ˇˇˇˇtERA... */
+	$"0000 0001 0100 0023 2C00 2100 0000 0000"            /* .......#,.!..... */
+	$"0000 0000 0000 0000 0000 0000 0044 436C"            /* .............DCl */
+	$"6B6F 626A 6400 0000 4662 6275 7474 4255"            /* kobjd...FbbuttBU */
+	$"4300 1800 1801 0100 0000 0000 0000 2900"            /* C.............). */
+	$"0000 7400 0000 00FF FFFF FF74 4255 4300"            /* ..t....ˇˇˇˇtBUC. */
+	$"0000 0000 0001 0100 0023 2D00 2100 0000"            /* .........#-.!... */
+	$"0000 0000 0000 0000 0000 0000 0000 006F"            /* ...............o */
+	$"626A 6400 0000 4662 6275 7474 4452 4F00"            /* bjd...FbbuttDRO. */
+	$"1800 1801 0100 0000 0000 0000 0F00 0000"            /* ................ */
+	$"8E00 0000 00FF FFFF FF74 4452 4F00 0000"            /* é....ˇˇˇˇtDRO... */
+	$"0000 0001 0100 0023 2E00 2100 0000 0000"            /* .......#..!..... */
+	$"0000 0000 0000 0000 0000 0000 006F 626A"            /* .............obj */
+	$"6400 0000 4662 6275 7474 4C49 4E00 1800"            /* d...FbbuttLIN... */
+	$"1801 0100 0000 0000 0000 2900 0000 8E00"            /* ..........)...é. */
+	$"0000 00FF FFFF FF74 4C49 4E00 0000 0000"            /* ...ˇˇˇˇtLIN..... */
+	$"0001 0100 0023 2F00 2100 0000 0000 0000"            /* .....#/.!....... */
+	$"0000 0000 0000 0000 0000 006F 626A 6400"            /* ...........objd. */
+	$"0000 4662 6275 7474 5245 4300 1800 1801"            /* ..FbbuttREC..... */
+	$"0100 0000 0000 0000 0F00 0000 A800 0000"            /* ............®... */
+	$"00FF FFFF FF74 5245 4300 0000 0000 0001"            /* .ˇˇˇˇtREC....... */
+	$"0100 0023 3100 2100 0000 0000 0000 0000"            /* ...#1.!......... */
+	$"0000 0000 0000 0000 006F 626A 6400 0000"            /* .........objd... */
+	$"4662 6275 7474 4652 4300 1800 1801 0100"            /* FbbuttFRC....... */
+	$"0000 0000 0000 2900 0000 A800 0000 00FF"            /* ......)...®....ˇ */
+	$"FFFF FF74 4652 4300 0000 0000 0001 0100"            /* ˇˇˇtFRC......... */
+	$"0023 3000 2100 0000 0000 0000 0000 0000"            /* .#0.!........... */
+	$"0000 0000 0000 006F 626A 6400 0000 4662"            /* .......objd...Fb */
+	$"6275 7474 5252 4300 1800 1801 0100 0000"            /* buttRRC......... */
+	$"0000 0000 0F00 0000 C200 0000 00FF FFFF"            /* ........¬....ˇˇˇ */
+	$"FF74 5252 4300 0000 0000 0001 0100 0023"            /* ˇtRRC..........# */
+	$"3300 2100 0000 0000 0000 0000 0000 0000"            /* 3.!............. */
+	$"0000 0000 006F 626A 6400 0000 4662 6275"            /* .....objd...Fbbu */
+	$"7474 4652 5200 1800 1801 0100 0000 0000"            /* ttFRR........... */
+	$"0000 2900 0000 C200 0000 00FF FFFF FF74"            /* ..)...¬....ˇˇˇˇt */
+	$"4652 5200 0000 0000 0001 0100 0023 3200"            /* FRR..........#2. */
+	$"2100 0000 0000 0000 0000 0000 0000 0000"            /* !............... */
+	$"0000 006F 626A 6400 0000 4662 6275 7474"            /* ...objd...Fbbutt */
+	$"4F56 4C00 1800 1801 0100 0000 0000 0000"            /* OVL............. */
+	$"0F00 0000 DC00 0000 00FF FFFF FF74 4F56"            /* ....‹....ˇˇˇˇtOV */
+	$"4C00 0000 0000 0001 0100 0023 3500 2100"            /* L..........#5.!. */
+	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"006F 626A 6400 0000 4662 6275 7474 464F"            /* .objd...FbbuttFO */
+	$"5600 1800 1801 0100 0000 0000 0000 2900"            /* V.............). */
+	$"0000 DC00 0000 00FF FFFF FF74 464F 5600"            /* ..‹....ˇˇˇˇtFOV. */
+	$"0000 0000 0001 0100 0023 3400 2100 0000"            /* .........#4.!... */
+	$"0000 0000 0000 0000 0000 0000 0000 0064"            /* ...............d */
+	$"6F70 6C50 6174 506F 626A 6400 0000 4662"            /* oplPatPobjd...Fb */
+	$"6275 7474 5041 5400 3200 1201 0100 0000"            /* buttPAT.2....... */
+	$"0000 0000 0F00 0001 0000 0003 E8FF FFFF"            /* ............Ëˇˇˇ */
+	$"FF74 5041 5400 0000 0000 0000 0000 0000"            /* ˇtPAT........... */
+	$"0000 2100 0000 0000 0000 0000 0000 0000"            /* ..!............. */
+	$"0000 0000 006F 626A 6400 0000 4E43 6F6C"            /* .....objd...NCol */
+	$"5074 4243 4C00 2800 1001 0101 0100 0000"            /* PtBCL.(......... */
+	$"0000 1B00 0001 2800 FFFF FFFF FFFF FF74"            /* ......(.ˇˇˇˇˇˇˇt */
+	$"4243 4C00 0000 0000 0000 0000 0000 0000"            /* BCL............. */
+	$"2100 0000 0000 0000 0000 0000 0000 0000"            /* !............... */
+	$"0000 0000 0000 0000 0001 006F 626A 6400"            /* ...........objd. */
+	$"0000 4E43 6F6C 5074 4643 4C00 2800 1001"            /* ..NColPtFCL.(... */
+	$"0101 0100 0000 0000 0F00 0001 1C00 0000"            /* ................ */
+	$"00FF FFFF FF74 4643 4C00 0000 0000 0000"            /* .ˇˇˇˇtFCL....... */
+	$"0000 0000 0000 2100 0000 0000 0000 0000"            /* ......!......... */
+	$"0000 0000 0000 0000 00FF FFFF FFFF FF00"            /* .........ˇˇˇˇˇˇ. */
+	$"006F 626A 6400 0000 5174 6762 7845 4E43"            /* .objd...QtgbxENC */
+	$"4C00 7900 7901 0101 0100 0000 0000 5000"            /* L.y.y.........P. */
+	$"0000 3E00 0000 00FF FFFF FF00 0000 0000"            /* ..>....ˇˇˇˇ..... */
+	$"0000 0000 0000 0000 0000 0000 0000 0100"            /* ................ */
+	$"0000 0100 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"0000 0000 0000 A000 0000 6265 6773 646F"            /* ......†...begsdo */
+	$"706C 4943 4E56 6F62 6A64 0000 003C 7669"            /* plICNVobjd...<vi */
+	$"6577 436E 7473 0071 0071 0101 0101 0101"            /* ewCnts.q.q...... */
+	$"0000 0004 0000 0004 0000 0000 FFFF FFFF"            /* ............ˇˇˇˇ */
+	$"0000 0000 0000 0004 0000 0000 0000 0000"            /* ................ */
+	$"0000 0014 0000 0014 0001 656E 6473 6F62"            /* ..........endsob */
+	$"6A64 0000 0037 7374 7874 434F 4F52 003C"            /* jd...7stxtCOOR.< */
+	$"0010 0101 0000 0000 0000 000A 0000 0188"            /* ...........¬...à */
+	$"0000 0000 FFFF FFFF 0000 0000 0000 0000"            /* ....ˇˇˇˇ........ */
+	$"0000 0000 0000 0000 0120 0000 006F 626A"            /* ......... ...obj */
+	$"6400 0000 3C76 6965 7753 414D 5000 9001"            /* d...<viewSAMP.ê. */
+	$"2001 0100 0000 0000 0000 DD00 0000 4000"            /*  .........›...@. */
+	$"0000 00FF FFFF FF00 0000 0000 0000 0000"            /* ...ˇˇˇˇ......... */
+	$"0000 0000 0000 0000 0000 0100 0000 0100"            /* ................ */
+	$"0062 6567 7364 6F70 6C44 5456 776F 626A"            /* .begsdoplDTVwobj */
+	$"6400 0000 3C76 6965 7756 4953 5500 2C00"            /* d...<viewVISU.,. */
+	$"3801 0100 0000 0000 0000 0800 0000 0800"            /* 8............... */
+	$"0000 00FF FFFF FF00 0000 0000 0000 0000"            /* ...ˇˇˇˇ......... */
+	$"0000 0000 0000 0000 0000 0100 0000 0100"            /* ................ */
+	$"0064 6F70 6C44 5456 776F 626A 6400 0000"            /* .doplDTVwobjd... */
+	$"3C76 6965 774D 4153 4B00 2C00 3800 0100"            /* <viewMASK.,.8... */
+	$"0000 0000 0000 0900 0000 5000 0000 00FF"            /* ......∆...P....ˇ */
+	$"FFFF FF00 0000 0000 0000 0000 0000 0000"            /* ˇˇˇ............. */
+	$"0000 0000 0000 0100 0000 0100 0065 6E64"            /* .............end */
+	$"736F 626A 6400 0000 3C73 7478 7400 0000"            /* sobjd...<stxt... */
+	$"0000 1F00 0E01 0101 0100 0000 0000 0B00"            /* ................ */
+	$"0000 1E00 0000 00FF FFFF FF00 0000 0000"            /* .......ˇˇˇˇ..... */
+	$"0000 0000 0000 0000 0000 0001 2000 8205"            /* ............ .Ç. */
+	$"5479 7065 3A6F 626A 6400 0000 3773 7478"            /* Type:objd...7stx */
+	$"7400 0000 0100 2800 0E01 0101 0100 0000"            /* t.....(......... */
+	$"0000 2B00 0000 1E00 0000 00FF FFFF FF00"            /* ..+........ˇˇˇˇ. */
+	$"0000 0000 0000 0000 0000 0000 0000 0001"            /* ................ */
+	$"2000 8200 6F62 6A64 0000 0042 706F 7062"            /*  .Ç.objd...Bpopb */
+	$"0000 0003 00DC 0014 0101 0101 0000 0000"            /* .....‹.......... */
+	$"007F 0000 001C 0000 0000 FFFF FFFF 0000"            /* ..........ˇˇˇˇ.. */
+	$"2D53 0000 0000 0000 0136 0000 FFFF 0190"            /* -S.......6..ˇˇ.ê */
+	$"0082 0549 636F 6E3A 0000 0000 0001 6F62"            /* .Ç.Icon:......ob */
+	$"6A64 0000 0037 7374 7874 4E61 6D65 012C"            /* jd...7stxtName., */
+	$"000E 0101 0101 0000 0000 000A 0000 0009"            /* ...........¬...∆ */
+	$"0000 0000 FFFF FFFF 0000 0000 0000 0000"            /* ....ˇˇˇˇ........ */
+	$"0000 0000 0000 0000 0120 0082 0065 6E64"            /* ......... .Ç.end */
+	$"736F 626A 6400 0000 5170 6C63 6446 4F4F"            /* sobjd...QplcdFOO */
+	$"5401 E000 2801 0101 0001 0100 0000 0000"            /* T.‡.(........... */
+	$"0001 9A00 0000 00FF FFFF FF00 0000 0000"            /* ..ö....ˇˇˇˇ..... */
+	$"0000 0000 0000 0000 0000 0000 0000 0100"            /* ................ */
+	$"0000 0100 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"0000 0000 0000 E000 0000 6265 6773 6F62"            /* ......‡...begsob */
+	$"6A64 0000 003C 7075 7368 566C 6964 0041"            /* jd...<pushVlid.A */
+	$"0014 0101 0000 0101 0000 018D 0000 0009"            /* ...........ç...∆ */
+	$"0000 0000 FFFF FFFF 0000 0384 0000 0000"            /* ....ˇˇˇˇ...Ñ.... */
+	$"0000 0000 0000 0000 0170 0000 0453 6176"            /* .........p...Sav */
+	$"6501 6F62 6A64 0000 003E 7075 7368 436E"            /* e.objd...>pushCn */
+	$"636C 0041 0014 0101 0000 0101 0000 0140"            /* cl.A...........@ */
+	$"0000 0009 0000 0000 FFFF FFFF 0000 0385"            /* ...∆....ˇˇˇˇ...Ö */
+	$"0000 0000 0000 0000 0000 0000 0170 0000"            /* .............p.. */
+	$"0643 616E 6365 6C00 6F62 6A64 0000 003E"            /* .Cancel.objd...> */
+	$"7075 7368 5276 7274 0041 0014 0101 0100"            /* pushRvrt.A...... */
+	$"0001 0000 001B 0000 0009 0000 0000 FFFF"            /* .........∆....ˇˇ */
+	$"FFFF 0000 0007 0000 0000 0000 0000 0000"            /* ˇˇ.............. */
+	$"0000 0170 0000 0652 6576 6572 7400 6F62"            /* ...p...Revert.ob */
+	$"6A64 0000 0024 6963 6E70 4C6F 636B 0010"            /* jd...$icnpLock.. */
+	$"0010 0101 0100 0001 0000 0006 0000 000B"            /* ................ */
+	$"0000 0000 FFFF FFFF 0000 6F62 6A64 0000"            /* ....ˇˇˇˇ..objd.. */
+	$"003E 7075 7368 526D 7665 0046 0014 0101"            /* .>pushRmve.F.... */
+	$"0000 0101 0000 00EC 0000 0009 0000 0000"            /* .......Ï...∆.... */
+	$"FFFF FFFF 526D 7665 0000 0000 0000 0000"            /* ˇˇˇˇRmve........ */
+	$"0000 0000 0170 0000 0652 656D 6F76 6500"            /* .....p...Remove. */
+	$"656E 6473 656E 6473 656E 642E"                      /* endsendsend. */
+};
+
+data 'PPob' (2201, "Plugins Window ORIG") {
+	$"0002 6F62 6A64 0000 0028 5442 4278 0899"            /* ..objd...(TBBx.ô */
+	$"0000 0862 0000 FFFF FFFF FFFF FFFF FFFF"            /* ...b..ˇˇˇˇˇˇˇˇˇˇ */
+	$"FFFF 0000 0000 6F6B 2020 636E 636C FFFF"            /* ˇˇ....ok  cnclˇˇ */
+	$"FFFF 6265 6773 6F62 6A64 0000 0012 7774"            /* ˇˇbegsobjd....wt */
+	$"6861 FFFF FFFE 0101 0003 0004 0005 0006"            /* haˇˇˇ˛.......... */
+	$"6F62 6A64 0000 0051 7769 6E68 0000 0000"            /* objd...Qwinh.... */
+	$"0160 015E 0101 0101 0101 FFFF FFFF 0000"            /* .`.^......ˇˇˇˇ.. */
+	$"0000 0000 0000 FFFF FFFF 0000 0000 0000"            /* ......ˇˇˇˇ...... */
+	$"0000 0000 0000 0000 0000 0000 0001 0000"            /* ................ */
+	$"0001 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"0000 0000 0150 0000 0062 6567 736F 626A"            /* .....P...begsobj */
+	$"6400 0000 5E70 6762 7800 0000 0101 2E00"            /* d...^pgbx....... */
+	$"6A01 0101 0101 0000 0000 1900 0000 1800"            /* j............... */
+	$"0000 00FF FFFF FF00 0000 0000 0000 0000"            /* ...ˇˇˇˇ......... */
+	$"0000 0000 0000 0000 0000 0100 0000 0100"            /* ................ */
+	$"0000 0008 9900 0000 0000 0000 8600 00FF"            /* ....ô.......Ü..ˇ */
+	$"FF00 A200 850B 506C 7567 696E 2049 6E66"            /* ˇ.¢.Ö.Plugin Inf */
+	$"6F00 0162 6567 736F 626A 6400 0000 3C73"            /* o..begsobjd...<s */
+	$"7478 7400 0000 0000 2300 1001 0100 0000"            /* txt.....#....... */
+	$"0000 0000 3B00 0000 1800 0000 00FF FFFF"            /* ....;........ˇˇˇ */
+	$"FF00 0000 0000 0000 0000 0000 0000 0000"            /* ˇ............... */
+	$"0001 2000 8505 5479 7065 3A6F 626A 6400"            /* .. .Ö.Type:objd. */
+	$"0000 3773 7478 7400 0000 0200 2800 1001"            /* ..7stxt.....(... */
+	$"0100 0000 0000 0000 6B00 0000 1800 0000"            /* ........k....... */
+	$"00FF FFFF FF00 0000 0000 0000 0000 0000"            /* .ˇˇˇˇ........... */
+	$"0000 0000 0001 2000 8200 6F62 6A64 0000"            /* ...... .Ç.objd.. */
+	$"003F 7374 7874 0000 0000 002E 0010 0101"            /* .?stxt.......... */
+	$"0000 0000 0000 003B 0000 0031 0000 0000"            /* .......;...1.... */
+	$"FFFF FFFF 0000 0000 0000 0000 0000 0000"            /* ˇˇˇˇ............ */
+	$"0000 0000 0120 0085 0843 7265 6174 6F72"            /* ..... .Ö.Creator */
+	$"3A6F 626A 6400 0000 3773 7478 7400 0000"            /* :objd...7stxt... */
+	$"0300 2E00 1001 0100 0000 0000 0000 6B00"            /* ..............k. */
+	$"0000 3100 0000 00FF FFFF FF00 0000 0000"            /* ..1....ˇˇˇˇ..... */
+	$"0000 0000 0000 0000 0000 0001 2000 8200"            /* ............ .Ç. */
+	$"6F62 6A64 0000 003F 7374 7874 0000 0000"            /* objd...?stxt.... */
+	$"002C 000F 0101 0000 0000 0000 00AB 0000"            /* .,...........´.. */
+	$"0018 0000 0000 FFFF FFFF 0000 0000 0000"            /* ......ˇˇˇˇ...... */
+	$"0000 0000 0000 0000 0000 0120 0085 0856"            /* ........... .Ö.V */
+	$"6572 7369 6F6E 3A6F 626A 6400 0000 3773"            /* ersion:objd...7s */
+	$"7478 7400 0000 0400 3600 0F01 0101 0101"            /* txt.....6....... */
+	$"0000 0000 DB00 0000 1800 0000 00FF FFFF"            /* ....€........ˇˇˇ */
+	$"FF00 0000 0000 0000 0000 0000 0000 0000"            /* ˇ............... */
+	$"0001 2000 8200 6F62 6A64 0000 003E 7374"            /* .. .Ç.objd...>st */
+	$"7874 0000 0000 002C 000F 0101 0000 0000"            /* xt.....,........ */
+	$"0000 00AB 0000 0031 0000 0000 FFFF FFFF"            /* ...´...1....ˇˇˇˇ */
+	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"0120 0085 074C 6F61 6465 643A 6F62 6A64"            /* . .Ö.Loaded:objd */
+	$"0000 0037 7374 7874 0000 0005 0036 000F"            /* ...7stxt.....6.. */
+	$"0101 0101 0100 0000 00DB 0000 0031 0000"            /* .........€...1.. */
+	$"0000 FFFF FFFF 0000 0000 0000 0000 0000"            /* ..ˇˇˇˇ.......... */
+	$"0000 0000 0000 0120 0082 006F 626A 6400"            /* ....... .Ç.objd. */
+	$"0000 2270 616E 6500 0000 0600 2000 2001"            /* .."pane..... . . */
+	$"0100 0000 0000 0000 0C00 0000 1700 0000"            /* ................ */
+	$"00FF FFFF FF6F 626A 6400 0000 4D70 6F70"            /* .ˇˇˇˇobjd...Mpop */
+	$"6200 0000 0700 9D00 1401 0100 0000 0000"            /* b.....ù......... */
+	$"0000 3B00 0000 4B00 0000 00FF FFFF FF00"            /* ..;...K....ˇˇˇˇ. */
+	$"0008 9D00 0000 0000 0000 8700 00FF FF01"            /* ..ù.......á..ˇˇ. */
+	$"9100 8510 5375 7070 6F72 7465 6420 7479"            /* ë.Ö.Supported ty */
+	$"7065 733A 0000 0000 0001 656E 6473 6F62"            /* pes:......endsob */
+	$"6A64 0000 006C 7067 6278 0000 000A 012E"            /* jd...lpgbx...¬.. */
+	$"009B 0101 0101 0100 0000 0019 0000 0092"            /* .õ.............í */
+	$"0000 0000 FFFF FFFF 0000 0000 0000 0000"            /* ....ˇˇˇˇ........ */
+	$"0000 0000 0000 0000 0000 0001 0000 0001"            /* ................ */
+	$"0000 0000 08A2 0000 0000 0000 0088 0000"            /* .....¢.......à.. */
+	$"FFFF 00A2 0085 1950 7265 6665 7272 6564"            /* ˇˇ.¢.Ö.Preferred */
+	$"2050 6C75 6769 6E20 666F 7220 5479 7065"            /*  Plugin for Type */
+	$"0001 6265 6773 6F62 6A64 0000 0037 7374"            /* ..begsobjd...7st */
+	$"7874 0000 000D 0070 0075 0101 0101 0101"            /* xt.....p.u...... */
+	$"0000 001A 0000 0019 0000 0000 FFFF FFFF"            /* ............ˇˇˇˇ */
+	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"0120 0085 006F 626A 6400 0000 4973 636C"            /* . .Ö.objd...Iscl */
+	$"7600 0000 0B00 8C00 7501 0101 0100 0100"            /* v.....å.u....... */
+	$"0000 9600 0000 1900 0000 00FF FFFF FF00"            /* ..ñ........ˇˇˇˇ. */
+	$"0000 0100 0000 0100 0000 0000 0000 0000"            /* ................ */
+	$"0000 0000 0000 0000 00FF FF00 0F00 0000"            /* .........ˇˇ..... */
+	$"0000 0000 0C01 6265 6773 646F 706C 446E"            /* ......begsdoplDn */
+	$"4454 6F62 6A64 0000 0050 7461 626C 0000"            /* DTobjd...Ptabl.. */
+	$"000C 0078 0071 0101 0101 0101 0000 0002"            /* ...x.q.......... */
+	$"0000 0002 0000 0000 FFFF FFFF 0000 0000"            /* ........ˇˇˇˇ.... */
+	$"0000 0000 0000 0000 0000 0000 0000 0001"            /* ................ */
+	$"0000 000E 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"000E 0000 00C8 0000 0100 656E 6473 656E"            /* .....»....endsen */
+	$"6473 6F62 6A64 0000 003A 7075 7368 6F6B"            /* dsobjd...:pushok */
+	$"2020 0050 0014 0101 0000 0101 0000 0100"            /*   .P............ */
+	$"0000 013E 0000 0000 FFFF FFFF 0000 0384"            /* ...>....ˇˇˇˇ...Ñ */
+	$"0000 0000 0000 0000 0000 0000 0170 0000"            /* .............p.. */
+	$"024F 4B01 6F62 6A64 0000 003E 7075 7368"            /* .OK.objd...>push */
+	$"636E 636C 0046 0014 0101 0000 0101 0000"            /* cncl.F.......... */
+	$"00A8 0000 013E 0000 0000 FFFF FFFF 0000"            /* .®...>....ˇˇˇˇ.. */
+	$"0385 0000 0000 0000 0000 0000 0000 0170"            /* .Ö.............p */
+	$"0000 0643 616E 6365 6C00 656E 6473 656E"            /* ...Cancel.endsen */
+	$"6473 656E 642E"                                     /* dsend. */
+};
+
+data 'PPob' (2210, "Plugin Info Pane") {
+	$"0002 6F62 6A64 0000 003C 7669 6577 0000"            /* ..objd...<view.. */
+	$"0000 015E 00D2 0001 0000 0000 0000 0000"            /* ...^.“.......... */
+	$"0000 0000 0000 0000 FFFF FFFF 0000 0000"            /* ........ˇˇˇˇ.... */
+	$"0000 0000 0000 0000 0000 0000 0000 0010"            /* ................ */
+	$"0000 0010 0000 6265 6773 6F62 6A64 0000"            /* ......begsobjd.. */
+	$"005B 7067 6278 0000 0001 012C 0085 0101"            /* .[pgbx.....,.Ö.. */
+	$"0000 0000 0000 0019 0000 001C 0000 0000"            /* ................ */
+	$"FFFF FFFF 0000 0000 0000 0000 0000 0000"            /* ˇˇˇˇ............ */
+	$"0000 0000 0000 0001 0000 0001 0000 0000"            /* ................ */
+	$"08A3 0000 0000 0000 0086 0000 FFFF 00A2"            /* .£.......Ü..ˇˇ.¢ */
+	$"0085 0850 6C75 6769 6E3A 2000 0162 6567"            /* .Ö.Plugin: ..beg */
+	$"736F 626A 6400 0000 3C73 7478 7400 0000"            /* sobjd...<stxt... */
+	$"0000 2300 1001 0100 0000 0000 0000 4300"            /* ..#...........C. */
+	$"0000 1800 0000 00FF FFFF FF00 0000 0000"            /* .......ˇˇˇˇ..... */
+	$"0000 0000 0000 0000 0000 0001 2000 8505"            /* ............ .Ö. */
+	$"5479 7065 3A6F 626A 6400 0000 3773 7478"            /* Type:objd...7stx */
+	$"7400 0000 0200 2800 1001 0100 0000 0000"            /* t.....(......... */
+	$"0000 7300 0000 1800 0000 00FF FFFF FF00"            /* ..s........ˇˇˇˇ. */
+	$"0000 0000 0000 0000 0000 0000 0000 0001"            /* ................ */
+	$"2000 8200 6F62 6A64 0000 003F 7374 7874"            /*  .Ç.objd...?stxt */
+	$"0000 0000 002E 0010 0101 0000 0000 0000"            /* ................ */
+	$"0043 0000 0031 0000 0000 FFFF FFFF 0000"            /* .C...1....ˇˇˇˇ.. */
+	$"0000 0000 0000 0000 0000 0000 0000 0120"            /* ...............  */
+	$"0085 0843 7265 6174 6F72 3A6F 626A 6400"            /* .Ö.Creator:objd. */
+	$"0000 3773 7478 7400 0000 0300 2E00 1001"            /* ..7stxt......... */
+	$"0100 0000 0000 0000 7300 0000 3100 0000"            /* ........s...1... */
+	$"00FF FFFF FF00 0000 0000 0000 0000 0000"            /* .ˇˇˇˇ........... */
+	$"0000 0000 0001 2000 8200 6F62 6A64 0000"            /* ...... .Ç.objd.. */
+	$"003F 7374 7874 0000 0000 002C 0010 0101"            /* .?stxt.....,.... */
+	$"0000 0000 0000 00B1 0000 0018 0000 0000"            /* .......±........ */
+	$"FFFF FFFF 0000 0000 0000 0000 0000 0000"            /* ˇˇˇˇ............ */
+	$"0000 0000 0120 0085 0856 6572 7369 6F6E"            /* ..... .Ö.Version */
+	$"3A6F 626A 6400 0000 3773 7478 7400 0000"            /* :objd...7stxt... */
+	$"0400 3500 1001 0101 0101 0000 0000 E000"            /* ..5...........‡. */
+	$"0000 1800 0000 00FF FFFF FF00 0000 0000"            /* .......ˇˇˇˇ..... */
+	$"0000 0000 0000 0000 0000 0001 2000 8200"            /* ............ .Ç. */
+	$"6F62 6A64 0000 003E 7374 7874 0000 0000"            /* objd...>stxt.... */
+	$"002C 0010 0101 0000 0000 0000 00B1 0000"            /* .,...........±.. */
+	$"0031 0000 0000 FFFF FFFF 0000 0000 0000"            /* .1....ˇˇˇˇ...... */
+	$"0000 0000 0000 0000 0000 0120 0085 074C"            /* ........... .Ö.L */
+	$"6F61 6465 643A 6F62 6A64 0000 0037 7374"            /* oaded:objd...7st */
+	$"7874 0000 0005 0035 0010 0101 0101 0100"            /* xt.....5........ */
+	$"0000 00E1 0000 0031 0000 0000 FFFF FFFF"            /* ...·...1....ˇˇˇˇ */
+	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
+	$"0120 0082 006F 626A 6400 0000 3C73 7478"            /* . .Ç.objd...<stx */
+	$"7400 0000 0000 2E00 1001 0100 0000 0000"            /* t............... */
+	$"0000 4300 0000 4A00 0000 00FF FFFF FF00"            /* ..C...J....ˇˇˇˇ. */
+	$"0000 0000 0000 0000 0000 0000 0000 0001"            /* ................ */
+	$"2000 8505 526F 6C65 3A6F 626A 6400 0000"            /*  .Ö.Role:objd... */
+	$"3773 7478 7400 0000 0600 5E00 1001 0100"            /* 7stxt.....^..... */
+	$"0000 0000 0000 7300 0000 4A00 0000 00FF"            /* ......s...J....ˇ */
+	$"FFFF FF00 0000 0000 0000 0000 0000 0000"            /* ˇˇˇ............. */
+	$"0000 0001 2000 8200 6F62 6A64 0000 004D"            /* .... .Ç.objd...M */
+	$"706F 7062 0000 0007 009D 0016 0101 0000"            /* popb.....ù...... */
+	$"0000 0000 0043 0000 0063 0000 0000 FFFF"            /* .....C...c....ˇˇ */
+	$"FFFF 0000 08A9 0000 0000 0000 0087 0000"            /* ˇˇ...©.......á.. */
+	$"FFFF 0191 0085 1053 7570 706F 7274 6564"            /* ˇˇ.ë.Ö.Supported */
+	$"2074 7970 6573 3A00 0000 0000 016F 626A"            /*  types:......obj */
+	$"6400 0000 2649 7266 5000 0000 0800 3000"            /* d...&IrfP.....0. */
+	$"3001 0101 0100 0000 0000 0500 0000 1700"            /* 0............... */
+	$"0000 00FF FFFF FF00 0500 0065 6E64 7365"            /* ...ˇˇˇˇ....endse */
+	$"6E64 7365 6E64 2E"                                  /* ndsend. */
+};
+
+data 'PPob' (2220, "Plugin Order Pane") {
+	$"0002 6F62 6A64 0000 003C 7669 6577 0000"            /* ..objd...<view.. */
+	$"0000 015E 00D2 0001 0000 0000 0000 0000"            /* ...^.“.......... */
+	$"0000 0000 0000 0000 FFFF FFFF 0000 0000"            /* ........ˇˇˇˇ.... */
+	$"0000 0000 0000 0000 0000 0000 0000 0010"            /* ................ */
+	$"0000 0010 0000 6265 6773 6F62 6A64 0000"            /* ......begsobjd.. */
+	$"006E 7067 6278 0000 0001 012C 009B 0101"            /* .npgbx.....,.õ.. */
+	$"0000 0001 0000 0019 0000 001C 0000 0000"            /* ................ */
+	$"FFFF FFFF 0000 0000 0000 0000 0000 0000"            /* ˇˇˇˇ............ */
+	$"0000 0000 0000 0001 0000 0001 0000 0000"            /* ................ */
+	$"08AD 0000 0000 0000 0088 0000 FFFF 00A2"            /* .≠.......à..ˇˇ.¢ */
+	$"0085 1B50 7265 6665 7272 6564 2070 6C75"            /* .Ö.Preferred plu */
+	$"6769 6E20 666F 7220 7479 7065 3A20 0001"            /* gin for type: .. */
+	$"6265 6773 6F62 6A64 0000 0037 7374 7874"            /* begsobjd...7stxt */
+	$"0000 0004 006E 0075 0101 0101 0101 0000"            /* .....n.u........ */
+	$"001A 0000 0019 0000 0000 FFFF FFFF 0000"            /* ..........ˇˇˇˇ.. */
+	$"0000 0000 0000 0000 0000 0000 0000 0120"            /* ...............  */
+	$"0085 006F 626A 6400 0000 4973 636C 7600"            /* .Ö.objd...Isclv. */
+	$"0000 0200 8C00 7501 0101 0100 0100 0000"            /* ....å.u......... */
+	$"9600 0000 1900 0000 00FF FFFF FF00 0000"            /* ñ........ˇˇˇˇ... */
+	$"0100 0000 0100 0000 0000 0000 0000 0000"            /* ................ */
+	$"0000 0000 0000 00FF FF00 0F00 0000 0000"            /* .......ˇˇ....... */
+	$"0000 0C01 6265 6773 6F62 6A64 0000 0052"            /* ....begsobjd...R */
+	$"446E 4454 0000 0003 0078 0071 0101 0101"            /* DnDT.....x.q.... */
+	$"0101 0000 0002 0000 0002 0000 0000 FFFF"            /* ..............ˇˇ */
+	$"FFFF 0000 0000 0000 0000 0000 0000 0000"            /* ˇˇ.............. */
+	$"0000 0000 0001 0000 000E 0000 0000 0000"            /* ................ */
+	$"0000 0000 0000 000E 0000 00C8 0000 0100"            /* ...........».... */
+	$"0082 656E 6473 656E 6473 656E 6473 656E"            /* .Çendsendsendsen */
+                                              /* d. */
+};
+
+data 'PPob' (8750, "Resource ID Chooser") {
+	$"0002 6F62 6A64 0000 0028 5442 4278 222E"            /* ..objd...(TBBx". */
+	$"0000 08E2 0000 0040 0040 FFFF FFFF FFFF"            /* ...‚...@.@ˇˇˇˇˇˇ */
+	$"FFFF 0000 0000 6F6B 2020 636E 636C FFFF"            /* ˇˇ....ok  cnclˇˇ */
+	$"FFFF 6265 6773 6F62 6A64 0000 0012 7774"            /* ˇˇbegsobjd....wt */
+	$"6861 FFFF FFFE 0101 0001 0002 0001 0002"            /* haˇˇˇ˛.......... */
+	$"6F62 6A64 0000 003A 7075 7368 6F6B 2020"            /* objd...:pushok   */
+	$"0043 0014 0101 0000 0101 0000 00AE 0000"            /* .C...........Æ.. */
+	$"0041 0000 0000 FFFF FFFF 0000 0384 0000"            /* .A....ˇˇˇˇ...Ñ.. */
+	$"0000 0000 0000 0000 0000 0170 0000 024F"            /* ...........p...O */
+	$"4B01 6F62 6A64 0000 003E 7075 7368 636E"            /* K.objd...>pushcn */
+	$"636C 0041 0014 0101 0000 0101 0000 005D"            /* cl.A...........] */
+	$"0000 0041 0000 0000 FFFF FFFF 0000 0385"            /* ...A....ˇˇˇˇ...Ö */
+	$"0000 0000 0000 0000 0000 0000 0170 0000"            /* .............p.. */
+	$"0643 616E 6365 6C00 6F62 6A64 0000 0024"            /* .Cancel.objd...$ */
+	$"6963 6E70 0000 0000 0020 0020 0101 0000"            /* icnp..... . .... */
+	$"0000 0000 000A 0000 000B 0000 0000 FFFF"            /* .....¬........ˇˇ */
+	$"FFFF 0080 6F62 6A64 0000 0044 7374 7874"            /* ˇˇ.Äobjd...Dstxt */
+	$"0000 0000 0048 0012 0101 0101 0000 0000"            /* .....H.......... */
+	$"004F 0000 0018 0000 0000 FFFF FFFF 0000"            /* .O........ˇˇˇˇ.. */
+	$"0000 0000 0000 0000 0000 0000 0000 0120"            /* ...............  */
+	$"0083 0D53 7065 6369 6679 2061 6E20 4944"            /* .É.Specify an ID */
+	$"6F62 6A64 0000 0029 6564 6974 0000 0001"            /* objd...)edit.... */
+	$"003C 0015 0101 0000 0000 0000 009C 0000"            /* .<...........ú.. */
+	$"0014 0000 0000 FFFF FFFF 0000 8C00 0680"            /* ......ˇˇˇˇ..å..Ä */
+	$"0465 6E64 7365 6E64 2E"                             /* .endsend. */
+};
+
 data 'RidL' (1000, "Rez Map Window") {
 	$"0003 0000 0003 0000 0002 0000 0001"                 /* .............. */
 };
@@ -7362,7 +8495,7 @@ data 'RidL' (2000, "Inspector Window") {
 	$"000C 0000 000B 0000 000C 0000 000D 0000"            /* ................ */
 	$"000E 0000 000F 0000 0005 0000 0006 0000"            /* ................ */
 	$"0001 0000 0003 0000 0004 0000 0014 0000"            /* ................ */
-	$"0015"                                               /* .. */
+                                              /* .. */
 };
 
 data 'RidL' (2100, "New Resource Dialog") {
@@ -7372,8 +8505,9 @@ data 'RidL' (2100, "New Resource Dialog") {
 };
 
 data 'RidL' (3000, "Hex Editing Window") {
-	$"0005 0000 000A 0000 0001 4E61 6D65 0000"            /* .....¬....Name.. */
-	$"0004 0000 0005"                                     /* ...... */
+	$"0008 0000 000A 0000 0001 4E61 6D65 0000"            /* .....¬....Name.. */
+	$"0004 0000 0005 566C 6964 436E 636C 5276"            /* ......VlidCnclRv */
+                                              /* rt */
 };
 
 data 'RidL' (5000, "About Window") {
@@ -7382,8 +8516,8 @@ data 'RidL' (5000, "About Window") {
 	$"000F 0000 0010"                                     /* ...... */
 };
 
-data 'RidL' (5100, "Licence Window") {
-	$"0000"                                               /* .. */
+data 'RidL' (5100, "License Window") {
+                                              /* .. */
 };
 
 data 'RidL' (6000, "Rez Compare Dialog") {
@@ -7395,7 +8529,7 @@ data 'RidL' (6000, "Rez Compare Dialog") {
 data 'RidL' (6500, "Rez Compare Results") {
 	$"0008 0000 0002 0000 0003 0000 0008 0000"            /* ................ */
 	$"0009 0000 0014 0000 0001 0000 001A 0000"            /* .∆.............. */
-	$"001B"                                               /* .. */
+                                              /* .. */
 };
 
 data 'RidL' (7000, "Preferences Window") {
@@ -7404,7 +8538,7 @@ data 'RidL' (7000, "Preferences Window") {
 
 data 'RidL' (7100, "General Prefs Pane") {
 	$"0004 0000 0002 0000 0003 0000 0007 0000"            /* ................ */
-	$"0006"                                               /* .. */
+                                              /* .. */
 };
 
 data 'RidL' (7200, "Interface Prefs Pane") {
@@ -7413,7 +8547,7 @@ data 'RidL' (7200, "Interface Prefs Pane") {
 
 data 'RidL' (7400, "Editors Prefs Pane") {
 	$"0004 0000 000A 0000 000B 0000 0014 0000"            /* .....¬.......... */
-	$"0015"                                               /* .. */
+                                              /* .. */
 };
 
 data 'RidL' (7500, "Compare Prefs Pane") {
@@ -7422,8 +8556,8 @@ data 'RidL' (7500, "Compare Prefs Pane") {
 };
 
 data 'RidL' (7600, "Export Prefs Pane") {
-	$"0006 0000 0003 0000 0004 0000 0005 0000"            /* ................ */
-	$"0007 0000 0008 0000 0009"                           /* .........∆ */
+	$"0004 0000 0005 0000 0007 0000 0008 0000"            /* ................ */
+                                              /* .∆ */
 };
 
 data 'RidL' (7700, "Misc Prefs Pane") {
@@ -7444,12 +8578,12 @@ data 'RidL' (8600, "Set Font Size Dialog") {
 	$"0002 6F6B 2020 636E 636C"                           /* ..ok  cncl */
 };
 
-data 'RidL' (8700, "Resource Type Picker") {
+data 'RidL' (8700, "Resource Type Chooser") {
 	$"0004 6F6B 2020 636E 636C 0000 0001 0000"            /* ..ok  cncl...... */
-	$"0002"                                               /* .. */
+                                              /* .. */
 };
 
-data 'RidL' (8800, "Template Key Picker") {
+data 'RidL' (8800, "Template Key Chooser") {
 	$"0006 6F6B 2020 636E 636C 0000 0002 0000"            /* ..ok  cncl...... */
 	$"0004 0000 0003 0000 0001"                           /* .......... */
 };
@@ -7476,12 +8610,12 @@ data 'RidL' (9530, "Explain Error Dialog") {
 
 data 'RidL' (9550, "Ask Unique ID") {
 	$"0004 6F6B 2020 636E 636C 6E6F 2020 0000"            /* ..ok  cnclno  .. */
-	$"0001"                                               /* .. */
+                                              /* .. */
 };
 
 data 'RidL' (10100, "TMPL Editor Window") {
 	$"0004 566C 6964 436E 636C 5276 7274 4E61"            /* ..VlidCnclRvrtNa */
-	$"6D65"                                               /* me */
+                                              /* me */
 };
 
 data 'RidL' (10200, "TEXT Editor Window") {
@@ -7549,7 +8683,7 @@ data 'RidL' (10604, "CURS Editor Window") {
 	$"5252 744F 564C 7446 4F56 7448 4F54 7450"            /* RRtOVLtFOVtHOTtP */
 	$"4154 7442 434C 7446 434C 454E 434C 434F"            /* ATtBCLtFCLENCLCO */
 	$"4F52 464F 4F54 566C 6964 436E 636C 5276"            /* ORFOOTVlidCnclRv */
-	$"7274"                                               /* rt */
+                                              /* rt */
 };
 
 data 'RidL' (10605, "Crsr Editor Window") {
@@ -7559,7 +8693,7 @@ data 'RidL' (10605, "Crsr Editor Window") {
 	$"5252 744F 564C 7446 4F56 7448 4F54 7450"            /* RRtOVLtFOVtHOTtP */
 	$"4154 7442 434C 7446 434C 454E 434C 434F"            /* ATtBCLtFCLENCLCO */
 	$"4F52 464F 4F54 566C 6964 436E 636C 5276"            /* ORFOOTVlidCnclRv */
-	$"7274"                                               /* rt */
+                                              /* rt */
 };
 
 data 'RidL' (10606, "Pattern Editor Window") {
@@ -7625,7 +8759,7 @@ data 'RidL' (11100) {
 	$"000C 5245 504C 0000 0015 0000 0017 0000"            /* ..REPL.......... */
 	$"0016 4F54 4852 0000 0021 0000 0023 0000"            /* ..OTHR...!...#.. */
 	$"0022 0000 001F 0000 0020 4F53 4C49 4F49"            /* ."....... OSLIOI */
-	$"4443"                                               /* DC */
+                                              /* DC */
 };
 
 data 'RidL' (11200, "Class Pane") {
@@ -7638,7 +8772,7 @@ data 'RidL' (11200, "Class Pane") {
 
 data 'RidL' (11300, "Comp Operator Pane") {
 	$"0004 434D 504F 0000 0001 0000 0002 0000"            /* ..CMPO.......... */
-	$"0003"                                               /* .. */
+                                              /* .. */
 };
 
 data 'RidL' (11400, "Enumerations Pane") {
@@ -7652,13 +8786,13 @@ data 'RidL' (11500, "STR# Editor Window") {
 };
 
 data 'RidL' (7300, "Templates Prefs Pane") {
-	$"0008 0000 0006 0000 0007 0000 0004 0000"            /* ................ */
+	$"0009 0000 0006 0000 0007 0000 0004 0000"            /* .∆.............. */
 	$"0003 0000 000B 0000 000C 0000 0008 0000"            /* ................ */
-	$"0009"                                               /* .∆ */
+	$"0009 0000 000D"                                     /* .∆.... */
 };
 
-data 'RidL' (2200, "Plugin Info Window") {
-	$"0003 0000 0002 0000 0003 0000 0001"                 /* .............. */
+data 'RidL' (2200, "Plugins Window") {
+	$"0002 6F6B 2020 636E 636C"                           /* ..ok  cncl */
 };
 
 data 'RidL' (4000, "Resource Picker Window") {
@@ -7670,59 +8804,97 @@ data 'RidL' (10000, "Standard Editor Window") {
 	$"7274 4865 6164 4E61 6D65"                           /* rtHeadName */
 };
 
-resource 'STR#' (200, "Standards", purgeable) {
+data 'RidL' (11600, "ICNS Editor Window") {
+	$"001B 744C 4153 7453 454C 7454 5854 7450"            /* ..tLAStSELtTXTtP */
+	$"454E 7445 5241 7442 5543 7444 524F 744C"            /* ENtERAtBUCtDROtL */
+	$"494E 7452 4543 7446 5243 7452 5243 7446"            /* INtRECtFRCtRRCtF */
+	$"5252 744F 564C 7446 4F56 7450 4154 7442"            /* RRtOVLtFOVtPATtB */
+	$"434C 7446 434C 454E 434C 434F 4F52 0000"            /* CLtFCLENCLCOOR.. */
+	$"0001 0000 0003 4E61 6D65 464F 4F54 566C"            /* ......NameFOOTVl */
+	$"6964 436E 636C 5276 7274 526D 7665"                 /* idCnclRvrtRmve */
+};
+
+data 'RidL' (2201, "Plugins Window ORIG") {
+	$"000A 0000 0001 0000 0002 0000 0003 0000"            /* .¬.............. */
+	$"0004 0000 0005 0000 0007 0000 000A 0000"            /* .............¬.. */
+	$"000D 6F6B 2020 636E 636C"                           /* ..ok  cncl */
+};
+
+data 'RidL' (2210, "Plugin Info Pane") {
+	$"0007 0000 0001 0000 0002 0000 0003 0000"            /* ................ */
+	$"0004 0000 0005 0000 0006 0000 0007"                 /* .............. */
+};
+
+data 'RidL' (2220, "Plugin Order Pane") {
+	$"0002 0000 0001 0000 0004"                           /* .......... */
+};
+
+data 'RidL' (8750, "Resource ID Chooser") {
+	$"0002 6F6B 2020 636E 636C"                           /* ..ok  cncl */
+};
+
+'STR#' (200, "Standards", purgeable) {
 	{	/* array StringArray: 4 elements */
-		/* [1] */
+*/
 		"Rezilla",
-		/* [2] */
+*/
 		"Save File As:",
-		/* [3] */
+*/
 		"Open with Rezilla",
-		/* [4] */
+*/
 		"Save with Rezilla"
 	}
 };
 
-resource 'STR#' (1000, "Prefs controller list") {
+'STR#' (1000, "Prefs controller list") {
 	{	/* array StringArray: 7 elements */
-		/* [1] */
+*/
 		"General",
-		/* [2] */
+*/
 		"Interface",
-		/* [3] */
+*/
 		"Templates",
-		/* [4] */
+*/
 		"Editors",
-		/* [5] */
+*/
 		"Compare",
-		/* [6] */
+*/
 		"Export",
-		/* [7] */
+*/
 		"Misc"
 	}
 };
 
-resource 'STR#' (1001, "Aete controller list") {
+'STR#' (1001, "Aete controller list") {
 	{	/* array StringArray: 4 elements */
-		/* [1] */
+*/
 		"Events",
-		/* [2] */
+*/
 		"Classes",
-		/* [3] */
+*/
 		"Comparison Operators",
-		/* [4] */
+*/
 		"Enumerations"
+	}
+};
+
+'STR#' (1002, "Plugins controller list") {
+	{	/* array StringArray: 2 elements */
+*/
+		"Plugin Info",
+*/
+		"Plugin Order"
 	}
 };
 
 data 'Txtr' (128, "System Font") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"            /* ................ */
-	$"00"                                                 /* . */
+                                              /* . */
 };
 
 data 'Txtr' (129, "App Font") {
 	$"0000 0000 0000 0000 0000 0000 0000 0001"            /* ................ */
-	$"00"                                                 /* . */
+                                              /* . */
 };
 
 data 'Txtr' (130, "Geneva 9") {
@@ -7737,7 +8909,7 @@ data 'Txtr' (131, "Geneva 10 bold") {
 
 data 'Txtr' (132, "System Font Centered", purgeable) {
 	$"0000 0000 0001 0001 0000 0000 0000 0000"            /* ................ */
-	$"00"                                                 /* . */
+                                              /* . */
 };
 
 data 'Txtr' (133, "Monaco Gray 9") {
@@ -7762,7 +8934,7 @@ data 'Txtr' (136, "Status Red") {
 
 data 'Txtr' (137, "System Font Italic", purgeable) {
 	$"0000 0002 FFFE 0001 0000 0000 0000 0000"            /* ....ˇ˛.......... */
-	$"00"                                                 /* . */
+                                              /* . */
 };
 
 data 'Txtr' (138, "Status upright") {
@@ -7850,8 +9022,13 @@ data 'Txtr' (154, "Geneva 10 Bold") {
 	$"0647 656E 6576 61"                                  /* .Geneva */
 };
 
-resource 'WIND' (1000, "Rez Map Window") {
-	{46, 2, 596, 352},
+data 'Txtr' (155, "Monaco Blue 9") {
+	$"0009 0000 0000 0001 0000 0000 BBBB FFFF"            /* .∆..........ªªˇˇ */
+	$"064D 6F6E 6163 6F"                                  /* .Monaco */
+};
+
+'WIND' (1000, "Rez Map Window") {
+596, 352},
 	zoomDocProc,
 	visible,
 	goAway,
@@ -7860,8 +9037,8 @@ resource 'WIND' (1000, "Rez Map Window") {
 	noAutoCenter
 };
 
-resource 'WIND' (2000, "Inspector Window") {
-	{42, 4, 307, 312},
+'WIND' (2000, "Inspector Window") {
+317, 312},
 	noGrowDocProc,
 	invisible,
 	goAway,
@@ -7870,8 +9047,8 @@ resource 'WIND' (2000, "Inspector Window") {
 	alertPositionMainScreen
 };
 
-resource 'WIND' (2100, "New Resource Dialog") {
-	{42, 4, 254, 312},
+'WIND' (2100, "New Resource Dialog") {
+254, 312},
 	movableDBoxProc,
 	invisible,
 	noGoAway,
@@ -7880,8 +9057,8 @@ resource 'WIND' (2100, "New Resource Dialog") {
 	centerMainScreen
 };
 
-resource 'WIND' (3000, "Hex Editing Window") {
-	{42, 4, 457, 538},
+'WIND' (3000, "Hex Editing Window") {
+493, 538},
 	zoomDocProc,
 	invisible,
 	goAway,
@@ -7890,7 +9067,7 @@ resource 'WIND' (3000, "Hex Editing Window") {
 	staggerParentWindow
 };
 
-resource 'WIND' (5000, "About Window") {
+'WIND' (5000, "About Window") {
 	{40, 16, 407, 346},
 	plainDBox,
 	invisible,
@@ -7900,28 +9077,28 @@ resource 'WIND' (5000, "About Window") {
 	alertPositionMainScreen
 };
 
-resource 'WIND' (5100, "Licence Window") {
-	{42, 4, 392, 404},
+'WIND' (5100, "License Window") {
+392, 404},
 	zoomDocProc,
 	invisible,
 	goAway,
 	0x0,
-	"Rezilla Licence",
+	"Rezilla License",
 	noAutoCenter
 };
 
-resource 'WIND' (6000, "Rez Compare Dialog") {
+'WIND' (6000, "Rez Compare Dialog") {
 	{40, 16, 250, 551},
 	movableDBoxProc,
 	invisible,
 	noGoAway,
 	0x0,
-	"RezMap Compare",
+Compare",
 	alertPositionMainScreen
 };
 
-resource 'WIND' (6500, "Rez Compare Results") {
-	{42, 4, 576, 619},
+'WIND' (6500, "Rez Compare Results") {
+576, 619},
 	zoomDocProc,
 	invisible,
 	goAway,
@@ -7930,7 +9107,7 @@ resource 'WIND' (6500, "Rez Compare Results") {
 	staggerMainScreen
 };
 
-resource 'WIND' (7000, "Preferences Window") {
+'WIND' (7000, "Preferences Window") {
 	{40, 16, 326, 466},
 	movableDBoxProc,
 	invisible,
@@ -7940,7 +9117,7 @@ resource 'WIND' (7000, "Preferences Window") {
 	alertPositionMainScreen
 };
 
-resource 'WIND' (8400, "Get Value Dialog") {
+'WIND' (8400, "Get Value Dialog") {
 	{40, 16, 140, 256},
 	movableDBoxProc,
 	invisible,
@@ -7950,7 +9127,7 @@ resource 'WIND' (8400, "Get Value Dialog") {
 	alertPositionParentWindow
 };
 
-resource 'WIND' (8500, "Find Dialog") {
+'WIND' (8500, "Find Dialog") {
 	{40, 16, 235, 320},
 	movableDBoxProc,
 	invisible,
@@ -7960,7 +9137,7 @@ resource 'WIND' (8500, "Find Dialog") {
 	alertPositionParentWindow
 };
 
-resource 'WIND' (8600, "Set Font Size Dialog") {
+'WIND' (8600, "Set Font Size Dialog") {
 	{40, 16, 140, 256},
 	movableDBoxProc,
 	invisible,
@@ -7970,17 +9147,17 @@ resource 'WIND' (8600, "Set Font Size Dialog") {
 	alertPositionParentWindow
 };
 
-resource 'WIND' (8700, "Resource Type Picker") {
+'WIND' (8700, "Resource Type Chooser") {
 	{40, 16, 162, 269},
 	movableDBoxProc,
 	invisible,
 	noGoAway,
 	0x0,
-	"Select Type",
+Type",
 	alertPositionParentWindow
 };
 
-resource 'WIND' (8800, "Template Key Picker") {
+'WIND' (8800, "Template Key Chooser") {
 	{40, 16, 235, 385},
 	movableDBoxProc,
 	invisible,
@@ -7990,7 +9167,7 @@ resource 'WIND' (8800, "Template Key Picker") {
 	alertPositionParentWindow
 };
 
-resource 'WIND' (8900, "Set Image Size Dialog") {
+'WIND' (8900, "Set Image Size Dialog") {
 	{40, 16, 140, 256},
 	movableDBoxProc,
 	invisible,
@@ -8000,7 +9177,7 @@ resource 'WIND' (8900, "Set Image Size Dialog") {
 	alertPositionParentWindow
 };
 
-resource 'WIND' (9500, "Alert") {
+'WIND' (9500, "Alert") {
 	{40, 16, 190, 321},
 	movableDBoxProc,
 	invisible,
@@ -8010,7 +9187,7 @@ resource 'WIND' (9500, "Alert") {
 	alertPositionMainScreen
 };
 
-resource 'WIND' (9510, "Ask If") {
+'WIND' (9510, "Ask If") {
 	{40, 16, 190, 316},
 	movableDBoxProc,
 	invisible,
@@ -8020,7 +9197,7 @@ resource 'WIND' (9510, "Ask If") {
 	alertPositionMainScreen
 };
 
-resource 'WIND' (9520, "Ask Yes No") {
+'WIND' (9520, "Ask Yes No") {
 	{40, 16, 190, 316},
 	movableDBoxProc,
 	invisible,
@@ -8030,7 +9207,7 @@ resource 'WIND' (9520, "Ask Yes No") {
 	alertPositionMainScreen
 };
 
-resource 'WIND' (9530, "Explain Error Dialog") {
+'WIND' (9530, "Explain Error Dialog") {
 	{40, 16, 195, 321},
 	movableDBoxProc,
 	invisible,
@@ -8040,7 +9217,7 @@ resource 'WIND' (9530, "Explain Error Dialog") {
 	alertPositionMainScreen
 };
 
-resource 'WIND' (9550, "Ask Unique ID") {
+'WIND' (9550, "Ask Unique ID") {
 	{40, 16, 226, 317},
 	movableDBoxProc,
 	invisible,
@@ -8050,8 +9227,8 @@ resource 'WIND' (9550, "Ask Unique ID") {
 	alertPositionMainScreen
 };
 
-resource 'WIND' (10100, "TMPL Editor Window") {
-	{42, 4, 602, 524},
+'WIND' (10100, "TMPL Editor Window") {
+602, 524},
 	zoomDocProc,
 	invisible,
 	goAway,
@@ -8060,8 +9237,8 @@ resource 'WIND' (10100, "TMPL Editor Window") {
 	noAutoCenter
 };
 
-resource 'WIND' (10200, "TEXT Editor Window") {
-	{42, 4, 592, 504},
+'WIND' (10200, "TEXT Editor Window") {
+592, 504},
 	zoomDocProc,
 	invisible,
 	goAway,
@@ -8070,8 +9247,8 @@ resource 'WIND' (10200, "TEXT Editor Window") {
 	noAutoCenter
 };
 
-resource 'WIND' (10300, "MENU Editor Window") {
-	{42, 4, 534, 529},
+'WIND' (10300, "MENU Editor Window") {
+534, 529},
 	noGrowDocProc,
 	invisible,
 	goAway,
@@ -8080,8 +9257,8 @@ resource 'WIND' (10300, "MENU Editor Window") {
 	noAutoCenter
 };
 
-resource 'WIND' (10400, "PICT Viewer Window") {
-	{42, 4, 586, 524},
+'WIND' (10400, "PICT Viewer Window") {
+586, 524},
 	zoomDocProc,
 	invisible,
 	goAway,
@@ -8090,8 +9267,8 @@ resource 'WIND' (10400, "PICT Viewer Window") {
 	noAutoCenter
 };
 
-resource 'WIND' (10500, "UTXT Editor Window") {
-	{42, 4, 584, 504},
+'WIND' (10500, "UTXT Editor Window") {
+584, 504},
 	zoomDocProc,
 	invisible,
 	goAway,
@@ -8100,8 +9277,8 @@ resource 'WIND' (10500, "UTXT Editor Window") {
 	noAutoCenter
 };
 
-resource 'WIND' (10600, "Icon Family Editor Window") {
-	{42, 4, 438, 570},
+'WIND' (10600, "Icon Family Editor Window") {
+438, 570},
 	noGrowDocProc,
 	invisible,
 	goAway,
@@ -8110,8 +9287,8 @@ resource 'WIND' (10600, "Icon Family Editor Window") {
 	staggerParentWindow
 };
 
-resource 'WIND' (10601, "Cicn Editor Window") {
-	{42, 4, 422, 513},
+'WIND' (10601, "Cicn Editor Window") {
+490, 513},
 	noGrowDocProc,
 	invisible,
 	goAway,
@@ -8120,8 +9297,8 @@ resource 'WIND' (10601, "Cicn Editor Window") {
 	staggerParentWindow
 };
 
-resource 'WIND' (10602, "ICON Editor Window") {
-	{42, 4, 382, 454},
+'WIND' (10602, "ICON Editor Window") {
+382, 454},
 	noGrowDocProc,
 	invisible,
 	goAway,
@@ -8130,8 +9307,8 @@ resource 'WIND' (10602, "ICON Editor Window") {
 	staggerParentWindow
 };
 
-resource 'WIND' (10603, "PICT Editor Window") {
-	{42, 4, 452, 464},
+'WIND' (10603, "PICT Editor Window") {
+452, 464},
 	documentProc,
 	invisible,
 	goAway,
@@ -8140,18 +9317,18 @@ resource 'WIND' (10603, "PICT Editor Window") {
 	staggerParentWindow
 };
 
-resource 'WIND' (10604, "CURS Editor Window") {
-	{42, 4, 397, 444},
+'WIND' (10604, "CURS Editor Window") {
+397, 444},
 	noGrowDocProc,
 	invisible,
 	goAway,
 	0x0,
-	"Cursor editor",
+editor",
 	staggerParentWindow
 };
 
-resource 'WIND' (10605, "Crsr Editor Window") {
-	{42, 4, 397, 444},
+'WIND' (10605, "Crsr Editor Window") {
+397, 444},
 	noGrowDocProc,
 	invisible,
 	goAway,
@@ -8160,8 +9337,8 @@ resource 'WIND' (10605, "Crsr Editor Window") {
 	staggerParentWindow
 };
 
-resource 'WIND' (10606, "Pattern Editor Window") {
-	{42, 4, 362, 285},
+'WIND' (10606, "Pattern Editor Window") {
+362, 285},
 	noGrowDocProc,
 	invisible,
 	goAway,
@@ -8170,18 +9347,18 @@ resource 'WIND' (10606, "Pattern Editor Window") {
 	staggerParentWindow
 };
 
-resource 'WIND' (10607, "PixPat Editor Window") {
-	{42, 4, 362, 285},
+'WIND' (10607, "PixPat Editor Window") {
+492, 285},
 	noGrowDocProc,
 	invisible,
 	goAway,
 	0x0,
-	"PixPat editor",
+editor",
 	staggerParentWindow
 };
 
-resource 'WIND' (10608, "Pattern Suite Editor Window") {
-	{42, 4, 362, 285},
+'WIND' (10608, "Pattern Suite Editor Window") {
+362, 285},
 	noGrowDocProc,
 	invisible,
 	goAway,
@@ -8190,8 +9367,8 @@ resource 'WIND' (10608, "Pattern Suite Editor Window") {
 	staggerParentWindow
 };
 
-resource 'WIND' (10609, "Icon Suite Editor Window") {
-	{42, 4, 382, 369},
+'WIND' (10609, "Icon Suite Editor Window") {
+382, 369},
 	noGrowDocProc,
 	invisible,
 	goAway,
@@ -8200,8 +9377,8 @@ resource 'WIND' (10609, "Icon Suite Editor Window") {
 	staggerParentWindow
 };
 
-resource 'WIND' (10610, "Icns Editor Window") {
-	{42, 4, 472, 570},
+'WIND' (10610, "Icns Editor Window") {
+472, 570},
 	noGrowDocProc,
 	invisible,
 	goAway,
@@ -8210,8 +9387,8 @@ resource 'WIND' (10610, "Icns Editor Window") {
 	staggerParentWindow
 };
 
-resource 'WIND' (11000, "AETE Editor Window") {
-	{42, 4, 547, 674},
+'WIND' (11000, "AETE Editor Window") {
+560, 674},
 	noGrowDocProc,
 	invisible,
 	goAway,
@@ -8220,8 +9397,8 @@ resource 'WIND' (11000, "AETE Editor Window") {
 	noAutoCenter
 };
 
-resource 'WIND' (11500, "STR# Editor Window") {
-	{42, 4, 602, 524},
+'WIND' (11500, "STR# Editor Window") {
+602, 524},
 	zoomDocProc,
 	invisible,
 	goAway,
@@ -8230,18 +9407,18 @@ resource 'WIND' (11500, "STR# Editor Window") {
 	noAutoCenter
 };
 
-resource 'WIND' (2200, "Plugin Info Window") {
-	{42, 4, 272, 314},
+'WIND' (2200, "Plugins Window") {
+342, 354},
 	movableDBoxProc,
 	invisible,
 	noGoAway,
 	0x0,
-	"Plugin Info",
+	"Plugins",
 	alertPositionMainScreen
 };
 
-resource 'WIND' (4000, "Resource Picker Window") {
-	{42, 4, 586, 524},
+'WIND' (4000, "Resource Picker Window") {
+586, 524},
 	zoomDocProc,
 	invisible,
 	goAway,
@@ -8250,14 +9427,44 @@ resource 'WIND' (4000, "Resource Picker Window") {
 	noAutoCenter
 };
 
-resource 'WIND' (10000, "Standard Editor Window") {
-	{42, 4, 602, 524},
+'WIND' (10000, "Standard Editor Window") {
+602, 524},
 	zoomDocProc,
 	invisible,
 	goAway,
 	0x0,
-	"Plugin editor",
+editor",
 	noAutoCenter
+};
+
+'WIND' (11600, "ICNS Editor Window") {
+492, 484},
+	zoomDocProc,
+	invisible,
+	goAway,
+	0x0,
+	"Icns editor",
+	staggerParentWindow
+};
+
+'WIND' (2201, "Plugins Window ORIG") {
+392, 354},
+	movableDBoxProc,
+	invisible,
+	noGoAway,
+	0x0,
+Info",
+	alertPositionMainScreen
+};
+
+'WIND' (8750, "Resource ID Chooser") {
+	{40, 16, 136, 269},
+	movableDBoxProc,
+	invisible,
+	noGoAway,
+	0x0,
+ID",
+	alertPositionParentWindow
 };
 
 data 'cicn' (500, "Speaker0") {
@@ -8327,7 +9534,7 @@ data 'cicn' (500, "Speaker0") {
 	$"1011 1111 1111 1111 1111 1111 1111 1111"            /* ................ */
 	$"1111 1111 1111 1111 1111 1717 1718 1717"            /* ................ */
 	$"1718 1717 1718 1717 1718 1717 1718 1717"            /* ................ */
-	$"1718"                                               /* .. */
+                                              /* .. */
 };
 
 data 'cicn' (501, "Speaker1") {
@@ -8404,7 +9611,7 @@ data 'cicn' (501, "Speaker1") {
 	$"1D1D 1D1D 1D1D 1D1D 1D1D 1D1D 1D1D 1D1D"            /* ................ */
 	$"1D1D 1D1D 1D1D 1D1D 1D1D 2626 260E 2626"            /* ..........&&&.&& */
 	$"260E 2626 260E 2626 260E 2626 260E 2626"            /* &.&&&.&&&.&&&.&& */
-	$"260E"                                               /* &. */
+                                              /* &. */
 };
 
 data 'cicn' (502, "Speaker2") {
@@ -8491,7 +9698,7 @@ data 'cicn' (502, "Speaker2") {
 	$"3A3A 3A3A 3A3A 3A3A 3A3A 3A3A 3A3A 3A3A"            /* :::::::::::::::: */
 	$"3A3A 3A3A 3A3A 3A3A 3A3A 3A3A 3A3A 3A3A"            /* :::::::::::::::: */
 	$"3A3A 3A3A 3A3A 3A3A 3A3A 3A3A 3A3A 3A3A"            /* :::::::::::::::: */
-	$"3A3A"                                               /* :: */
+                                              /* :: */
 };
 
 data 'cicn' (503, "Speaker3") {
@@ -8592,7 +9799,7 @@ data 'cicn' (503, "Speaker3") {
 	$"2A3F 3F3F 3F3F 3F3F 3F3F 3F3F 3F3F 3F3F"            /* *??????????????? */
 	$"3F3F 3F3F 3F3F 3F3F 2A3F 3F3F 3F3F 3F3F"            /* ????????*??????? */
 	$"3F3F 3F3F 3F3F 3F3F 3F3F 3F3F 3F3F 3F3F"            /* ???????????????? */
-	$"2A3F"                                               /* *? */
+                                              /* *? */
 };
 
 data 'crsr' (9000, "Lasso Cursor") {
@@ -8667,7 +9874,7 @@ data 'crsr' (9003, "Eye Dropper Tool Cursor") {
 	$"0000 0000 0000 0000 0004 0000 FFFF FFFF"            /* ............ˇˇˇˇ */
 	$"FFFF 0001 BBBB BBBB BBBB 0002 DDDD 0000"            /* ˇˇ..ªªªªªª..››.. */
 	$"0000 0003 8888 8888 8888 000F 0000 0000"            /* ....àààààà...... */
-	$"0000"                                               /* .. */
+                                              /* .. */
 };
 
 data 'crsr' (9004, "Grabber Hand Tool Cursor") {
@@ -8686,7 +9893,7 @@ data 'crsr' (9004, "Grabber Hand Tool Cursor") {
 	$"5570 0355 5570 00D5 55C0 0035 55C0 0035"            /* Up.UUp.’U¿.5U¿.5 */
 	$"55C0 0000 0000 0000 0002 0000 FFFF FFFF"            /* U¿..........ˇˇˇˇ */
 	$"FFFF 0001 FFFF CCCC 9999 0003 0000 0000"            /* ˇˇ..ˇˇÃÃôô...... */
-	$"0000"                                               /* .. */
+                                              /* .. */
 };
 
 data 'crsr' (9005, "Cross Hair Cursor") {
@@ -8726,7 +9933,7 @@ data 'crsr' (9006, "Paint Bucket Tool Cursor") {
 	$"0000 0000 0000 0000 0004 0000 FFFF FFFF"            /* ............ˇˇˇˇ */
 	$"FFFF 0001 7777 7777 7777 0002 BBBB BBBB"            /* ˇˇ..wwwwww..ªªªª */
 	$"BBBB 0003 0000 0000 DDDD 000F 0000 0000"            /* ªª......››...... */
-	$"0000"                                               /* .. */
+                                              /* .. */
 };
 
 data 'crsr' (9007, "Edit Cursor") {
@@ -8761,7 +9968,7 @@ data 'crsr' (9010, "Closed Grabber Hand Tool Cursor") {
 	$"5570 0355 5570 00D5 55C0 0035 55C0 0035"            /* Up.UUp.’U¿.5U¿.5 */
 	$"55C0 0000 0000 0000 0002 0000 FFFF FFFF"            /* U¿..........ˇˇˇˇ */
 	$"FFFF 0001 FFFF CCCC 9999 0003 0000 0000"            /* ˇˇ..ˇˇÃÃôô...... */
-	$"0000"                                               /* .. */
+                                              /* .. */
 };
 
 data 'crsr' (9011, "Hot Spot Cursor") {
@@ -8812,175 +10019,175 @@ data 'crsr' (9013, "Cross Hair Cursor") {
 	$"5C00 000D 5C00 000D 5C00 000D 5C00 000F"            /* \...\...\...\... */
 	$"FC00 0000 0000 0000 0002 0000 FFFF FFFF"            /* ¸...........ˇˇˇˇ */
 	$"FFFF 0001 CCCC CCCC CCCC 0003 0000 0000"            /* ˇˇ..ÃÃÃÃÃÃ...... */
-	$"0000"                                               /* .. */
+                                              /* .. */
 };
 
-resource 'ics#' (9000, "Lasso Tool Icons") {
+'ics#' (9000, "Lasso Tool Icons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"0000 03F0 1C0C 2002 4002 8002 800C 8070"
-		$"7180 CE00 A800 7000 1000 1000 20",
-		/* [2] */
-		$"0000 03F0 1DFC 2E06 5003 A003 C00D C076"
-		$"71B8 FEC0 FF00 7800 1800 1800 2800 10"
+*/
+03F0 1C0C 2002 4002 8002 800C 8070"
+CE00 A800 7000 1000 1000 20",
+*/
+03F0 1DFC 2E06 5003 A003 C00D C076"
+FEC0 FF00 7800 1800 1800 2800 10"
 	}
 };
 
-resource 'ics#' (9001, "Marquee Tool Icons") {
+'ics#' (9001, "Marquee Tool Icons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"0000 79CE 4002 4002 0000 0000 4002 4002"
-		$"4002 0000 0000 4002 4002 739E",
-		/* [2] */
-		$"0000 79CE 4002 4002 0000 0000 4002 4002"
-		$"4002 0000 0000 4002 4002 739E"
+*/
+79CE 4002 4002 0000 0000 4002 4002"
+0000 0000 4002 4002 739E",
+*/
+79CE 4002 4002 0000 0000 4002 4002"
+0000 0000 4002 4002 739E"
 	}
 };
 
-resource 'ics#' (9002, "Text Tool Icons") {
+'ics#' (9002, "Text Tool Icons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"0000 0000 1FF8 1FF8 1998 1998 0180 0180"
-		$"0180 0180 0180 0180 03C0 03C0",
-		/* [2] */
-		$"0000 0000 1FF8 1FFC 1FFC 1DDC 0DCC 01C0"
-		$"01C0 01C0 01C0 01C0 03C0 03E0 01E0"
+*/
+0000 1FF8 1FF8 1998 1998 0180 0180"
+0180 0180 0180 03C0 03C0",
+*/
+0000 1FF8 1FFC 1FFC 1DDC 0DCC 01C0"
+01C0 01C0 01C0 03C0 03E0 01E0"
 	}
 };
 
-resource 'ics#' (9003, "Pencil Tool Icons") {
+'ics#' (9003, "Pencil Tool Icons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"01E0 0110 0210 0320 04E0 0440 0840 0880"
-		$"1080 1100 1900 1E00 1C00 1800 10",
-		/* [2] */
-		$"01E0 01F0 03F8 03F8 07F8 07F0 0FE0 0FE0"
-		$"1FC0 1FC0 1F80 1F80 1F00 1E00 1C00 08"
+*/
+0110 0210 0320 04E0 0440 0840 0880"
+1100 1900 1E00 1C00 1800 10",
+*/
+01F0 03F8 03F8 07F8 07F0 0FE0 0FE0"
+1FC0 1F80 1F80 1F00 1E00 1C00 08"
 	}
 };
 
-resource 'ics#' (9004, "Eraser Tool Icons") {
+'ics#' (9004, "Eraser Tool Icons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"0000 0000 01FE 0206 040A 0812 1024 2048"
-		$"4090 FF20 8140 8180 FF",
-		/* [2] */
-		$"0000 0000 01FE 03FF 07FF 0FFF 1FFF 3FFE"
-		$"7FFC FFF8 FFF0 FFE0 FFC0 7F80"
+*/
+0000 01FE 0206 040A 0812 1024 2048"
+FF20 8140 8180 FF",
+*/
+0000 01FE 03FF 07FF 0FFF 1FFF 3FFE"
+FFF8 FFF0 FFE0 FFC0 7F80"
 	}
 };
 
-resource 'ics#' (9005, "Paint Bucket Tool Icons") {
+'ics#' (9005, "Paint Bucket Tool Icons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"0E00 1100 1300 1580 1960 1138 211C 438E"
-		$"810E 801E 402E 204E 108C 0908 0608",
-		/* [2] */
-		$"0E00 1100 1300 1780 1FE0 1FF8 3FFC 7FFE"
-		$"FFFF FFFF 7FFF 3FFF 1FEF 0FCE 078C 0304"
+*/
+1100 1300 1580 1960 1138 211C 438E"
+801E 402E 204E 108C 0908 0608",
+*/
+1100 1300 1780 1FE0 1FF8 3FFC 7FFE"
+FFFF 7FFF 3FFF 1FEF 0FCE 078C 0304"
 	}
 };
 
-resource 'ics#' (9006, "Eye Dropper Tool Icons") {
+'ics#' (9006, "Eye Dropper Tool Icons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"001C 0036 002E 01FE 00BC 0170 0230 0450"
-		$"0880 1100 2200 4400 E800 F000 E0",
-		/* [2] */
-		$"001C 003E 003F 01FF 00FF 01FE 03F8 07F8"
-		$"0FE8 1FC0 3F80 7F00 FE00 FC00 F800 70"
+*/
+0036 002E 01FE 00BC 0170 0230 0450"
+1100 2200 4400 E800 F000 E0",
+*/
+003E 003F 01FF 00FF 01FE 03F8 07F8"
+1FC0 3F80 7F00 FE00 FC00 F800 70"
 	}
 };
 
-resource 'ics#' (9007, "Line Tool Icons") {
+'ics#' (9007, "Line Tool Icons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"0000 0000 0000 0000 C000 3000 0C00 0300"
-		$"00C0 0030 000C",
-		/* [2] */
-		$"0000 0000 0000 0000 C000 7000 1C00 0700"
-		$"01C0 0070 001C 0006"
+*/
+0000 0000 0000 C000 3000 0C00 0300"
+0030 000C",
+*/
+0000 0000 0000 C000 7000 1C00 0700"
+0070 001C 0006"
 	}
 };
 
-resource 'ics#' (9008, "Filled Rect Tool Icons") {
+'ics#' (9008, "Filled Rect Tool Icons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"0000 0000 FFFE FFFE FFFE FFFE FFFE FFFE"
-		$"FFFE FFFE FFFE FFFE FFFE FFFE",
-		/* [2] */
-		$"0000 0000 FFFE FFFF FFFF FFFF FFFF FFFF"
-		$"FFFF FFFF FFFF FFFF FFFF FFFF 7FFF"
+*/
+0000 FFFE FFFE FFFE FFFE FFFE FFFE"
+FFFE FFFE FFFE FFFE FFFE",
+*/
+0000 FFFE FFFF FFFF FFFF FFFF FFFF"
+FFFF FFFF FFFF FFFF FFFF 7FFF"
 	}
 };
 
-resource 'ics#' (9009, "Empty Rect Tool Icons") {
+'ics#' (9009, "Empty Rect Tool Icons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"0000 0000 FFFE 8002 8002 8002 8002 8002"
-		$"8002 8002 8002 8002 8002 FFFE",
-		/* [2] */
-		$"0000 0000 FFFE FFFF C003 C003 C003 C003"
-		$"C003 C003 C003 C003 C003 FFFF 7FFF"
+*/
+0000 FFFE 8002 8002 8002 8002 8002"
+8002 8002 8002 8002 FFFE",
+*/
+0000 FFFE FFFF C003 C003 C003 C003"
+C003 C003 C003 C003 FFFF 7FFF"
 	}
 };
 
-resource 'ics#' (9010, "Filled Round Rect Tool ICons") {
+'ics#' (9010, "Filled Round Rect Tool ICons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"0000 0000 3FF8 7FFC FFFE FFFE FFFE FFFE"
-		$"FFFE FFFE FFFE FFFE 7FFC 3FF8",
-		/* [2] */
-		$"0000 0000 3FF8 7FFC FFFE FFFF FFFF FFFF"
-		$"FFFF FFFF FFFF FFFF 7FFF 3FFE 1FFC"
+*/
+0000 3FF8 7FFC FFFE FFFE FFFE FFFE"
+FFFE FFFE FFFE 7FFC 3FF8",
+*/
+0000 3FF8 7FFC FFFE FFFF FFFF FFFF"
+FFFF FFFF FFFF 7FFF 3FFE 1FFC"
 	}
 };
 
-resource 'ics#' (9011, "Empty Round Rect Tool Icons") {
+'ics#' (9011, "Empty Round Rect Tool Icons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"0000 0000 3FF8 4004 8002 8002 8002 8002"
-		$"8002 8002 8002 8002 4004 3FF8",
-		/* [2] */
-		$"0000 0000 3FF8 7FFC E002 C003 C003 C003"
-		$"C003 C003 C003 C003 4007 3FFE 1FFC"
+*/
+0000 3FF8 4004 8002 8002 8002 8002"
+8002 8002 8002 4004 3FF8",
+*/
+0000 3FF8 7FFC E002 C003 C003 C003"
+C003 C003 C003 4007 3FFE 1FFC"
 	}
 };
 
-resource 'ics#' (9012, "Filled Oval Tool Icons") {
+'ics#' (9012, "Filled Oval Tool Icons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"0000 0000 0000 0FE0 3FF8 7FFC FFFE FFFE"
-		$"FFFE FFFE 7FFC 3FF8 0FE0",
-		/* [2] */
-		$"0000 0000 0000 0FE0 3FF8 7FFC FFFE FFFF"
-		$"FFFF FFFF 7FFF 3FFE 1FFC 07F0"
+*/
+0000 0000 0FE0 3FF8 7FFC FFFE FFFE"
+FFFE 7FFC 3FF8 0FE0",
+*/
+0000 0000 0FE0 3FF8 7FFC FFFE FFFF"
+FFFF 7FFF 3FFE 1FFC 07F0"
 	}
 };
 
-resource 'ics#' (9013, "Empty Oval Tool Icons") {
+'ics#' (9013, "Empty Oval Tool Icons") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"0000 0000 0000 0FE0 3018 4004 8002 8002"
-		$"8002 8002 4004 3018 0FE0",
-		/* [2] */
-		$"0000 0000 0000 0FE0 37F8 580C A002 C003"
-		$"C003 C003 4007 301E 1FFC 07F0"
+*/
+0000 0000 0FE0 3018 4004 8002 8002"
+8002 4004 3018 0FE0",
+*/
+0000 0000 0FE0 37F8 580C A002 C003"
+C003 4007 301E 1FFC 07F0"
 	}
 };
 
-resource 'ics#' (9014, "HotSpot") {
+'ics#' (9014, "HotSpot") {
 	{	/* array: 2 elements */
-		/* [1] */
-		$"0000 0000 0000 0000 0C30 0E70 07E0 03C0"
-		$"03C0 07E0 0E70 0C30",
-		/* [2] */
-		$"0000 0000 0000 0000 0C30 0E70 07E0 03C0"
-		$"03C0 07E0 0E70 0C30"
+*/
+0000 0000 0000 0C30 0E70 07E0 03C0"
+07E0 0E70 0C30",
+*/
+0000 0000 0000 0C30 0E70 07E0 03C0"
+07E0 0E70 0C30"
 	}
 };
 
-resource 'ics4' (9000, "Lasso Tool Icons") {
+'ics4' (9000, "Lasso Tool Icons") {
 	$"0000 0000 0000 0000 0000 00FF FFFF 0000"
 	$"000F FF0D DDDD FF00 00F0 DDD0 0000 0DF0"
 	$"0F0D 0000 0000 00FD F0D0 0000 0000 00FD"
@@ -8991,7 +10198,7 @@ resource 'ics4' (9000, "Lasso Tool Icons") {
 	$"00F0 D000 0000 0000 000D"
 };
 
-resource 'ics4' (9001, "Marquee Tool Icons") {
+'ics4' (9001, "Marquee Tool Icons") {
 	$"0000 0000 0000 0000 0FFF F00F FF00 FFF0"
 	$"0F00 0000 0000 00F0 0F00 0000 0000 00F0"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
@@ -9001,7 +10208,7 @@ resource 'ics4' (9001, "Marquee Tool Icons") {
 	$"0F00 0000 0000 00F0 0FFF 00FF F00F FFF0"
 };
 
-resource 'ics4' (9002, "Text Tool Icons") {
+'ics4' (9002, "Text Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0006 6666 6666 6000 0006 6666 6666 6D00"
 	$"0006 6DD6 6DD6 6D00 0006 6D06 6D06 6D00"
@@ -9012,7 +10219,7 @@ resource 'ics4' (9002, "Text Tool Icons") {
 	$"0000 000D DDD0"
 };
 
-resource 'ics4' (9003, "Pencil Tool Icons") {
+'ics4' (9003, "Pencil Tool Icons") {
 	$"0000 000F FFF0 0000 0000 000F CCCF 0000"
 	$"0000 00FC CCCF D000 0000 00FF CCFD D000"
 	$"0000 0F11 FFFD D000 0000 0F11 1FDD 0000"
@@ -9023,7 +10230,7 @@ resource 'ics4' (9003, "Pencil Tool Icons") {
 	$"000F DD00 0000 0000 0000 D0"
 };
 
-resource 'ics4' (9004, "Eraser Tool Icons") {
+'ics4' (9004, "Eraser Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 000F FFFF FFF0 0000 00FC CCCC CFFD"
 	$"0000 0FCC CCCC FCFD 0000 FCCC CCCF CCFD"
@@ -9033,7 +10240,7 @@ resource 'ics4' (9004, "Eraser Tool Icons") {
 	$"FFFF FFFF DD00 0000 0DDD DDDD D0"
 };
 
-resource 'ics4' (9005, "Paint Bucket Tool Icons") {
+'ics4' (9005, "Paint Bucket Tool Icons") {
 	$"0000 FFF0 0000 0000 000F 000F 0000 0000"
 	$"000F 00FF 0000 0000 000F 0FCF F000 0000"
 	$"000F FCCF CF60 0000 000F CCCF DDF6 6000"
@@ -9044,7 +10251,7 @@ resource 'ics4' (9005, "Paint Bucket Tool Icons") {
 	$"0000 0FFD D000 6D00 0000 00DD 0000 0D"
 };
 
-resource 'ics4' (9006, "Eye Dropper Tool Icons") {
+'ics4' (9006, "Eye Dropper Tool Icons") {
 	$"0000 0000 000F FF00 0000 0000 00FF CFF0"
 	$"0000 0000 00FC FFFD 0000 000F FFFF FFFD"
 	$"0000 0000 FCFF FFDD 0000 000F 0FFF DDD0"
@@ -9055,7 +10262,7 @@ resource 'ics4' (9006, "Eye Dropper Tool Icons") {
 	$"3FFD D000 0000 0000 0DDD"
 };
 
-resource 'ics4' (9007, "Line Tool Icons") {
+'ics4' (9007, "Line Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"FF00 0000 0000 0000 0DFF 0000 0000 0000"
@@ -9064,7 +10271,7 @@ resource 'ics4' (9007, "Line Tool Icons") {
 	$"0000 0000 000D FF00 0000 0000 0000 0DD0"
 };
 
-resource 'ics4' (9008, "Filled Rect Tool Icons") {
+'ics4' (9008, "Filled Rect Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"FFFF FFFF FFFF FFF0 F111 1111 1111 11FD"
 	$"F111 1111 1111 11FD F111 1111 1111 11FD"
@@ -9075,7 +10282,7 @@ resource 'ics4' (9008, "Filled Rect Tool Icons") {
 	$"0DDD DDDD DDDD DDDD"
 };
 
-resource 'ics4' (9009, "Empty Rect Tool Icons") {
+'ics4' (9009, "Empty Rect Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"FFFF FFFF FFFF FFF0 FDDD DDDD DDDD DDFD"
 	$"FD00 0000 0000 00FD FD00 0000 0000 00FD"
@@ -9086,7 +10293,7 @@ resource 'ics4' (9009, "Empty Rect Tool Icons") {
 	$"0DDD DDDD DDDD DDDD"
 };
 
-resource 'ics4' (9010, "Filled Round Rect Tool ICons") {
+'ics4' (9010, "Filled Round Rect Tool ICons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"00FF FFFF FFFF F000 0F11 1111 1111 1F00"
 	$"F111 1111 1111 11F0 F111 1111 1111 11FD"
@@ -9097,7 +10304,7 @@ resource 'ics4' (9010, "Filled Round Rect Tool ICons") {
 	$"000D DDDD DDDD DD"
 };
 
-resource 'ics4' (9011, "Empty Round Rect Tool Icons") {
+'ics4' (9011, "Empty Round Rect Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"00FF FFFF FFFF F000 0FDD DDDD DDDD DF00"
 	$"FDD0 0000 0000 00F0 FD00 0000 0000 00FD"
@@ -9108,7 +10315,7 @@ resource 'ics4' (9011, "Empty Round Rect Tool Icons") {
 	$"000D DDDD DDDD DD"
 };
 
-resource 'ics4' (9012, "Filled Oval Tool Icons") {
+'ics4' (9012, "Filled Oval Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 FFFF FFF0 0000"
 	$"00FF 1111 111F F000 0F11 1111 1111 1F00"
@@ -9118,7 +10325,7 @@ resource 'ics4' (9012, "Filled Oval Tool Icons") {
 	$"000D FFFF FFFD DD00 0000 0DDD DDDD"
 };
 
-resource 'ics4' (9013, "Empty Oval Tool Icons") {
+'ics4' (9013, "Empty Oval Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 FFFF FFF0 0000"
 	$"00FF 0DDD DDDF F000 0F0D D000 0000 DF00"
@@ -9128,7 +10335,7 @@ resource 'ics4' (9013, "Empty Oval Tool Icons") {
 	$"000D FFFF FFFD DD00 0000 0DDD DDDD"
 };
 
-resource 'ics4' (9014) {
+'ics4' (9014) {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 3300 0033 0000 0000 3330 0333 0000"
@@ -9137,7 +10344,7 @@ resource 'ics4' (9014) {
 	$"0000 3330 0333 0000 0000 3300 0033"
 };
 
-resource 'ics8' (9000, "Lasso Tool Icons") {
+'ics8' (9000, "Lasso Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 FFFF FFFF FFFF 0000 0000"
 	$"0000 00FF FFFF 00FA FAFA FAFA FFFF 0000"
@@ -9156,7 +10363,7 @@ resource 'ics8' (9000, "Lasso Tool Icons") {
 	$"0000 00FA"
 };
 
-resource 'ics8' (9001, "Marquee Tool Icons") {
+'ics8' (9001, "Marquee Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"00FF FFFF FF00 00FF FFFF 0000 FFFF FF00"
 	$"00FF 0000 0000 0000 0000 0000 0000 FF00"
@@ -9173,7 +10380,7 @@ resource 'ics8' (9001, "Marquee Tool Icons") {
 	$"00FF FFFF 0000 FFFF FF00 00FF FFFF FF"
 };
 
-resource 'ics8' (9002, "Text Tool Icons") {
+'ics8' (9002, "Text Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 00EB EBEB EBEB EBEB EBEB EB00 0000"
@@ -9191,7 +10398,7 @@ resource 'ics8' (9002, "Text Tool Icons") {
 	$"0000 0000 0000 00FA FAFA FA"
 };
 
-resource 'ics8' (9003, "Pencil Tool Icons") {
+'ics8' (9003, "Pencil Tool Icons") {
 	$"0000 0000 0000 00FF FFFF FF00 0000 0000"
 	$"0000 0000 0000 00FF 0E0E 0EFF 0000 0000"
 	$"0000 0000 0000 FF0E 0E0E 0EFF FA00 0000"
@@ -9210,7 +10417,7 @@ resource 'ics8' (9003, "Pencil Tool Icons") {
 	$"0000 0000 FA"
 };
 
-resource 'ics8' (9004, "Eraser Tool Icons") {
+'ics8' (9004, "Eraser Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 00FF FFFF FFFF FFFF FF00"
@@ -9227,7 +10434,7 @@ resource 'ics8' (9004, "Eraser Tool Icons") {
 	$"00FA FAFA FAFA FAFA FA"
 };
 
-resource 'ics8' (9005, "Paint Bucket Tool Icons") {
+'ics8' (9005, "Paint Bucket Tool Icons") {
 	$"0000 0000 FFFF FF00 0000 0000 0000 0000"
 	$"0000 00FF 0000 00FF 0000 0000 0000 0000"
 	$"0000 00FF 0000 FFFF 0000 0000 0000 0000"
@@ -9246,7 +10453,7 @@ resource 'ics8' (9005, "Paint Bucket Tool Icons") {
 	$"0000 0000 0000 FAFA 0000 0000 00FA"
 };
 
-resource 'ics8' (9006, "Eye Dropper Tool Icons") {
+'ics8' (9006, "Eye Dropper Tool Icons") {
 	$"0000 0000 0000 0000 0000 00FF FFFF 0000"
 	$"0000 0000 0000 0000 0000 FFFF F8FF FF00"
 	$"0000 0000 0000 0000 0000 FFF8 FFFF FFFA"
@@ -9265,7 +10472,7 @@ resource 'ics8' (9006, "Eye Dropper Tool Icons") {
 	$"00FA FAFA"
 };
 
-resource 'ics8' (9007, "Line Tool Icons") {
+'ics8' (9007, "Line Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
@@ -9280,7 +10487,7 @@ resource 'ics8' (9007, "Line Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 00FA FA"
 };
 
-resource 'ics8' (9008, "Filled Rect Tool Icons") {
+'ics8' (9008, "Filled Rect Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FF00"
@@ -9298,7 +10505,7 @@ resource 'ics8' (9008, "Filled Rect Tool Icons") {
 	$"00FA FAFA FAFA FAFA FAFA FAFA FAFA FAFA"
 };
 
-resource 'ics8' (9009, "Empty Rect Tool Icons") {
+'ics8' (9009, "Empty Rect Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FF00"
@@ -9316,7 +10523,7 @@ resource 'ics8' (9009, "Empty Rect Tool Icons") {
 	$"00FA FAFA FAFA FAFA FAFA FAFA FAFA FAFA"
 };
 
-resource 'ics8' (9010, "Filled Round Rect Tool ICons") {
+'ics8' (9010, "Filled Round Rect Tool ICons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 FFFF FFFF FFFF FFFF FFFF FF00 0000"
@@ -9334,7 +10541,7 @@ resource 'ics8' (9010, "Filled Round Rect Tool ICons") {
 	$"0000 00FA FAFA FAFA FAFA FAFA FAFA"
 };
 
-resource 'ics8' (9011, "Empty Round Rect Tool Icons") {
+'ics8' (9011, "Empty Round Rect Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 FFFF FFFF FFFF FFFF FFFF FF00 0000"
@@ -9352,7 +10559,7 @@ resource 'ics8' (9011, "Empty Round Rect Tool Icons") {
 	$"0000 00FA FAFA FAFA FAFA FAFA FAFA"
 };
 
-resource 'ics8' (9012, "Filled Oval Tool Icons") {
+'ics8' (9012, "Filled Oval Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
@@ -9369,7 +10576,7 @@ resource 'ics8' (9012, "Filled Oval Tool Icons") {
 	$"0000 0000 00FA FAFA FAFA FAFA"
 };
 
-resource 'ics8' (9013, "Empty Oval Tool Icons") {
+'ics8' (9013, "Empty Oval Tool Icons") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
@@ -9386,7 +10593,7 @@ resource 'ics8' (9013, "Empty Oval Tool Icons") {
 	$"0000 0000 00FA FAFA FAFA FAFA"
 };
 
-resource 'ics8' (9014, "Cursor Tools") {
+'ics8' (9014, "Cursor Tools") {
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
 	$"0000 0000 0000 0000 0000 0000 0000 0000"
@@ -9401,7 +10608,7 @@ resource 'ics8' (9014, "Cursor Tools") {
 	$"0000 0000 D8D8 0000 0000 D8D8"
 };
 
-resource 'xmnu' (128, "Apple Menu") {
+'xmnu' (128, "Apple Menu") {
 	versionZero {
 		{	/* array ItemExtensions: 1 elements */
 			/* [1] */
@@ -9419,9 +10626,9 @@ resource 'xmnu' (128, "Apple Menu") {
 	}
 };
 
-resource 'xmnu' (129, "File Menu") {
+'xmnu' (129, "File Menu") {
 	versionZero {
-		{	/* array ItemExtensions: 12 elements */
+		{	/* array ItemExtensions: 15 elements */
 			/* [1] */
 			dataItem {
 				0,
@@ -9519,10 +10726,36 @@ resource 'xmnu' (129, "File Menu") {
 				naturalGlyph
 			},
 			/* [11] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [12] */
 			skipItem {
 
 			},
-			/* [12] */
+			/* [13] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [14] */
+			skipItem {
+
+			},
+			/* [15] */
 			dataItem {
 				0,
 				0x0,
@@ -9537,7 +10770,7 @@ resource 'xmnu' (129, "File Menu") {
 	}
 };
 
-resource 'xmnu' (130, "Edit Menu") {
+'xmnu' (130, "Edit Menu") {
 	versionZero {
 		{	/* array ItemExtensions: 12 elements */
 			/* [1] */
@@ -9655,38 +10888,9 @@ resource 'xmnu' (130, "Edit Menu") {
 	}
 };
 
-resource 'xmnu' (131, "Plugins Menu") {
+'xmnu' (132, "File Menu Aqua") {
 	versionZero {
-		{	/* array ItemExtensions: 2 elements */
-			/* [1] */
-			dataItem {
-				0,
-				0x0,
-				currScript,
-				0,
-				0,
-				noHierID,
-				sysFont,
-				naturalGlyph
-			},
-			/* [2] */
-			dataItem {
-				0,
-				0x0,
-				currScript,
-				0,
-				0,
-				noHierID,
-				sysFont,
-				naturalGlyph
-			}
-		}
-	}
-};
-
-resource 'xmnu' (132, "File Menu Aqua") {
-	versionZero {
-		{	/* array ItemExtensions: 10 elements */
+		{	/* array ItemExtensions: 13 elements */
 			/* [1] */
 			dataItem {
 				0,
@@ -9760,7 +10964,7 @@ resource 'xmnu' (132, "File Menu Aqua") {
 			/* [8] */
 			dataItem {
 				0,
-				0x0,
+				0x1,
 				currScript,
 				0,
 				0,
@@ -9782,12 +10986,38 @@ resource 'xmnu' (132, "File Menu Aqua") {
 				noHierID,
 				sysFont,
 				naturalGlyph
+			},
+			/* [11] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [12] */
+			skipItem {
+
+			},
+			/* [13] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
 			}
 		}
 	}
 };
 
-resource 'xmnu' (133, "Resources Menu") {
+'xmnu' (133, "Resources Menu") {
 	versionZero {
 		{	/* array ItemExtensions: 13 elements */
 			/* [1] */
@@ -9909,9 +11139,9 @@ resource 'xmnu' (133, "Resources Menu") {
 	}
 };
 
-resource 'xmnu' (160, "Aete Menu") {
+'xmnu' (160, "Aete Menu") {
 	versionZero {
-		{	/* array ItemExtensions: 23 elements */
+		{	/* array ItemExtensions: 20 elements */
 			/* [1] */
 			dataItem {
 				0,
@@ -10089,38 +11319,12 @@ resource 'xmnu' (160, "Aete Menu") {
 				noHierID,
 				sysFont,
 				naturalGlyph
-			},
-			/* [21] */
-			skipItem {
-
-			},
-			/* [22] */
-			dataItem {
-				0,
-				0x0,
-				currScript,
-				0,
-				0,
-				noHierID,
-				sysFont,
-				naturalGlyph
-			},
-			/* [23] */
-			dataItem {
-				0,
-				0x0,
-				currScript,
-				0,
-				0,
-				noHierID,
-				sysFont,
-				naturalGlyph
 			}
 		}
 	}
 };
 
-resource 'xmnu' (161, "Event direct param options") {
+'xmnu' (161, "Event direct param options") {
 	versionZero {
 		{	/* array ItemExtensions: 9 elements */
 			/* [1] */
@@ -10226,7 +11430,7 @@ resource 'xmnu' (161, "Event direct param options") {
 	}
 };
 
-resource 'xmnu' (162, "Event reply's options") {
+'xmnu' (162, "Event reply's options") {
 	versionZero {
 		{	/* array ItemExtensions: 9 elements */
 			/* [1] */
@@ -10332,7 +11536,7 @@ resource 'xmnu' (162, "Event reply's options") {
 	}
 };
 
-resource 'xmnu' (163, "Event other param  options") {
+'xmnu' (163, "Event other param  options") {
 	versionZero {
 		{	/* array ItemExtensions: 12 elements */
 			/* [1] */
@@ -10471,7 +11675,7 @@ resource 'xmnu' (163, "Event other param  options") {
 	}
 };
 
-resource 'xmnu' (164, "Class property options") {
+'xmnu' (164, "Class property options") {
 	versionZero {
 		{	/* array ItemExtensions: 11 elements */
 			/* [1] */
@@ -10599,7 +11803,7 @@ resource 'xmnu' (164, "Class property options") {
 	}
 };
 
-resource 'xmnu' (251, "Text Size") {
+'xmnu' (251, "Text Size") {
 	versionZero {
 		{	/* array ItemExtensions: 11 elements */
 			/* [1] */
@@ -10720,7 +11924,7 @@ resource 'xmnu' (251, "Text Size") {
 	}
 };
 
-resource 'xmnu' (252, "Text Style") {
+'xmnu' (252, "Text Style") {
 	versionZero {
 		{	/* array ItemExtensions: 10 elements */
 			/* [1] */
@@ -10830,7 +12034,7 @@ resource 'xmnu' (252, "Text Style") {
 	}
 };
 
-resource 'xmnu' (253, "Types") {
+'xmnu' (253, "Types") {
 	versionZero {
 		{	/* array ItemExtensions: 1 elements */
 			/* [1] */
@@ -10848,7 +12052,7 @@ resource 'xmnu' (253, "Types") {
 	}
 };
 
-resource 'xmnu' (256, "Unicode Size") {
+'xmnu' (256, "Unicode Size") {
 	versionZero {
 		{	/* array ItemExtensions: 12 elements */
 			/* [1] */
@@ -10980,7 +12184,7 @@ resource 'xmnu' (256, "Unicode Size") {
 	}
 };
 
-resource 'xmnu' (257, "Unicode Style") {
+'xmnu' (257, "Unicode Style") {
 	versionZero {
 		{	/* array ItemExtensions: 4 elements */
 			/* [1] */
@@ -11031,7 +12235,7 @@ resource 'xmnu' (257, "Unicode Style") {
 	}
 };
 
-resource 'xmnu' (258, "Menu item Style") {
+'xmnu' (258, "Menu item Style") {
 	versionZero {
 		{	/* array ItemExtensions: 10 elements */
 			/* [1] */
@@ -11141,7 +12345,7 @@ resource 'xmnu' (258, "Menu item Style") {
 	}
 };
 
-resource 'xmnu' (259, "Menu item property") {
+'xmnu' (259, "Menu item property") {
 	versionZero {
 		{	/* array ItemExtensions: 7 elements */
 			/* [1] */
@@ -11225,7 +12429,7 @@ resource 'xmnu' (259, "Menu item property") {
 	}
 };
 
-resource 'xmnu' (261, "Preferences Font Size") {
+'xmnu' (261, "Preferences Font Size") {
 	versionZero {
 		{	/* array ItemExtensions: 11 elements */
 			/* [1] */
@@ -11346,9 +12550,9 @@ resource 'xmnu' (261, "Preferences Font Size") {
 	}
 };
 
-resource 'xmnu' (300, "Icon Actions") {
+'xmnu' (300, "Icon Actions") {
 	versionZero {
-		{	/* array ItemExtensions: 10 elements */
+		{	/* array ItemExtensions: 13 elements */
 			/* [1] */
 			dataItem {
 				0,
@@ -11437,12 +12641,38 @@ resource 'xmnu' (300, "Icon Actions") {
 				noHierID,
 				sysFont,
 				naturalGlyph
+			},
+			/* [11] */
+			skipItem {
+
+			},
+			/* [12] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
+			},
+			/* [13] */
+			dataItem {
+				0,
+				0x0,
+				currScript,
+				0,
+				0,
+				noHierID,
+				sysFont,
+				naturalGlyph
 			}
 		}
 	}
 };
 
-resource 'xmnu' (301, "Icon Colors") {
+'xmnu' (301, "Icon Colors") {
 	versionZero {
 		{	/* array ItemExtensions: 11 elements */
 			/* [1] */
@@ -11563,7 +12793,7 @@ resource 'xmnu' (301, "Icon Colors") {
 	}
 };
 
-resource 'xmnu' (303, "Icon Style") {
+'xmnu' (303, "Icon Style") {
 	versionZero {
 		{	/* array ItemExtensions: 21 elements */
 			/* [1] */
