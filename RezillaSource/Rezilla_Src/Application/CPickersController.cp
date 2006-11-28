@@ -2,7 +2,7 @@
 // CPickersController.cp					
 // 
 //                       Created: 2006-02-23 15:12:16
-//             Last modification: 2006-10-09 17:03:54
+//             Last modification: 2006-11-28 15:26:18
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
@@ -29,6 +29,7 @@ PP_Begin_Namespace_PowerPlant
 #include "CMENU_PickerStamp.h"
 #include "CSTRx_PickerStamp.h"
 #include "CTEXT_PickerStamp.h"
+#include "CPSTR_PickerStamp.h"
 #include "CPattern_PickerStamp.h"
 #include "CCursor_PickerStamp.h"
 #include "CIconFamily_PickerStamp.h"
@@ -79,6 +80,8 @@ CPickersController::HasPickerForType(ResType inType)
 		case 'RID#':
 		case 'Mcmd':
 		case 'RidL':
+		case 'STR ':
+		case 'PStr':
 		case 'cicn':
 		case 'ICON':
 		case 'SICN':
@@ -140,6 +143,11 @@ CPickersController::InvokeCustomPicker(CRezMapDoc* inRezMapDoc,
 		new TPickerDoc<CSTRx_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
 		
+		case 'STR ':
+		case 'PStr':
+		new TPickerDoc<CPSTR_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
+		break;
+
 		case 'cicn':
 		new TPickerDoc<Ccicn_PickerStamp>( (LCommander *) inRezMapDoc, inSuperMap, inRezTypeItem, inReadOnly);
 		break;
