@@ -39,7 +39,7 @@ package require tclAE
 # # # Configurable variables # # #
 # --------------------------------
 namespace eval ::rezilla::test {
-	variable rezillaName "Rezilla_D"
+	variable rezillaName "Rezilla"
 }
 # --------------------------------
 
