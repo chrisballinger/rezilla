@@ -9,7 +9,8 @@
 // All rights reserved.
 // ===========================================================================
 
-#include <Icons.r>
+//#include <Icons.r>
+#include	<Carbon/Carbon.r>
 
 
 // Icons info

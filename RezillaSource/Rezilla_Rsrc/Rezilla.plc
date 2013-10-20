@@ -1,15 +1,15 @@
 // ===========================================================================
 // Rezilla.plc					
 //                       Created: 2003-04-16 22:25:40
-//             Last modification: 2006-10-15 07:18:24
+//             Last modification: 2013-10-19 15:06:38
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2006
+// (c) Copyright: Bernard Desgraupes 2003-2013
 // All rights reserved.
 // ===========================================================================
 
-#include "RezillaID.h"
+#include "../Rezilla_Src/RezillaID.h"
 
 // Bundle identifier string
 #define kBundleIdentifier "net.sourceforge.rezilla"
@@ -18,14 +18,15 @@
 #define kBundleShortInfoString __OUTPUT_FILENAME__ " "  REZILLA_PLC_VERSION
 
 // String to display in the Finder's Get Info window (\U00A9 = ©)
-#define kBundleLongInfo_EN kBundleShortInfoString ", Copyright © 2003-2006 by Bernard Desgraupes. All rights reserved."
-#define kBundleLongInfo_FR kBundleShortInfoString ", Copyright © 2003-2006 par Bernard Desgraupes. Tous droits réservés."
+#define kBundleLongInfo_EN kBundleShortInfoString ", Copyright © 2003-2013 by Bernard Desgraupes. All rights reserved."
+#define kBundleLongInfo_FR kBundleShortInfoString ", Copyright © 2003-2013 par Bernard Desgraupes. Tous droits réservés."
 
 plist
 {
 	dictionary
 	{
 		key "CFBundleIdentifier" value string kBundleIdentifier
+		key "NSHumanReadableCopyright" value string kBundleLongInfo_EN
 		
 		key "CFBundleName" value string __OUTPUT_FILENAME__
 		key "CFBundleShortVersionString" value string kBundleShortInfoString
@@ -49,7 +50,7 @@ plist
 			{
 				key "CFBundleTypeName" value string "Rezilla Resource File"
 				key "CFBundleTypeIconFile" value string "RezillaDocs.icns"
-				key "CFBundleTypeRole" value string "Viewer"
+				key "CFBundleTypeRole" value string "Editor"
 				key "CFBundleTypeOSTypes" value array
 				[
 					string 'RSRC'

@@ -9,7 +9,8 @@
 // All rights reserved.
 // ===========================================================================
 
-#include "MacTypes.r"
+//#include "MacTypes.r"
+#include	<Carbon/Carbon.r>
 
 
 resource 'STR#' (1500, "New doc titles", purgeable) {
@@ -68,13 +69,13 @@ resource 'STR#' (1504, "Project URLs") {
 /* [1] */	"Rezilla project",
 /* [2] */	"http://sourceforge.net/projects/rezilla",
 /* [3] */	"Binary releases",
-/* [4] */	"http://sourceforge.net/project/showfiles.php?group_id=83267",
-/* [5] */	"Browse CVS repository",
-/* [6] */	"http://rezilla.cvs.sourceforge.net/rezilla/",
+/* [4] */	"http://sourceforge.net/projects/rezilla/files/",
+/* [5] */	"Browse SVN repository",
+/* [6] */	"http://sourceforge.net/projects/rezilla/code/",
 /* [7] */	"Bug tracker",
-/* [8] */	"http://sourceforge.net/tracker/?atid=568882&group_id=83267&func=browse",
+/* [8] */	"http://sourceforge.net/projects/rezilla/bugs/",
 /* [9] */	"Subscribe to mailing list",
-/* [10] */	"http://lists.sourceforge.net/lists/listinfo/rezilla-users",
+/* [10] */	"http://sourceforge.net/projects/rezilla/mailman/",
 /* [11] */	"Bernard Desgraupes",
 /* [12] */	"mailto:bdesgraupes@users.sourceforge.net"
 	}

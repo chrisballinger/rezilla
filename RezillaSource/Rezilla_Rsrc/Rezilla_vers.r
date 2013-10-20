@@ -10,7 +10,8 @@
 // ===========================================================================
 
 
-#include "MacTypes.r"
+//#include "MacTypes.r"
+#include	<Carbon/Carbon.r>
 
 #include "RezillaID.h"
 

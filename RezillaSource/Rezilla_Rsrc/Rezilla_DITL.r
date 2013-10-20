@@ -10,7 +10,8 @@
 // ===========================================================================
 
 
-#include "Dialogs.r"
+//#include "Dialogs.r"
+#include	<Carbon/Carbon.r>
 
 resource 'DITL' (10000, "Nav Services Open", purgeable) {
 	{	/* array DITLarray: 2 elements */

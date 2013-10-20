@@ -1,4 +1,5 @@
-#include "AppleEvents.r"
+//#include "AppleEvents.r"
+#include <Carbon/Carbon.r>
 
 resource 'aedt' (128, "Required Suite") {
 	{

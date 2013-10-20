@@ -9,7 +9,8 @@
 // All rights reserved.
 // ===========================================================================
 
-#include "Quickdraw.r"
+//#include "Quickdraw.r"
+#include	<Carbon/Carbon.r>
 
 resource 'clut' (9000, "Apple 32 Icon Colors") {
 	{	

@@ -9,15 +9,16 @@
 // All rights reserved.
 // ===========================================================================
 
-#include <MacTypes.r>
+//#include <MacTypes.r>
+#include	<Carbon/Carbon.r>
 
 read 'TEXT' (130 , "License Terms", purgeable)  "Rezilla_License.text";
 
-data 'TEXT' (250, "About Text", purgeable) {
-$$Format("Resource map editor\n\n(c) 2003-%d", $$YEAR)
-};
+//data 'TEXT' (250, "About Text", purgeable) {
+//$$Format("Resource map editor\nUniversal Binary\n(c) 2003-%d", $$YEAR)
+//};
 
-data 'TEXT' (251, "Free software", purgeable) {
-"Rezilla is a free software"
-};
+//data 'TEXT' (251, "Free software", purgeable) {
+//"Rezilla is a free software"
+//};
 
