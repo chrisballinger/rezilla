@@ -75,6 +75,7 @@ CICNS_EditorWindow::CICNS_EditorWindow(
 	ThrowIfOSErr_(error);
 	::DetachResource(theHandle);
 	mFamilyInfoH = (Rez_IconFamilyInfoH) theHandle;
+	EndianConvertIconFamilyInfoHandle();
 	
 	mCurrentIndex = 0;
 }
@@ -149,8 +150,9 @@ CICNS_EditorWindow::FinishCreateSelf()
 OSErr
 CICNS_EditorWindow::InstallResourceData(Handle inHandle)
 {
-	OSErr		error = noErr, ignoreErr = noErr;
-	UInt16		numItems = 0;
+	OSErr			error = noErr;
+//	OSErr			ignoreErr = noErr;
+//	UInt16			numItems = 0;
 	StHandleLocker	locker(inHandle);
 
 	if ( ::GetHandleSize(inHandle) == 0 ) {
@@ -456,7 +458,7 @@ CICNS_EditorWindow::InstallMemberIcon(CICNS_Member * inMember)
 	COffscreen		*theImage = nil, *theMask = nil;
 	CTabHandle		theTable = nil;
 	Handle			imgDataH = inMember->GetIconData();
-	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
+//	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
 	OSType			theType = inMember->GetType();
 	
 	GetIconMemberParams(theType, depth, width, height, rowBytes, maskOffset, maskRowBytes);
@@ -520,7 +522,7 @@ CICNS_EditorWindow::StoreMemberIcon(CICNS_Member * inMember)
 	SInt32			depth, width, height, rowBytes, maskOffset, maskRowBytes;
 	COffscreen		*theImage = nil, *theMask = nil;
 	Handle			imgDataH = inMember->GetIconData();
-	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
+//	MenuRef			theMenuH = mIconPopup->GetMacMenuH();
 	
 	ThrowIf_( !mIconSample || !mMaskSample );
 
@@ -885,5 +887,33 @@ CICNS_EditorWindow::SetDirty(Boolean inDirty)
 			theMember->SetModified(true);
 		} 
 	} 
+}
+
+
+// ---------------------------------------------------------------------------
+//	EndianConvertIconFamilyInfoHandle
+// ---------------------------------------------------------------------------
+// The mFamilyInfoH member is read into member as a big-endian resource handle.
+// We need to endian-convert it to native format. Note that since it is used as
+// a read-only resource, we don't have to worry about any updating issues.
+
+void
+CICNS_EditorWindow::EndianConvertIconFamilyInfoHandle()
+{
+	Rez_IconFamilyInfo *	ptr = *mFamilyInfoH;
+	ptr->defaultPane = ::CFSwapInt32BigToHost(ptr->defaultPane);
+	ptr->numEntries = ::CFSwapInt32BigToHost(ptr->numEntries);
+	for (SInt32 iEntry = 0; iEntry < ptr->numEntries; iEntry++) {
+		ptr->members[iEntry].resourceType = ::CFSwapInt32BigToHost(ptr->members[iEntry].resourceType);
+		ptr->members[iEntry].flags = ::CFSwapInt32BigToHost(ptr->members[iEntry].flags);
+		ptr->members[iEntry].width = ::CFSwapInt32BigToHost(ptr->members[iEntry].width);
+		ptr->members[iEntry].height = ::CFSwapInt32BigToHost(ptr->members[iEntry].height);
+		ptr->members[iEntry].depth = ::CFSwapInt32BigToHost(ptr->members[iEntry].depth);
+		ptr->members[iEntry].rowBytes = ::CFSwapInt32BigToHost(ptr->members[iEntry].rowBytes);
+		ptr->members[iEntry].samplePaneID = ::CFSwapInt32BigToHost(ptr->members[iEntry].samplePaneID);
+		ptr->members[iEntry].maskOffset = ::CFSwapInt32BigToHost(ptr->members[iEntry].maskOffset);
+		ptr->members[iEntry].maskRowBytes = ::CFSwapInt32BigToHost(ptr->members[iEntry].maskRowBytes);
+		ptr->members[iEntry].maskSamplePaneID = ::CFSwapInt32BigToHost(ptr->members[iEntry].maskSamplePaneID);
+	}
 }
 

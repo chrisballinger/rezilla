@@ -543,7 +543,7 @@ CTmplEditorWindow::FindKeyStartForValue(ResType inType, Str255 keyString, SInt32
 		
 		// Is it the case corresponding to our keyString?
 		// For hexadecimal types, the comparison must be case insensitive.
-		if ( ::EqualString(theString, keyString, ! nocase, true) ) {
+		if ( ::EqualString(theString, keyString, ! nocase, true) || (theString[0] == 0) ) {
 			found = true;
 			break;
 		} 
@@ -1075,7 +1075,14 @@ CTmplEditorWindow::CalcTextPositions(OSType inType, SInt32 & oldPos, SInt32 & ne
 			case 'HEXD':
 			// This is always the last code in a template. Go to the end of the
 			// resource data.
-			newPos = totalLength;
+			// SPECIAL CASE: if there is a reqLength, this is because mSkipOffset was
+			//	specified, which in turn means we're handling the 'unknown' case of a
+			//	KTYP. Just go to the end of the required data here.
+			if (reqLength > sizeof(FourCharCode)) {
+				newPos = mRezStream->GetMarker() + reqLength - sizeof(FourCharCode);
+			} else {
+				newPos = totalLength;
+			}
 			break;
 			
 			case 'BHEX': {

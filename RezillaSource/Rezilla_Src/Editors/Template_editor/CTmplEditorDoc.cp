@@ -93,6 +93,7 @@ CTmplEditorDoc::Initialize()
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mTmplEditWindow) );
 	NameNewEditorDoc();
 	mTmplEditWindow->FinalizeEditor(this);
+	mTmplEditWindow->SetFlipped(GetRezObj()->IsTypeNativeEndian());
 
 	// Install the contents according to the TMPL
 	if (mRezObj != nil) {
@@ -146,6 +147,22 @@ CTmplEditorDoc::GetDescriptor(
 	return outDescriptor;
 }
 
+
+#if PP_Uses_CFDescriptor
+// ---------------------------------------------------------------------------
+//	CopyCFDescriptor												  [public]
+// ---------------------------------------------------------------------------
+
+CFStringRef
+CTmplEditorDoc::CopyCFDescriptor() const
+{
+	CFStringRef			docName = nil;
+	if (mTmplEditWindow != nil) {
+		docName = mTmplEditWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
 
 
 // ---------------------------------------------------------------------------

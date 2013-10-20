@@ -80,6 +80,10 @@ CPICT_EditorView::AdaptPicture()
 	
 	if (mPictureH != nil) {
 		Rect	picFrame = (**mPictureH).picFrame;
+		picFrame.left = ::CFSwapInt16BigToHost(picFrame.left);
+		picFrame.top = ::CFSwapInt16BigToHost(picFrame.top);
+		picFrame.right = ::CFSwapInt16BigToHost(picFrame.right);
+		picFrame.bottom = ::CFSwapInt16BigToHost(picFrame.bottom);
 		ResizeImageTo(picFrame.right - picFrame.left,
 					  picFrame.bottom - picFrame.top, false);
 	} 

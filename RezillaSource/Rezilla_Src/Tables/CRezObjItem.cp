@@ -195,6 +195,8 @@ CRezObjItem::SingleClick(
 		CRezillaApp::sInspectorWindow->InstallValues(this);
 		// Bring the window to the front.
 		UDesktop::SelectDeskWindow( CRezillaApp::sInspectorWindow );
+	} else if (CRezillaApp::sInspectorWindow->IsVisible()) {
+		CRezillaApp::sInspectorWindow->InstallValues(this);
 	}
 }
 

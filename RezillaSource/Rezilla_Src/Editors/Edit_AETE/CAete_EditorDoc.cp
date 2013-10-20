@@ -39,12 +39,14 @@
 #include <LTableSingleSelector.h>
 #include <LTableArrayStorage.h>
 
+#ifndef __MACH__
 #include <AEInteraction.h>
 #include <AERegistry.h>
 #include <AEObjects.h>
 #include <AEPackObject.h>
 #include <CFString.h>
 #include <Lists.h>
+#endif
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -159,6 +161,23 @@ CAete_EditorDoc::GetDescriptor(
 
 	return outDescriptor;
 }
+
+
+#if PP_Uses_CFDescriptor
+// ---------------------------------------------------------------------------
+//	CopyCFDescriptor												  [public]
+// ---------------------------------------------------------------------------
+
+CFStringRef
+CAete_EditorDoc::CopyCFDescriptor() const
+{
+	CFStringRef			docName = nil;
+	if (mAeteEditWindow != nil) {
+		docName = mAeteEditWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
 
 
 // ---------------------------------------------------------------------------
@@ -278,7 +297,7 @@ CAete_EditorDoc::DesignateExportFile( FSSpec & outFileSpec, bool & outReplacing,
 	GetIndString(theString, STRx_NavStrings, index_ExportMapAs);
 	designator.SetMessage(theString);
 	// Build a default name from the name of the map
-	designator.SetSavedFileName("\pAete.xml");
+	designator.SetSavedFileName((StringPtr) "\pAete.xml");
 	
 	openOK = designator.AskDesignateFile();
 

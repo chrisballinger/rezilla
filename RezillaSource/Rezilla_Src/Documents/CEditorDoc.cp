@@ -501,6 +501,22 @@ CEditorDoc::GetDescriptor(
 	return outDescriptor;
 }
 
+#if PP_Uses_CFDescriptor
+// ---------------------------------------------------------------------------
+//	CopyCFDescriptor												  [public]
+// ---------------------------------------------------------------------------
+
+CFStringRef
+CEditorDoc::CopyCFDescriptor() const
+{
+	CFStringRef				docName = nil;
+	if (mMainWindow != nil) {
+		docName = mMainWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
+
 
 // ---------------------------------------------------------------------------
 //   GetModifiedResource											[public]

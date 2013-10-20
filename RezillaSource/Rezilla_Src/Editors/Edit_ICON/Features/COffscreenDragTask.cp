@@ -14,7 +14,9 @@
 #include "UGraphicConversion.h"
 #include "RezillaConstants.h"
 
+#ifndef __MACH__
 #include <Drag.h>
+#endif
 
 
 // ============================================================

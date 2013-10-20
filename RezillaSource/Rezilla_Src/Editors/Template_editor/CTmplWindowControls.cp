@@ -49,7 +49,9 @@
 #include <UDrawingState.h>
 #include <LArray.h>
 
+#ifndef __MACH__
 #include <ControlDefinitions.h>
+#endif
 
 #include <stdio.h>
 #include <string.h>

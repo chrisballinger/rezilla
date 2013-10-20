@@ -14,7 +14,9 @@
 #define _H_UAeteImportExport
 #pragma once
 
+#ifndef __MACH__
 #include <CFXMLNode.h>
+#endif
 
 PP_Begin_Namespace_PowerPlant
 

@@ -33,7 +33,9 @@
 #include <UScrap.h>
 
 // Universal headers
+#ifndef __MACH__
 #include <Fonts.h>
+#endif
 
 // Custom headers
 #include "WASTE.h"

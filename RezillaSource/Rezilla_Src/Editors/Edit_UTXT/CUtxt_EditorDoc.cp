@@ -130,6 +130,23 @@ CUtxt_EditorDoc::GetDescriptor(
 }
 
 
+#if PP_Uses_CFDescriptor
+// ---------------------------------------------------------------------------
+//	CopyCFDescriptor												  [public]
+// ---------------------------------------------------------------------------
+
+CFStringRef
+CUtxt_EditorDoc::CopyCFDescriptor() const
+{
+	CFStringRef		docName = nil;
+	if (mUtxtEditWindow != nil) {
+		docName = mUtxtEditWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
+
+
 // ---------------------------------------------------------------------------
 //   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------

@@ -24,8 +24,9 @@
 #include <UExtractFromAEDesc.h>
 #include <UMemoryMgr.h>
 #include <UModalDialogs.h>
-
+#ifndef __MACH__
 #include <Script.h>
+#endif
 
 PP_Begin_Namespace_PowerPlant
 

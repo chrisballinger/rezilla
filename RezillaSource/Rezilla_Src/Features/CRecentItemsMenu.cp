@@ -18,7 +18,9 @@
 #include <TArrayIterator.h>
 
 // Universal Headers
+#ifndef __MACH__
 #include <CFPreferences.h>
+#endif
 
 
 // ---------------------------------------------------------------------------------

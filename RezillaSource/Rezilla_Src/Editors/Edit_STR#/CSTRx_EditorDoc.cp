@@ -91,6 +91,7 @@ CSTRx_EditorDoc::Initialize()
 	SetMainWindow( dynamic_cast<CEditorWindow *>(mStrxEditWindow) );
 	NameNewEditorDoc();
 	mStrxEditWindow->FinalizeEditor(this);
+	mStrxEditWindow->SetFlipped(GetRezObj()->IsTypeNativeEndian());
 	
 	try {
 		// Install the data
@@ -141,6 +142,23 @@ CSTRx_EditorDoc::GetDescriptor(
 
 	return outDescriptor;
 }
+
+
+#if PP_Uses_CFDescriptor
+// ---------------------------------------------------------------------------
+//	CopyCFDescriptor												  [public]
+// ---------------------------------------------------------------------------
+
+CFStringRef
+CSTRx_EditorDoc::CopyCFDescriptor() const
+{
+	CFStringRef		docName = nil;
+	if (mStrxEditWindow != nil) {
+		docName = mStrxEditWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
 
 
 // ---------------------------------------------------------------------------

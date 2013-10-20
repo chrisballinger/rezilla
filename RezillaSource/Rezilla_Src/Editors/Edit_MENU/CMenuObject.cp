@@ -17,6 +17,7 @@
 #include "UResources.h"
 
 #include <LHandleStream.h>
+#include <UResourceMgr.h>
 
 // ---------------------------------------------------------------------------
 //  CMenuObject												[public]
@@ -77,7 +78,7 @@ CMenuObject::~CMenuObject()
 Boolean	
 CMenuObject::GetMenuTitle(short inID, short inRefnum, Str255 outString)
 {
-	Boolean 		result = false;
+//	Boolean 		result = false;
 	Str255			theTitle;
 	Handle			theResHandle = NULL;
 	
@@ -89,6 +90,7 @@ CMenuObject::GetMenuTitle(short inID, short inRefnum, Str255 outString)
 
 	if (theResHandle != NULL) {
 		LHandleStream * theStream = new LHandleStream(theResHandle);
+		theStream->SetNativeEndian(UResFlip::HasFlipper('MENU'));
 		
 		if (theStream) {
 			if (theStream->GetLength() > 14) {

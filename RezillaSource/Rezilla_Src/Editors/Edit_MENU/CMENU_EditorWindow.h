@@ -70,6 +70,7 @@ protected:
 	Boolean				mHasXmnu,
 						mNeedsXmnu,
 						mInstallValue;
+	bool 				mMENUFlipped, mXmnuFlipped;
 	
 	static Str31		sMarkCharStr, 
 						sSubmenuIDStr, 

@@ -36,7 +36,9 @@
 #include <UAppleEventsMgr.h>
 #include <UCursor.h>
 
+#ifndef __MACH__
 #include <AppleHelp.h>
+#endif
 
 
 // ---------------------------------------------------------------------------

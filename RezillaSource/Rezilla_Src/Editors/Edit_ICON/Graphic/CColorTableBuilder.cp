@@ -35,8 +35,9 @@
 #include "CColorHash.h"
 #include "UColorUtils.h"
 
+#ifndef __MACH__
 #include <PictUtils.h>
-
+#endif
 
 
 // ---------------------------------------------------------------------------

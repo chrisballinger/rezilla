@@ -75,7 +75,7 @@ CPopupEditField::CPopupEditField(
 				inKeyFilter, inPasswordField, inImpID)
 {
 	mStringsID = inStringListID;
-	SetUnknownItem("\pUnknown");
+	SetUnknownItem((StringPtr) "\pUnknown");
 	CreatePopup(inPopupMessage, inLeftSide);
 }
 

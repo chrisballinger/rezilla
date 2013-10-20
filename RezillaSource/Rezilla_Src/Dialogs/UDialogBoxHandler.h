@@ -21,7 +21,9 @@
 #include <LListener.h>
 #include <LPeriodical.h>
 
+#ifndef	__MACH__
 #include <Dialogs.h>
+#endif
 
 #if PP_Uses_Pragma_Import
 	#pragma import on

@@ -51,7 +51,7 @@ public:
 
 protected:
 	Str255			mUrlString;
-	Cursor			mHandCursor;
+//	Cursor			mHandCursor;
 
 	virtual void		ClickSelf(const SMouseDownEvent &inMouseDown);
 	
@@ -61,7 +61,7 @@ protected:
 								RgnHandle			outMouseRgn);
 	
 private:
-		void			InitUrlPane();
+//		void			InitUrlPane();
 };
 
 PP_End_Namespace_PowerPlant

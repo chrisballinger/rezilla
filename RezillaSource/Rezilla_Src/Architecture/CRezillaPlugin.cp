@@ -288,6 +288,7 @@ CRezillaPlugin::CreateMenus(UInt8 inMenuCount, MenuID * inMenuIDs)
 						theRezObj->Detach();
 						
 						theStream = new LHandleStream(theRezObj->GetData());
+						theStream->SetNativeEndian(UResFlip::HasFlipper('MENU'));
 						
 						if (theStream) {
 							theMenuObj = new CMenuObject(theStream);

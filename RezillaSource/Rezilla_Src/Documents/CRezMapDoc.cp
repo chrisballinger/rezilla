@@ -68,12 +68,13 @@ PP_Begin_Namespace_PowerPlant
 #include <UStandardDialogs.h>
 
 #include <PP_Messages.h>
-
+#ifndef __MACH__
 #include <Scrap.h>
 #include <AEInteraction.h>
 #include <AERegistry.h>
 #include <AEObjects.h>
 #include <AEPackObject.h>
+#endif
 
 // Standard headers
 #include <string.h>
@@ -713,6 +714,22 @@ CRezMapDoc::GetDescriptor(
 
 	return outDescriptor;
 }
+
+#if PP_Uses_CFDescriptor
+// ---------------------------------------------------------------------------
+//	• CopyCFDescriptor												  [public]
+// ---------------------------------------------------------------------------
+
+CFStringRef
+CRezMapDoc::CopyCFDescriptor () const
+{
+	CFStringRef			docName = nil;
+	if (mRezMapWindow != nil) {
+		docName = mRezMapWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
 
 
 // ---------------------------------------------------------------------------

@@ -19,7 +19,9 @@
 #include <PP_Prefix.h>
 #include <LFileTypeList.h>
 #include <UAppleEventsMgr.h>
+#ifndef __MACH__
 #include <Navigation.h>
+#endif
 
 #if PP_Uses_Pragma_Import
 	#pragma import on

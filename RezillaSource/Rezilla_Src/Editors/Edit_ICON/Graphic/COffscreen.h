@@ -16,7 +16,9 @@
 #include "RezillaConstants.h"
 #include "UPixelHelper.h"
 
+#ifndef __MACH__
 #include <QDOffscreen.h>	
+#endif
 
 class COffscreen;
 class CSharedPalette;

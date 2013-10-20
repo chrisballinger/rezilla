@@ -21,8 +21,9 @@
 #include "RezillaConstants.h"
 
 #include <PP_KeyCodes.h>
-
+#ifndef __MACH__
 #include <Script.h>
+#endif
 
 PP_Begin_Namespace_PowerPlant
 

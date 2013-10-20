@@ -21,7 +21,9 @@
 #include "CPickerView.h"
 #include "UResources.h"
 
+#ifndef __MACH__
 #include <Icons.h>
+#endif
 
 PP_Begin_Namespace_PowerPlant
 
@@ -51,8 +53,7 @@ CSICN_PickerStamp::~CSICN_PickerStamp()
 // ---------------------------------------------------------------------------
 //   StampSize														  [public]
 // ---------------------------------------------------------------------------
-// f the destination rectangle is not 32 by 32 pixels, the PlotIcon
-// function stretches or shrinks the icon to fit.
+// SICNs are 16X16 pixels.
 
 void
 CSICN_PickerStamp::StampSize(ResType inType, SInt16 &outWidth, SInt16 &outHeight)
@@ -82,6 +83,7 @@ CSICN_PickerStamp::DrawSelf()
 	short theRefNum = mParent->GetUserCon();
 	
 	if (theRefNum != kResFileNotOpened) {
+/*
 		Rect	frame;
 		Handle	theIconHandle = ::NewHandleClear(32), theResHandle = NULL;
 		StRezRefSaver saver(theRefNum);
@@ -99,6 +101,20 @@ CSICN_PickerStamp::DrawSelf()
 		} 
 		
 		if (theIconHandle) ::DisposeHandle(theIconHandle);
+/*/
+		Rect			frame;
+		FocusDraw();
+		CalcLocalFrameRect(frame);
+
+		StRezRefSaver	saver(theRefNum);
+		StResource		theResHandle('SICN', theID, false, true);
+		if (theResHandle.IsValid()) {
+			StClearHandleBlock	hdl(32);
+			::BlockMoveData(*(theResHandle.Get()), *(hdl.Get()), 32);
+			::PlotSICNHandle(&frame, kAlignAbsoluteCenter, 
+					mParent->IsSelected() ? kTransformSelected : kTransformNone, /*hdl*/theResHandle.Get());
+		}
+/**/
 	}
 }
 

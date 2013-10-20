@@ -184,6 +184,22 @@ CICNS_EditorDoc::GetDescriptor(
 	return outDescriptor;
 }
 
+#if PP_Uses_CFDescriptor
+// ---------------------------------------------------------------------------
+//	CopyCFDescriptor												  [public]
+// ---------------------------------------------------------------------------
+
+CFStringRef
+CICNS_EditorDoc::CopyCFDescriptor() const
+{
+	CFStringRef		docName = nil;
+	if (mIcnsEditWindow != nil) {
+		mIcnsEditWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
+
 
 // ---------------------------------------------------------------------------------
 //   FindCommandStatus

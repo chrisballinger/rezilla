@@ -4,7 +4,9 @@
 
 #pragma once
 
+#ifndef __MACH__
 #include <Drag.h>
+#endif
 
 class UDragAndDropUtils {
 public:

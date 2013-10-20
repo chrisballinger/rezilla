@@ -17,6 +17,7 @@
 
 #include "CAeteStream.h"
 #include "RezillaConstants.h"
+#include <UResourceMgr.h>
 
 
 PP_Begin_Namespace_PowerPlant
@@ -29,6 +30,7 @@ PP_Begin_Namespace_PowerPlant
 CAeteStream::CAeteStream()
 	: LHandleStream()
 {	
+	SetNativeEndian(UResFlip::HasFlipper('aete'));
 }
 
 
@@ -40,6 +42,7 @@ CAeteStream::CAeteStream()
 CAeteStream::CAeteStream(const CAeteStream&	inOriginal)
 	: LHandleStream(inOriginal)
 {
+	SetNativeEndian(UResFlip::HasFlipper('aete'));
 }
 
 
@@ -52,6 +55,7 @@ CAeteStream::CAeteStream(const CAeteStream&	inOriginal)
 CAeteStream::CAeteStream(Handle	inHandle)
 	: LHandleStream(inHandle)
 {
+	SetNativeEndian(UResFlip::HasFlipper('aete'));
 }
 
 
@@ -63,6 +67,7 @@ CAeteStream::CAeteStream(Handle	inHandle)
 CAeteStream::CAeteStream(AEDesc * inAeteDesc)
 	: LHandleStream( (Handle) inAeteDesc->dataHandle)
 {
+	SetNativeEndian(UResFlip::HasFlipper('aete'));
 }
 
 

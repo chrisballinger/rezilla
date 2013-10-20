@@ -73,6 +73,8 @@ class CWindow_IconFamily : public CIcon_EditorWindow {
 	protected:
 		Rez_IconFamilyInfoH		mFamilyInfoH;
 		
+		void					EndianConvertIconFamilyInfoHandle();
+		
 		virtual Boolean			InitializeOneMember( 
 										CRezMap *inMap, ResType inResType, ResIDT inResID,
 										SInt32 inWidth, SInt32 inHeight, SInt32 inDepth,

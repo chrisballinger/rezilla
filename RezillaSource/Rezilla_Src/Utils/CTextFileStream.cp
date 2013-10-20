@@ -209,7 +209,9 @@ SInt32
 CTextFileStream::WriteOSType(OSType inType)
 {
 	char theType[5];
-	*(OSType*)theType = inType;
+	inType = EndianU32_NtoB(inType);
+	::BlockMoveData(&inType, theType, 4);
+//	*(OSType*)theType = inType;
 	theType[4] = 0;
 
 	return (WriteCString(theType));

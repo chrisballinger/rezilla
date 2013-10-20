@@ -641,7 +641,7 @@ CIcon_EditorWindow::ObeyCommand(
 	CommandT	inCommand,
 	void*		ioParam)
 {
-	Boolean		cmdHandled = true;
+//	Boolean		cmdHandled = true;
 	CIconAction	*theAction = nil;
 	
 	try

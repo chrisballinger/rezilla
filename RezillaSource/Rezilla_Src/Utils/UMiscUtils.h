@@ -14,7 +14,6 @@
 #pragma once
 
 #include <PP_Prefix.h>
-#include <Carbon.h>
 
 class LPopupButton;
 

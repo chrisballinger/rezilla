@@ -123,7 +123,7 @@ CWindow_PatternSuite::SaveAsResource( CRezMap *inMap, ResIDT inResID )
 		StHandleLocker	srcLocker(srcHandle);
 		StHandleLocker	outLocker(outHandle);
 		
-		**(UInt16 **) outHandle = mTotalCount;
+		**(UInt16 **) outHandle = ::CFSwapInt16HostToBig(mTotalCount);
 		::BlockMoveData( *srcHandle, (*outHandle) + 2, totalSize );
 		
 		CRezObj *	theRes = mOwnerDoc->GetRezObj();
@@ -167,7 +167,7 @@ CWindow_PatternSuite::ParseBitmapSuite( Handle inHandle )
 	StHandleLocker	locker( (Handle) inHandle );
 
 	if (theSize > 0) {
-		mTotalCount = **(UInt16 **) inHandle;
+		mTotalCount = ::CFSwapInt16BigToHost(**(UInt16 **) inHandle);
 		if (mTotalCount * 8 + 2 != theSize) {
 			Throw_( err_IconCorruptedResource );
 		} 

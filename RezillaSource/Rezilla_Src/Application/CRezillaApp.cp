@@ -1,11 +1,11 @@
 // ===========================================================================
 // CRezillaApp.cp					
 //                       Created: 2003-04-16 22:13:54
-//             Last modification: 2006-11-24 11:33:53
+//             Last modification: 2013-10-20 09:12:21
 // Author: Bernard Desgraupes
 // e-mail: <bdesgraupes@users.sourceforge.net>
 // www: <http://rezilla.sourceforge.net/>
-// (c) Copyright: Bernard Desgraupes 2003-2006
+// (c) Copyright: Bernard Desgraupes 2003-2013
 // All rights reserved.
 // ===========================================================================
 
@@ -23,6 +23,7 @@
 #include "CRezMapDoc.h"
 #include "CRezMapTable.h"
 #include "CRezMapWindow.h"
+#include "CScrollWheelHandler.h"
 #include "CTemplatesController.h"
 #include "CPluginsController.h"
 #include "CWindowMenu.h"
@@ -34,6 +35,7 @@
 
 // Custom classes for registration
 #include "CAboutWindow.h"
+#include "CAboutBox.h"
 #include "CAete_EditorWindow.h"
 #include "CBiDataWE.h"
 #include "CBroadcasterTableView.h"
@@ -73,6 +75,7 @@
 #include "CTEXT_EditorWindow.h"
 #include "CThreeButtonsBox.h"
 #include "CTmplEditorWindow.h"
+#include "CURLPushButton.h"
 #include "CTxtDataSubView.h"
 #include "CUtxt_EditorDoc.h"
 #include "CUtxt_EditorView.h"
@@ -88,7 +91,9 @@
 // #include "ABalloon.h"
 
 // PP Classes for registration
+#ifndef __MACH__
 #include <Appearance.h>
+#endif
 #include <LAMControlImp.h>
 #include <LAMPopupButtonImp.h>
 #include <LAMPushButtonImp.h>
@@ -139,7 +144,9 @@
 #include <string.h>
 
 // Universal headers
+#ifndef __MACH__
 #include <AppleHelp.h>
+#endif
 
 // Globals
 CWindowMenu	*		gWindowMenu;	// This is the window menu.
@@ -283,6 +290,8 @@ CRezillaApp::Initialize()
 												  CFSTR(kRezillaIdentifier));
 	AddAttachment( sRecentItemsAttachment, nil, true );
 	
+	mScrollWheelHandlerOwner.Adopt(new CScrollWheelHandler);
+	
 	VersionFromPlist(sVersionNumber);
 	
 	mOpeningFork = fork_anyfork;
@@ -304,7 +313,7 @@ void
 CRezillaApp::InitMLTE()
 {
 	TXNMacOSPreferredFontDescription	defaultFont;
-	OSStatus							osStatus = noErr;
+//	OSStatus							osStatus = noErr;
 	SInt16								fontID;
 
 	GetFNum("\pMonaco",&fontID);
@@ -417,6 +426,7 @@ CRezillaApp::RegisterClasses()
 	RegisterClass_(CThreeButtonsBox);
 	RegisterClass_(CTmplEditorWindow);
 	RegisterClass_(CTxtDataSubView);
+	RegisterClass_(CURLPushButton);
 	RegisterClass_(CUtxt_EditorView);
 	RegisterClass_(CUtxt_EditorWindow);
 	RegisterClass_(CWasteEditView);
@@ -666,6 +676,8 @@ CRezillaApp::ShowAboutBox()
 	aboutWindow->Show();
 	SwitchTarget(aboutWindow);
 // 	UDesktop::SelectDeskWindow(aboutWindow);
+	
+/*CAboutBox::Show(this);*/
 }
 
 

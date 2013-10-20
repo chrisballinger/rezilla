@@ -23,8 +23,10 @@
 
 #include <LActiveScroller.h>
 #include <UKeyFilters.h>
+#ifndef __MACH__
 #include <Quickdraw.h>
 #include <Sound.h>
+#endif
 
 #include "CWasteEditView.h"
 #include "CWEViewActions.h"

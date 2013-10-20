@@ -23,7 +23,7 @@
 
 CMenuItem::CMenuItem()
 {
-	SetValues( "\p", 0, 0, 0, 0);
+	SetValues( (StringPtr) "\p", 0, 0, 0, 0);
 	InitExtendedData();
 }
 

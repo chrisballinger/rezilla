@@ -46,10 +46,12 @@ PP_Begin_Namespace_PowerPlant
 #include <LString.h>
 #include <PP_Messages.h>
 
+#ifndef __MACH__
 #include <AEInteraction.h>
 #include <AERegistry.h>
 #include <AEObjects.h>
 #include <AEPackObject.h>
+#endif
 
 // Standard headers
 #include <string.h>
@@ -342,6 +344,23 @@ CHexEditorDoc::GetDescriptor(
 
 	return outDescriptor;
 }
+
+
+#if PP_Uses_CFDescriptor
+// ---------------------------------------------------------------------------
+//	CopyCFDescriptor												  [public]
+// ---------------------------------------------------------------------------
+
+CFStringRef
+CHexEditorDoc::CopyCFDescriptor() const
+{
+	CFStringRef		docName = nil;
+	if (mHexEditWindow != nil) {
+		docName = mHexEditWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
 
 
 // ---------------------------------------------------------------------------------

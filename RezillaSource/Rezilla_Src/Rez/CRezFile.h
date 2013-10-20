@@ -18,8 +18,10 @@
 
 #include <PP_Prefix.h>
 
+#ifndef __MACH__
 #include <Aliases.h>
 #include <Script.h>
+#endif
 
 #if PP_Uses_Pragma_Import
 	#pragma import on

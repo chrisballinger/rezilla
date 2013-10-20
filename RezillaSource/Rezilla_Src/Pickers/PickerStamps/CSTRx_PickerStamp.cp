@@ -23,6 +23,8 @@
 #include "UMiscUtils.h"
 #include "RezillaConstants.h"
 
+#include <UResourceMgr.h>
+
 PP_Begin_Namespace_PowerPlant
 
 
@@ -127,6 +129,7 @@ CSTRx_PickerStamp::DrawSelf()
 		
 		if (theStrHandle != NULL) {
 			LHandleStream * theStream = new LHandleStream(theStrHandle);
+			theStream->SetNativeEndian(UResFlip::HasFlipper(theType));
 			Boolean			truncated;
 			
 			if (::GetHandleSize(theStrHandle) > 2) {

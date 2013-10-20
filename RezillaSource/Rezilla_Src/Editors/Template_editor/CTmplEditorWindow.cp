@@ -43,10 +43,11 @@
 #include <LSeparatorLine.h>
 #include <UDrawingState.h>
 #include <LArray.h>
-
+#ifndef __MACH__
 #include <ControlDefinitions.h>
+#endif
 
-#ifdef RZIL_PantherOrGreater
+#ifndef __MACH__
 #include <CFDateFormatter.h>
 #endif
 
@@ -84,6 +85,7 @@ SPaneInfo CTmplEditorWindow::sPopupPaneInfo;
 CTmplEditorWindow::CTmplEditorWindow()
 {
 	SetModelKind(rzom_cTmplWindow);
+	mFlipped = false;
 }
 
 
@@ -96,6 +98,7 @@ CTmplEditorWindow::CTmplEditorWindow(
 		: CEditorWindow( inWindowInfo )
 {
 	SetModelKind(rzom_cTmplWindow);
+	mFlipped = false;
 }
 
 
@@ -110,6 +113,7 @@ CTmplEditorWindow::CTmplEditorWindow(
 		: CEditorWindow( inWINDid, inAttributes, inSuperCommander )
 {
 	SetModelKind(rzom_cTmplWindow);
+	mFlipped = false;
 }
 
 
@@ -122,6 +126,7 @@ CTmplEditorWindow::CTmplEditorWindow(
 		: CEditorWindow( inStream )
 {
 	SetModelKind(rzom_cTmplWindow);
+	mFlipped = false;
 }
 
 
@@ -552,7 +557,9 @@ CTmplEditorWindow::ParseDataWithTemplate(Handle inHandle)
 	
 	if (error == noErr) {
 		// Create a stream to parse the data
-		mRezStream = new LHandleStream(inHandle);	
+		mRezStream = new LHandleStream(inHandle);
+		mRezStream->SetNativeEndian(mFlipped);
+
 		
 		// Parse the template stream
 		error = DoParseWithTemplate(0, true, mContentsView);
@@ -1192,7 +1199,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		// Hex dump of remaining bytes in resource (this can only be the last type in a resource)
 		AddStaticField(inType, inLabelString, inContainer, sLeftLabelTraitsID);
 		mYCoord += kTmplLabelVertSkip;
-		AddHexDumpField(inType, inContainer);
+		AddHexDumpField(inType, inContainer, mSkipOffset);	// add mSkipOffset argument.
 		break;
 
 		case 'KBYT':
@@ -1262,7 +1269,8 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		// Offset to SKPE in long (LSIZ:exclusive or LSKP:inclusive)
 		if (mRezStream->GetMarker() < mRezStream->GetLength() - 3) {
 			*mRezStream >> theUInt32;
-		} 
+		}
+		mSkipOffset = theUInt32;
 // 		mOffsetTypes.AddItem(inType);
 		break;
 
@@ -1465,6 +1473,7 @@ CTmplEditorWindow::ParseDataForType(ResType inType, Str255 inLabelString, LView 
 		break;
 
 		case 'SKPE':
+		mSkipOffset = 0;
 		// End of Skip or Sizeof. Do nothing.
 		break;
 
@@ -1675,6 +1684,7 @@ CTmplEditorWindow::RetrieveDataWithTemplate()
 		delete mOutStream;
 	} 
 	mOutStream = new LHandleStream( ::NewHandle(0) );
+	mOutStream->SetNativeEndian(mFlipped);
 	
 	// Reinitialize variables
 	// Removed reinitialisation of mCurrentID (see comment above)

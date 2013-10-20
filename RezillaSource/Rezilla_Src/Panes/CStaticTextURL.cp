@@ -22,7 +22,9 @@
 // Standard headers
 #include <string.h>
 
+#ifndef __MACH__
 #include <LaunchServices.h>
+#endif
 
 PP_Begin_Namespace_PowerPlant
 
@@ -37,7 +39,6 @@ CStaticTextURL::CStaticTextURL(
 
 	: LStaticText(inStream, inImpID)
 {
-	InitUrlPane();
 }
 
 
@@ -53,7 +54,6 @@ CStaticTextURL::CStaticTextURL(
 
 	: LStaticText(inPaneInfo, inTitle, inTextTraitsID, inImpID)
 {
-	InitUrlPane();
 }
 
 
@@ -63,19 +63,6 @@ CStaticTextURL::CStaticTextURL(
 
 CStaticTextURL::~CStaticTextURL()
 {
-}
-
-
-// ---------------------------------------------------------------------------
-//   InitUrlPane
-// ---------------------------------------------------------------------------
-
-void 
-CStaticTextURL::InitUrlPane()
-{
-	CursHandle	theCurs;
-	theCurs = ::GetCursor(CURS_HandOneFinger);
-	mHandCursor = **theCurs;
 }
 
 
@@ -113,16 +100,11 @@ CStaticTextURL::GetUrlString(
 
 void
 CStaticTextURL::AdjustMouseSelf(
-	Point				inPortPt,
+	Point				/* inPortPt */,
 	const EventRecord&	/* inMacEvent */,
 	RgnHandle			/* ioMouseRgn */)
 {
-	Rect	frame;
-	CalcLocalFrameRect(frame);
-	PortToLocalPoint(inPortPt);
-	if (PtInRect(inPortPt, &frame)) {
-		::SetCursor(&mHandCursor);
-	}
+	UCursor::SetCursorID(CURS_HandOneFinger);
 }
 
 
@@ -148,14 +130,15 @@ CStaticTextURL::SendGurlGurlEvent()
 {
 	OSErr		error;
 	char		urlCString[256];
-	CFURLRef	theCFUrl, outLaunchedURL;
+	CFURLRef	theCFUrl;
 	
 	CopyPascalStringToC(mUrlString, urlCString);
 	
-	theCFUrl = CFURLCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) urlCString, strlen(urlCString),
+	theCFUrl = ::CFURLCreateWithBytes(kCFAllocatorDefault, (const UInt8 *) urlCString, strlen(urlCString),
 									 CFStringGetSystemEncoding(), NULL);
 
-	error = LSOpenCFURLRef(theCFUrl, &outLaunchedURL);
+	error = ::LSOpenCFURLRef(theCFUrl, NULL);
+	::CFRelease(theCFUrl);
 
 	return error;
 }

@@ -21,7 +21,9 @@
 #include "CPickerView.h"
 #include "UResources.h"
 
+#ifndef __MACH__
 #include <Icons.h>
+#endif
 
 PP_Begin_Namespace_PowerPlant
 

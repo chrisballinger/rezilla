@@ -118,7 +118,7 @@ StRezMapExporter::WriteOutText(CRezMap* inRezMap, Boolean includeData, SInt32 da
 						StByteToBase64Translator translator(theData);
 						translator.Convert();
 						(*mFileStream).WriteByChunks( *(translator.GetOutHandle()), 
-									"\p\r\t", "\p", 
+									(StringPtr) "\p\r\t", (StringPtr) "\p", 
 									translator.GetOutSize(), 48);
 						break;
 					  }
@@ -127,7 +127,7 @@ StRezMapExporter::WriteOutText(CRezMap* inRezMap, Boolean includeData, SInt32 da
 						StByteToHexTranslator translator(theData);
 						translator.Convert();
 						(*mFileStream).WriteByChunks( *(translator.GetOutHandle()), 
-									"\p\r\t", "\p", 
+									(StringPtr) "\p\r\t", (StringPtr) "\p", 
 									translator.GetOutSize(), 60);
 						break;
 					  }
@@ -218,7 +218,7 @@ StRezMapExporter::WriteOutXml(CRezMap* inRezMap, Boolean includeData, SInt32 dat
 						StByteToBase64Translator translator(theData);
 						translator.Convert();
 						theStream->WriteByChunks( *(translator.GetOutHandle()), 
-									"\p\r\t\t\t\t\t", "\p", 
+									(StringPtr) "\p\r\t\t\t\t\t", (StringPtr) "\p", 
 									translator.GetOutSize(), 48);
 						break;
 					  }
@@ -227,7 +227,7 @@ StRezMapExporter::WriteOutXml(CRezMap* inRezMap, Boolean includeData, SInt32 dat
 						StByteToHexTranslator translator(theData);
 						translator.Convert();
 						theStream->WriteByChunks( *(translator.GetOutHandle()), 
-									"\p\r\t\t\t\t\t", "\p", 
+									(StringPtr) "\p\r\t\t\t\t\t", (StringPtr) "\p", 
 									translator.GetOutSize(), 60);
 						break;
 					  }
@@ -389,7 +389,7 @@ StRezMapExporter::WriteOutDerez(CRezMap* inRezMap)
 				StByteToHexTranslator translator(theData);
 				translator.Convert();
 				(*mFileStream).WriteByChunks( *(translator.GetOutHandle()), 
-											 "\p\r\t$\"", "\p\"", 
+											 (StringPtr) "\p\r\t$\"", (StringPtr) "\p\"", 
 											 translator.GetOutSize(), 48);
 			 }
 			 *mFileStream << "\r};\r\r" ;

@@ -15,6 +15,7 @@
 #pragma once
 
 #include <LModelObject.h>
+#include <UResourceMgr.h>
 
 class CRezType;
 
@@ -91,6 +92,7 @@ public:
 
 		virtual ResType		GetType() { return mType;}
 		void				SetType(ResType theType) {mType = theType ;}
+		bool			IsTypeNativeEndian() { return UResFlip::HasFlipper(mType); }
 
 		virtual short		GetOwnerRefnum() { return mOwnerRefnum;}
 		void				SetOwnerRefnum(short theOwnerRefnum) {mOwnerRefnum = theOwnerRefnum ;}

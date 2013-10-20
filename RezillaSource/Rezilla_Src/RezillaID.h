@@ -18,7 +18,7 @@
 #define REZILLA_MINOR		2
 #define REZILLA_SUBMINOR	0
 #define REZILLA_STAGE 		betaStage
-#define REZILLA_DEVEL		1
+#define REZILLA_DEVEL		4
 
 // Version number string
-#define REZILLA_PLC_VERSION "1.2b1"
+#define REZILLA_PLC_VERSION "1.2b4"

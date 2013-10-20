@@ -39,7 +39,9 @@
 #include <string.h>
 
 // Universal headers
-#include <AppleHelp.h>
+#ifndef __MACH__
+	#include <AppleHelp.h>
+#endif
 
 
 // ---------------------------------------------------------------------------

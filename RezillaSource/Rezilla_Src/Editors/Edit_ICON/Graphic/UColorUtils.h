@@ -26,7 +26,7 @@ class UColorUtils
 
 		static CTabHandle	NewColorTableByDepth( SInt32 depth );
 		static CTabHandle	NewColorTableByEntries( SInt32 depth );
-		static CTabHandle	NewColorTableFromPtr( SInt32 depth, UInt8 *sourceData );
+		static CTabHandle	NewColorTableFromPtr( SInt32 depth, UInt8 *sourceData, bool convert = false );
 		static CTabHandle	GetColorTable( SInt32 inResourceID );
 		static void			FixColorTableBW( CTabHandle inTable, Boolean inForceEm );
 		

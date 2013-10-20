@@ -143,17 +143,15 @@ CRezTypeItem::ExpandSelf()
 {
 	short			theID;	
 	CRezObj *		theRezObj = nil;
-	LOutlineItem *	theItem = nil;
-	LOutlineItem *	lastItem = nil;
-	CRezMapDoc *	theDoc = GetOwnerRezMapTable()->GetOwnerWindow()->GetOwnerDoc();
+	CRezMapTable *	table = dynamic_cast<CRezMapTable*>(mOutlineTable);
+	CRezMapDoc *	theDoc = table->GetOwnerWindow()->GetOwnerDoc();
 	CEditorDoc *	theEditor;
 	ResType			theType = mRezType->GetType();
 	
-	LLongComparator* theIDComparator = new LLongComparator;
-	TArray<short>* theIdArray = new TArray<short>(theIDComparator, true);
-	TArrayIterator<short>	idIterator(*theIdArray);
+	TArray<short>*	theIdArray = new TArray<short>();
 	mRezType->GetAllRezIDs(theIdArray);
 
+	TArrayIterator<short>	idIterator(*theIdArray);
 	while (idIterator.Next(theID)) {
 		// If there is an editor corresponding to this resource, share its
 		// own CRezObj, otherwise create a new one. The former situation
@@ -168,10 +166,11 @@ CRezTypeItem::ExpandSelf()
 		} else {
 			theRezObj = new CRezObj(mRezType, theID);
 		}
-		theItem = new CRezObjItem(theRezObj);
-		mOutlineTable->InsertItem( theItem, this, lastItem );
-		lastItem = theItem;
+		CRezObjItem *	theItem = new CRezObjItem(theRezObj);
+		CRezTypeItem *	theTypeItem = table->GetRezTypeItem(theType, false);
+		table->InsertRezObjItem(theItem, theTypeItem);
 	}
+	delete theIdArray;
 }
 
 

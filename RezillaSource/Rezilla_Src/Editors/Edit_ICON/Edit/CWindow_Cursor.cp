@@ -274,7 +274,8 @@ CWindow_Cursor::ParseColorCursor( CRezObj * inRezObj,
 {
 	PixMapPtr		cMap;
 	SInt32			depth, width, height;
-	CTabHandle		theTable = nil, oneBitTable = nil;
+	CTabHandle		theTable = nil;
+//	CTabHandle		oneBitTable = nil;
 	COffscreen		*cBuffer = nil, *bwBuffer = nil, *maskBuffer = nil, *tempBuffer = nil;
 	CCrsrHandle		h = nil;
 	UInt8			*p;
@@ -295,21 +296,21 @@ CWindow_Cursor::ParseColorCursor( CRezObj * inRezObj,
 		p = (UInt8*) *h;
 		
 		// Validate the handle a little bit
-		if ( (UInt16) (**h).crsrType != (UInt16) 0x8001 )	// cast *is* needed - crsrType is signed
+		if ( (UInt16) ::CFSwapInt16BigToHost((**h).crsrType) != (UInt16) 0x8001 )	// cast *is* needed - crsrType is signed
 			throw( err_IconInvalidImageFormat );
 		
 		if ( ::GetHandleSize( (Handle) h ) < sizeof(CCrsr) )
 			throw( err_IconCorruptedResource );
 	
 		// Get some info about the cursor
-		cMap = (PixMapPtr) (p + (SInt32) (**h).crsrMap);
+		cMap = (PixMapPtr) (p + ::CFSwapInt32BigToHost((SInt32) (**h).crsrMap));
 
-		if ( cMap->pixelType != 0 )
+		if ( cMap->pixelType != 0 )			// no swap needed for 0-test
 			throw( err_IconInvalidImageFormat );
 
-		width = cMap->bounds.right - cMap->bounds.left;
-		height = cMap->bounds.bottom - cMap->bounds.top;
-		depth = cMap->pixelSize;
+		width = ::CFSwapInt16BigToHost(cMap->bounds.right) - ::CFSwapInt16BigToHost(cMap->bounds.left);
+		height = ::CFSwapInt16BigToHost(cMap->bounds.bottom) - ::CFSwapInt16BigToHost(cMap->bounds.top);
+		depth = ::CFSwapInt16BigToHost(cMap->pixelSize);
 		
 		if ( (width != kCursorWidth) || (height != kCursorHeight) )
 			throw( err_IconInvalidImageSize );
@@ -332,14 +333,15 @@ CWindow_Cursor::ParseColorCursor( CRezObj * inRezObj,
 		if ( cMap->pmTable == 0 )
 			theTable = UColorUtils::NewColorTableByDepth( depth );
 		else
-			theTable = UColorUtils::NewColorTableFromPtr( depth, p + (SInt32) cMap->pmTable );
+			theTable = UColorUtils::NewColorTableFromPtr( depth, p + 
+								::CFSwapInt32BigToHost((SInt32) cMap->pmTable), true );
 				
 		// Allocate the color bitmap
 		tempBuffer = COffscreen::CreateBuffer( width, height, depth, theTable );
 		ThrowIfMemFail_( tempBuffer );
-		SInt32	rowBytes = cMap->rowBytes & 0x3FFF;			// clear flag bits
+		SInt32	rowBytes = ::CFSwapInt16BigToHost(cMap->rowBytes) & 0x3FFF;			// clear flag bits
 		if ( rowBytes != 0 )
-			tempBuffer->CopyFromRawData( p + (SInt32) (**h).crsrData, rowBytes );
+			tempBuffer->CopyFromRawData( p + ::CFSwapInt32BigToHost((SInt32) (**h).crsrData), rowBytes );
 
 		// Now switch it to a 32-bit offscreen
 		cBuffer = COffscreen::CreateBuffer( width, height, 32 );
@@ -360,7 +362,8 @@ CWindow_Cursor::ParseColorCursor( CRezObj * inRezObj,
 	*outColor = cBuffer;
 	*outBW = bwBuffer;
 	*outMask = maskBuffer;
-	*outHotSpot = (**h).crsrHotSpot;
+	(*outHotSpot).h = ::CFSwapInt16BigToHost((**h).crsrHotSpot.h);
+	(*outHotSpot).v = ::CFSwapInt16BigToHost((**h).crsrHotSpot.v);
 
 	// Don't need the color table because the offscreen makes a copy of it
 	if ( theTable ) ::DisposeCTable( theTable );
@@ -449,7 +452,7 @@ CWindow_Cursor::CreateColorCursor( COffscreen *inColor, COffscreen *inBW,
 										COffscreen *inMask, Point inHotSpot )
 {
 	Handle			h = nil;
-	COffscreen		*downSampledBuffer = nil;
+//	COffscreen		*downSampledBuffer = nil;
 	Boolean			deleteBuffer = false;
 	
 	ThrowIf_( !inColor || !inBW || !inMask );
@@ -493,28 +496,37 @@ CWindow_Cursor::CreateColorCursor( COffscreen *inColor, COffscreen *inBW,
 		PixMap 	*theMap = (PixMap*) (*h + offsetToPixmap);
 		
 		// Fill up the structure (note: fields are already zeroed)
-		p->crsrType = 0x8001;						// magic number for cursors
-		p->crsrMap = (PixMapHandle) offsetToPixmap;
-		p->crsrData = (Handle) offsetToPixelData;
+		p->crsrType = ::CFSwapInt16HostToBig(0x8001);		// magic number for cursors
+		p->crsrMap = (PixMapHandle) ::CFSwapInt32HostToBig(offsetToPixmap);
+		p->crsrData = (Handle) ::CFSwapInt32HostToBig(offsetToPixelData);
 		
 		inBW->CopyToRawData( (UInt8*) &p->crsr1Data, kBWCursorRowBytes );
 		inMask->CopyToRawData( (UInt8*) &p->crsrMask, kBWCursorRowBytes );
-		p->crsrHotSpot = inHotSpot;
+		p->crsrHotSpot.v = ::CFSwapInt16HostToBig(inHotSpot.v);
+		p->crsrHotSpot.h = ::CFSwapInt16HostToBig(inHotSpot.h);
 		
-		theMap->rowBytes = 0x8000 + pixelRowBytes;
-		::SetRect( &theMap->bounds, 0, 0, kCursorWidth, kCursorHeight );
-		theMap->hRes = 0x00480000;
-		theMap->vRes = 0x00480000;
-		theMap->pixelSize = depth;
-		theMap->cmpCount = 1;
-		theMap->cmpSize = depth;
-		theMap->pmTable = (CTabHandle) offsetToColorTable;
+		theMap->rowBytes = ::CFSwapInt16HostToBig(0x8000 + pixelRowBytes);
+		::SetRect( &theMap->bounds, 0, 0, ::CFSwapInt16HostToBig(kCursorWidth), ::CFSwapInt16HostToBig(kCursorHeight) );
+		theMap->hRes = ::CFSwapInt32HostToBig(0x00480000);
+		theMap->vRes = ::CFSwapInt32HostToBig(0x00480000);
+		theMap->pixelSize = ::CFSwapInt16HostToBig(depth);
+		theMap->cmpCount = ::CFSwapInt16HostToBig(1);
+		theMap->cmpSize = ::CFSwapInt16HostToBig(depth);
+		theMap->pmTable = (CTabHandle) ::CFSwapInt32HostToBig(offsetToColorTable);
 
 		inColor->CopyToRawData( (UInt8*)( *h + offsetToPixelData ), pixelRowBytes );
 		
 		CTabPtr	destTable = (CTabPtr) (*h + offsetToColorTable);
-		BlockMoveData( *sourceTable, destTable, colorTableBytes );
+//		BlockMoveData( *sourceTable, destTable, colorTableBytes );
+		destTable->ctSeed = ::CFSwapInt32HostToBig((*sourceTable)->ctSeed);
 		destTable->ctFlags = 0;					// 0 for pixmaps, 0x8000 for devices
+		destTable->ctSize = ::CFSwapInt16HostToBig((*sourceTable)->ctSize);
+		for (SInt32 count = 0; count < (*sourceTable)->ctSize + 1; count++) {
+			destTable->ctTable[count].value = ::CFSwapInt16HostToBig((*sourceTable)->ctTable[count].value);
+			destTable->ctTable[count].rgb.red = ::CFSwapInt16HostToBig((*sourceTable)->ctTable[count].rgb.red);
+			destTable->ctTable[count].rgb.green = ::CFSwapInt16HostToBig((*sourceTable)->ctTable[count].rgb.green);
+			destTable->ctTable[count].rgb.blue = ::CFSwapInt16HostToBig((*sourceTable)->ctTable[count].rgb.blue);
+		}
 	}
 	catch( ... )
 	{

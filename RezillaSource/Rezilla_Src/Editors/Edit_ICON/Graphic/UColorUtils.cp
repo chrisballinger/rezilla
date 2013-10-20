@@ -372,17 +372,26 @@ UColorUtils::CalcPixmapRowBytes( SInt32 width, SInt32 depth )
 // 	color tables.
 
 CTabHandle
-UColorUtils::NewColorTableFromPtr( SInt32 depth, UInt8 *sourceData )
+UColorUtils::NewColorTableFromPtr( SInt32 depth, UInt8 *sourceData, bool convert )
 {
 	CTabHandle	theTable;
 	CTabPtr		sourceTable = (CTabPtr) sourceData;
 	SInt32		numEntries;
 		
 	theTable = UColorUtils::NewColorTableByDepth( depth );
-	numEntries = MIN( sourceTable->ctSize + 1, (**theTable).ctSize + 1 );
+	SInt32		sourceSize = (convert ? ::CFSwapInt16BigToHost(sourceTable->ctSize) : sourceTable->ctSize) + 1;
+	numEntries = MIN( sourceSize, (**theTable).ctSize + 1 );
 
-	for ( SInt32 count = 0; count < numEntries; count++ )
-		(**theTable).ctTable[count] = sourceTable->ctTable[count];
+	for ( SInt32 count = 0; count < numEntries; count++ ) {
+		if (convert) {
+			(**theTable).ctTable[count].value = ::CFSwapInt16BigToHost(sourceTable->ctTable[count].value);
+			(**theTable).ctTable[count].rgb.red = ::CFSwapInt16BigToHost(sourceTable->ctTable[count].rgb.red);
+			(**theTable).ctTable[count].rgb.green = ::CFSwapInt16BigToHost(sourceTable->ctTable[count].rgb.green);
+			(**theTable).ctTable[count].rgb.blue = ::CFSwapInt16BigToHost(sourceTable->ctTable[count].rgb.blue);
+		} else {
+			(**theTable).ctTable[count] = sourceTable->ctTable[count];
+		}
+	}
 	
 	return( theTable );
 }

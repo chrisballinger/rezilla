@@ -17,7 +17,9 @@
 
 #include "CWEViewActions.h"
 #include <LAction.h>
+#ifndef __MACH__
 #include <TextEdit.h>
+#endif
 
 /* #include "CWasteEditView.h" */
 #include "WASTE.h"

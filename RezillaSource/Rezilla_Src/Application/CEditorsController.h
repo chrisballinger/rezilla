@@ -13,7 +13,9 @@
 #pragma once
 
 #include "UResources.h"
+#ifndef __MACH__
 #include <CFPropertyList.h>
+#endif
 
 class CRezMapDoc;
 class CRezMapTable;

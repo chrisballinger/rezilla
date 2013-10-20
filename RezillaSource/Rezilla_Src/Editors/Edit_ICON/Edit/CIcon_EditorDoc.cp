@@ -207,6 +207,23 @@ CIcon_EditorDoc::GetDescriptor(
 }
 
 
+#if PP_Uses_CFDescriptor
+// ---------------------------------------------------------------------------
+//	CopyCFDescriptor												  [public]
+// ---------------------------------------------------------------------------
+
+CFStringRef
+CIcon_EditorDoc::CopyCFDescriptor() const
+{
+	CFStringRef		docName = nil;
+	if (mIconEditWindow != nil) {
+		docName = mIconEditWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
+
+
 // ---------------------------------------------------------------------------
 //   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------

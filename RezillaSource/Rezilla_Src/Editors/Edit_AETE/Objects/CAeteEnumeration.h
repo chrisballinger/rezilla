@@ -14,7 +14,9 @@
 #define _H_CAeteEnumeration
 #pragma once
 
+#ifndef __MACH__
 #include <CFXMLNode.h>
+#endif
 
 struct AeteEnumerator {
 	Str255	name;

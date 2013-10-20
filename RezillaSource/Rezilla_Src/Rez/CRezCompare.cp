@@ -222,10 +222,10 @@ CRezCompare::RunRezCompareDialog()
 				// Select the files to compare
 				LFileTypeList fileTypes(fileTypes_All);
 				PP_StandardDialogs::LFileChooser chooser;
-				NavDialogOptions * options = chooser.GetDialogOptions();
+				NavDialogCreationOptions * options = chooser.GetDialogOptions();
 				
 				if (options != nil) {
-					options->dialogOptionFlags = kNavNoTypePopup 
+					options->optionFlags = kNavNoTypePopup 
 					+ kNavDontAutoTranslate 
 					+ kNavSelectAllReadableItem 
 					+ kNavSupportPackages 

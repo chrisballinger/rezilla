@@ -135,6 +135,22 @@ CPICT_EditorDoc::GetDescriptor(
 }
 
 
+#if PP_Uses_CFDescriptor
+// ---------------------------------------------------------------------------
+//	CopyCFDescriptor												  [public]
+// ---------------------------------------------------------------------------
+
+CFStringRef
+CPICT_EditorDoc::CopyCFDescriptor() const
+{
+	CFStringRef		docName = nil;
+	if (mPictWindow != nil) {
+		docName = mPictWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
+
 // ---------------------------------------------------------------------------------
 //   FindCommandStatus
 // ---------------------------------------------------------------------------------

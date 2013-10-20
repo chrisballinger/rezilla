@@ -16,8 +16,9 @@
 
 #include <LEditText.h>
 #include <UKeyFilters.h>
-
+#ifndef __MACH__
 #include <TextEdit.h>
+#endif
 
 #if PP_Uses_Pragma_Import
 	#pragma import on

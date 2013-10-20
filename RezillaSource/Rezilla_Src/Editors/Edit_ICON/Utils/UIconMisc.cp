@@ -186,23 +186,23 @@ UIconMisc::GetCursorInfoForType(ResType inType, Handle inResHandle,
 		// Do some validity check
 		p = (UInt8*) *h;
 		
-		if ( (UInt16) (**h).crsrType != (UInt16) 0x8001 )
+		if ( (UInt16) ::CFSwapInt16BigToHost((**h).crsrType) != (UInt16) 0x8001 )
 			goto done;
 		
 		if ( ::GetHandleSize( (Handle) h ) < sizeof(CCrsr) )
 			goto done;
 	
 		// Get some info about the cursor
-		cMap = (PixMapPtr) (p + (SInt32) (**h).crsrMap);
+		cMap = (PixMapPtr) (p + ::CFSwapInt32BigToHost((SInt32) (**h).crsrMap));
 
 		if ( cMap->pixelType != 0 )
 			goto done;
 
-		outWidth = cMap->bounds.right - cMap->bounds.left;
-		outHeight = cMap->bounds.bottom - cMap->bounds.top;
-		outDepth = cMap->pixelSize;
-		outRowBytes = cMap->rowBytes & 0x3FFF;
-		outData = p + (SInt32) (**h).crsrData;
+		outWidth = ::CFSwapInt16BigToHost(cMap->bounds.right) - ::CFSwapInt16BigToHost(cMap->bounds.left);
+		outHeight = ::CFSwapInt16BigToHost(cMap->bounds.bottom) - ::CFSwapInt16BigToHost(cMap->bounds.top);
+		outDepth = ::CFSwapInt16BigToHost(cMap->pixelSize);
+		outRowBytes = ::CFSwapInt16BigToHost(cMap->rowBytes) & 0x3FFF;
+		outData = p + ::CFSwapInt32BigToHost((SInt32) (**h).crsrData);
 
 		if ( (outWidth != kCursorWidth) || (outHeight != kCursorHeight) )
 			goto done;
@@ -213,7 +213,7 @@ UIconMisc::GetCursorInfoForType(ResType inType, Handle inResHandle,
 		if ( cMap->pmTable == 0 ) {
 			outTable = UColorUtils::NewColorTableByDepth( outDepth );
 		} else {
-			outTable = UColorUtils::NewColorTableFromPtr( outDepth, p + (SInt32) cMap->pmTable );
+			outTable = UColorUtils::NewColorTableFromPtr( outDepth, p + ::CFSwapInt32BigToHost((SInt32) cMap->pmTable), true );
 		}
 		gotData = true;
 	} 

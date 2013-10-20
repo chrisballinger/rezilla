@@ -14,7 +14,9 @@
 #define _H_CAeteParameter
 #pragma once
 
+#ifndef	__MACH__
 #include <CFXMLNode.h>
+#endif
 
 class CAeteStream;
 

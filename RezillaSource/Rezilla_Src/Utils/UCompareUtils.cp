@@ -25,7 +25,9 @@
 
 #include <LPopupButton.h>
 #include <LComparator.h>
+#ifndef __MACH__
 #include <Drag.h>
+#endif
 #include <UTextTraits.h>
 
 #include <stdio.h>

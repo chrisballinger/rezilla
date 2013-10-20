@@ -143,6 +143,23 @@ CTEXT_EditorDoc::GetDescriptor(
 }
 
 
+#if PP_Uses_CFDescriptor
+// ---------------------------------------------------------------------------
+//   CopyCFDescriptor												  [public]
+// ---------------------------------------------------------------------------
+
+CFStringRef
+CTEXT_EditorDoc::CopyCFDescriptor() const
+{
+	CFStringRef		docName = nil;
+	if (mTextEditWindow != nil) {
+		docName = mTextEditWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
+
+
 // ---------------------------------------------------------------------------
 //   AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------

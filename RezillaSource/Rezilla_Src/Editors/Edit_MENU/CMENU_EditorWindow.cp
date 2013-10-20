@@ -31,6 +31,7 @@
 #include <LStaticText.h>
 #include <LPopupButton.h>
 #include <LTabGroupView.h>
+#include <UResourceMgr.h>
 
 #include <stdio.h>
 
@@ -112,6 +113,8 @@ CMENU_EditorWindow::FinishCreateSelf()
 	mInstallValue = false;
 	mMenuObj = nil;
 	mOutStream = nil;
+	mMENUFlipped = UResFlip::HasFlipper('MENU');
+	mXmnuFlipped = UResFlip::HasFlipper(ResType_ExtendedMenu);
 	
 	// The main view containing the labels and editing panes
 	mItemsTable = dynamic_cast<CMENU_EditorTable *>(this->FindPaneByID(item_EditorContents));
@@ -356,6 +359,7 @@ CMENU_EditorWindow::InstallResourceData(Handle inMenuHandle, Handle inXmnuHandle
 
 	LHandleStream * theStream = new LHandleStream(inMenuHandle);
 	ThrowIfNil_(theStream);
+	theStream->SetNativeEndian(UResFlip::HasFlipper('MENU'));
 	
 	try {
 		if ( theStream->GetLength() == 0 ) {
@@ -396,6 +400,7 @@ CMENU_EditorWindow::InstallResourceData(Handle inMenuHandle, Handle inXmnuHandle
 				
 				StHandleLocker	xmnulock(inXmnuHandle);
 				theStream = new LHandleStream(inXmnuHandle);
+				theStream->SetNativeEndian(UResFlip::HasFlipper(ResType_ExtendedMenu));
 				
 				// First two words represent the version (should be 0) and the 
 				// list count (OCNT)
@@ -456,6 +461,7 @@ CMENU_EditorWindow::CollectMenuData()
 			
 			mOutStream = new LHandleStream();	
 			ThrowIfNil_(mOutStream);
+			mOutStream->SetNativeEndian(UResFlip::HasFlipper(ResType_ExtendedMenu));
 			
 			// First two words represent the version (should be 0) and the 
 			// list count (OCNT)
@@ -486,6 +492,7 @@ CMENU_EditorWindow::CollectMenuData()
 
 		mOutStream = new LHandleStream();	
 		ThrowIfNil_(mOutStream);
+		mOutStream->SetNativeEndian(UResFlip::HasFlipper('MENU'));
 
 		mMenuObj->SendData(mOutStream);
 		menuHandle = mOutStream->GetDataHandle();

@@ -312,8 +312,8 @@ CEditorsController::InvokeCustomEditor(CRezMapDoc* inRezMapDoc,
 		// no field to determine its version: 
 		// - version 0 had fixed a size of 44 bytes,
 		// - version 1 adds 10 bytes, a 4 bytes count and a list of 12 bytes items. 
-		//      Size = 44 + 10 + 2 + 12*n
-		// - version 2 adds 6 bytes. Size = 44 + 12*n + 2 + 6
+		//      Size = 44 + 10 + 4 + 12*n
+		// - version 2 adds 6 bytes. Size = 44 + 12*n + 4 + 6
 		theSize = inRezObjItem->GetRezObj()->GetSize();
 		if (theSize == 44) {
 			theType = 'thn0';

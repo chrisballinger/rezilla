@@ -38,6 +38,8 @@ class CTemplatesController;
 class CPluginsController;
 class CRezMap;
 
+class CScrollWheelHandler;
+
 
 class CRezillaApp : public LDocApplication, public LListener {
 public:
@@ -180,6 +182,8 @@ protected:
 									DescType		inProperty) const;
 
 private:
+	StDeleter<CScrollWheelHandler>	mScrollWheelHandlerOwner;
+	
 	void				InitMLTE();
 	void				InstallWindowMenu();
 };

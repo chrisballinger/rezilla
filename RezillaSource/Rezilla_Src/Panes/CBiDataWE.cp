@@ -17,8 +17,10 @@
 #include <UDesktop.h>
 #include <LActiveScroller.h>
 #include <UKeyFilters.h>
+#ifndef __MACH__
 #include <Quickdraw.h>
 #include <Sound.h>
+#endif
 
 #include "CBiDataWE.h"
 #include "CCompResultWindow.h"

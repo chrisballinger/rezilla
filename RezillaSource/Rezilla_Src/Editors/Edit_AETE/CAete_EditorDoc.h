@@ -49,6 +49,10 @@ public:
 
 	virtual StringPtr		GetDescriptor( Str255 outDescriptor ) const;
 
+#if PP_Uses_CFDescriptor
+	virtual	CFStringRef		CopyCFDescriptor() const;
+#endif
+
 	CAete_EditorWindow*		GetAeteEditWindow() { return mAeteEditWindow;}
 	
 protected:

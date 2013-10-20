@@ -349,6 +349,23 @@ CPluginEditorDoc::GetDescriptor(
 }
 
 
+#if PP_Uses_CFDescriptor
+// ---------------------------------------------------------------------------
+//	CopyCFDescriptor												  [public]
+// ---------------------------------------------------------------------------
+
+CFStringRef
+CPluginEditorDoc::CopyCFDescriptor() const
+{
+	CFStringRef		docName = nil;
+	if (mPluginWindow != nil) {
+		docName = mPluginWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
+
+
 // ---------------------------------------------------------------------------
 //   GetModifiedResource											[public]
 // ---------------------------------------------------------------------------

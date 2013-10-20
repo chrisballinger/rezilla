@@ -76,6 +76,9 @@ public:
 	CTmplListItemView*	GetSelectedListItem() { return mSelectedListItem;}
 	void				SetSelectedListItem(CTmplListItemView* inSelectedListItem) {mSelectedListItem = inSelectedListItem;}
 	
+	bool 			IsFlipped () const	{ return mFlipped; }
+	void			SetFlipped ( bool isFlipped ) { mFlipped = isFlipped; }
+	
 
 	static ResIDT		sCommentTraitsID,
 						sLeftLabelTraitsID,
@@ -129,6 +132,7 @@ protected:
 	UInt8				mBitSeqBytesLen;
 	SInt8				mBitSeqIndex;
 	LEditText*			mPrevTnam;		// ZP feature #9
+	bool 				mFlipped;		// Resource is flipped by system
 
 	virtual void	FinishCreateSelf();
 

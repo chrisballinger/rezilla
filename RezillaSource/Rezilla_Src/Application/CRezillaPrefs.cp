@@ -44,8 +44,10 @@
 #include <LWindow.h>
 
 // Universal Headers
+#ifndef __MACH__
 #include <CFPreferences.h>
 #include <CFNumber.h>
+#endif
 
 // Standard Headers
 #include <stdlib.h>
@@ -321,7 +323,7 @@ CRezillaPrefs::RetrievePreferences()
 	CFIndex				theSize;
 	SInt32				theSInt32;
 	const UInt8 *		thePtr;
-	
+
 	result = CFPreferencesGetAppIntegerValue(CFSTR("pref_general_maxRecent"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_general_maxRecent);
@@ -430,15 +432,32 @@ CRezillaPrefs::RetrievePreferences()
 	result = CFPreferencesGetAppBooleanValue(CFSTR("pref_misc_setSigOnCreate"), CFSTR(kRezillaIdentifier), &valueValid);
 	if (valueValid) {
 		SetPrefValue( result, kPref_misc_setSigOnCreate);
-	}	
+	}
+	
 	theData = CFPreferencesCopyAppValue(CFSTR("pref_interface_traitsRecord"), CFSTR(kRezillaIdentifier));
 	if (theData) {
 		theSize = CFDataGetLength( (CFDataRef) theData);
 		thePtr = CFDataGetBytePtr( (CFDataRef) theData);
 		BlockMoveData(thePtr, &(sCurrPrefs.interface.traitsRecord), theSize);
+		// Check endian-ness and fix if necessary
+		bool			wrongEndian = ((sCurrPrefs.interface.traitsRecord.size > 72) || 
+										(sCurrPrefs.interface.traitsRecord.size < 4));
+		if (wrongEndian) {
+			sCurrPrefs.interface.traitsRecord.size = ::CFSwapInt16(sCurrPrefs.interface.traitsRecord.size);
+			sCurrPrefs.interface.traitsRecord.style = ::CFSwapInt16(sCurrPrefs.interface.traitsRecord.style);
+			sCurrPrefs.interface.traitsRecord.justification = ::CFSwapInt16(sCurrPrefs.interface.traitsRecord.justification);
+			sCurrPrefs.interface.traitsRecord.mode = ::CFSwapInt16(sCurrPrefs.interface.traitsRecord.mode);
+			sCurrPrefs.interface.traitsRecord.color.red = ::CFSwapInt16(sCurrPrefs.interface.traitsRecord.color.red);
+			sCurrPrefs.interface.traitsRecord.color.green = ::CFSwapInt16(sCurrPrefs.interface.traitsRecord.color.green);
+			sCurrPrefs.interface.traitsRecord.color.blue = ::CFSwapInt16(sCurrPrefs.interface.traitsRecord.color.blue);
+			sCurrPrefs.interface.traitsRecord.fontNumber = ::CFSwapInt16(sCurrPrefs.interface.traitsRecord.fontNumber);
+		}
 		// Update the font number according to the font name
 		::GetFNum(sCurrPrefs.interface.traitsRecord.fontName, &sCurrPrefs.interface.traitsRecord.fontNumber);
 		CFRelease(theData);
+		if (wrongEndian) {
+			StorePreferences();
+		}
 	} else {
 		sCurrPrefs.interface.traitsRecord.fontNumber = UTextTraits::fontNumber_Unknown;
 		UTextTraits::LoadTextTraits(Txtr_MonacoNineDefault, sCurrPrefs.interface.traitsRecord);

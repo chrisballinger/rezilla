@@ -14,7 +14,9 @@
 #include "UMiscUtils.h"
 
 //#include <math.h>
+#ifndef __MACH__
 #include <fp.h>
+#endif
 
 #define pi 3.141592653589793238462643
 

@@ -208,6 +208,10 @@ CPICT_EditorWindow::InstallPict(Handle inHandle)
 	// Update the dimensions in the bottom fields
 	if (inHandle != nil && ::GetHandleSize(inHandle) > sizeof(Picture)) {
 		theRect = (**(PicHandle)inHandle).picFrame;
+		theRect.left = ::CFSwapInt16BigToHost(theRect.left);
+		theRect.top = ::CFSwapInt16BigToHost(theRect.top);
+		theRect.right = ::CFSwapInt16BigToHost(theRect.right);
+		theRect.bottom = ::CFSwapInt16BigToHost(theRect.bottom);
 	}
 	SetSizeFields(theRect);
 	

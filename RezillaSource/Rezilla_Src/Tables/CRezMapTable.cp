@@ -36,6 +36,8 @@
 Boolean		CRezMapTable::sApplyToOthers = false;
 MessageT	CRezMapTable::sConflictAction = answer_Do;
 
+typedef unsigned char	OSTypeStr[5];
+
 
 // ---------------------------------------------------------------------------
 //   CRezMapTable						Default Constructor		  [public]
@@ -139,8 +141,10 @@ void
 CRezMapTable::Populate(TArray<ResType>* inTypesArray)
 {
 	CRezType *		theRezType = nil;
+/*
 	LOutlineItem *	theItem = nil;	
 	LOutlineItem *	lastItem = nil;
+//*/
 	ResType			theType;
 
 	if (inTypesArray == nil) {
@@ -150,10 +154,15 @@ CRezMapTable::Populate(TArray<ResType>* inTypesArray)
 	TArrayIterator<ResType>	typeIterator(*inTypesArray);
 	while (typeIterator.Next(theType)) {
 		theRezType = new CRezType(theType, mRezMap);
+/*
 		theItem = new CRezTypeItem( theRezType );
 		InsertItem( theItem, nil, lastItem );
 		lastItem = theItem;
 		theRezType = nil;
+/*/
+		CRezTypeItem *	theItem = new CRezTypeItem(theRezType);
+		InsertRezTypeItem(theItem);
+//*/
 	}
 }
 
@@ -201,6 +210,8 @@ CRezMapTable::InsertRezTypeItem(CRezTypeItem * inRezTypeItem)
 	CRezTypeItem *	theRezTypeItem = nil;	
 	CRezTypeItem *	prevRezTypeItem = nil;	
 	Boolean found = false;
+	TString<OSTypeStr>	theTypeStr;
+	TString<OSTypeStr>	inTypeStr = (FourCharCode) inType;
 	
 	// Iterate among first level items
 	LArrayIterator iterator(mFirstLevelItems);
@@ -208,8 +219,13 @@ CRezMapTable::InsertRezTypeItem(CRezTypeItem * inRezTypeItem)
 		prevRezTypeItem = theRezTypeItem;
 		theRezTypeItem = dynamic_cast<CRezTypeItem *>(theItem);
 		theType = theRezTypeItem->GetRezType()->GetType();
-		
+/*		
 		if ( ::CompareText( (const void *) &theType, (const void *) &inType, 4, 4, nil) >= 0 ) {
+/*/
+		theTypeStr = (FourCharCode) theType;
+		if (::CompareText(theTypeStr.ConstTextPtr(), inTypeStr.ConstTextPtr(), 
+						theTypeStr.Length(), inTypeStr.Length(), nil) >= 0) {
+//*/
 			found = true;
 			break;
 		} 
@@ -862,7 +878,8 @@ CRezMapTable::ReceiveDragItem(DragReference inDragRef,
 	
 void
 CRezMapTable::RemoveAllItems()
-{	
+{
+/*	
 	// Iterate among first level items
 	LArrayIterator rezTypeIterator(mFirstLevelItems);
 	LOutlineItem *theRezTypeItem = nil;	
@@ -878,6 +895,19 @@ CRezMapTable::RemoveAllItems()
 		} 
 		RemoveItem(theRezTypeItem, false, false);
 	}
+/*/
+	LOutlineItem *		theRezTypeItem = nil;
+	LOutlineItem *		theRezObjItem = nil;
+	while (mFirstLevelItems.FetchItemAt(1, &theRezTypeItem)) {
+		if (theRezTypeItem->IsExpanded()) {
+			LArray *	subItems = const_cast<LArray*>(theRezTypeItem->GetSubItems());
+			while (subItems->FetchItemAt(1, &theRezObjItem)) {
+				RemoveItem(theRezObjItem, false, false);
+			}
+		}
+		RemoveItem(theRezTypeItem, false, false);
+	}
+/**/
 }
 
 

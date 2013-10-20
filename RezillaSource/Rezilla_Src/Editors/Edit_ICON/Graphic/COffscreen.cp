@@ -16,7 +16,9 @@
 #include "UBitUtils.h"
 #include "UIconMisc.h"
 
+#ifndef __MACH__
 #include <PictUtils.h>
+#endif
 #include <UDesktop.h>
 
 #include <stdio.h>
@@ -296,7 +298,8 @@ COffscreen::RawGetPixelColor( RawPtr inRowPtr, SInt32 h )
 	PixelValue	thePixel = this->RawGetPixel( inRowPtr, h );
 	
 	if ( mDepth == 32 )
-		return( thePixel );
+		return (::CFSwapInt32BigToHost(thePixel));
+//		return( thePixel );
 		
 	return( this->PixelValueToColor32( thePixel ) );
 }

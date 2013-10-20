@@ -8,7 +8,9 @@
 // (c) Copyright: Bernard Desgraupes 2003-2006
 // All rights reserved.
 // ===========================================================================
-
+//
+//	rlaurb	09/07/11	Update PStringToOSType and OSTypeToPString to fix Endian
+//						issues
 
 #ifdef PowerPlant_PCH
 	#include PowerPlant_PCH
@@ -26,7 +28,9 @@
 
 #include <LPopupButton.h>
 #include <LComparator.h>
+#ifndef __MACH__
 #include <Drag.h>
+#endif
 #include <UTextTraits.h>
 
 #include <stdio.h>
@@ -60,7 +64,7 @@ UMiscUtils::PStringToOSType(Str255 inString, OSType & outType)
 		// end of ZP bugfix 6
 	} 
 	CopyPascalStringToC(inString, theStr);
-	outType = *(OSType*) theStr;
+	outType = ::CFSwapInt32BigToHost(*(OSType*) theStr);
 }
 
 
@@ -73,7 +77,7 @@ UMiscUtils::OSTypeToPString(OSType inType, Str255 & outString)
 {
 	char theType[5];
 	theType[4] = 0;
-	*(OSType*)theType = inType;
+	*(OSType*)theType = ::CFSwapInt32HostToBig(inType);
 	CopyCStringToPascal(theType, outString);	
 }
 

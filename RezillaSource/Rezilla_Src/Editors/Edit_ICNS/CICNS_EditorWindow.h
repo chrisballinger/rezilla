@@ -80,6 +80,8 @@ protected:
 	TArray<OSType>			mIconTypes;
 
 	virtual void	FinishCreateSelf();
+		
+	void			EndianConvertIconFamilyInfoHandle();
 	
 private:	
 	Boolean			ShowIconAtIndex(ArrayIndexT inMenuIndex);

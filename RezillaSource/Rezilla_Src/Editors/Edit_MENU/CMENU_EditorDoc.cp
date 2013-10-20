@@ -164,6 +164,23 @@ CMENU_EditorDoc::GetDescriptor(
 }
 
 
+#if PP_Uses_CFDescriptor
+// ---------------------------------------------------------------------------
+//	CopyCFDescriptor												  [public]
+// ---------------------------------------------------------------------------
+
+CFStringRef
+CMENU_EditorDoc::CopyCFDescriptor() const
+{
+	CFStringRef		docName = nil;
+	if (mMenuEditWindow != nil) {
+		docName = mMenuEditWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
+
+
 // ---------------------------------------------------------------------------
 //  AllowSubRemoval												  [public]
 // ---------------------------------------------------------------------------

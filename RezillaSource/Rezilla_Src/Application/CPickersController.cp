@@ -84,7 +84,7 @@ CPickersController::HasPickerForType(ResType inType)
 		case 'PStr':
 		case 'cicn':
 		case 'ICON':
-		case 'SICN':
+//		case 'SICN':
 		case 'icns':
 		case 'PICT':
 		case 'PAT ':

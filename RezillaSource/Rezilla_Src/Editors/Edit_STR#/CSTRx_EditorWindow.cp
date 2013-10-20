@@ -36,6 +36,7 @@ CSTRx_EditorWindow::CSTRx_EditorWindow()
 {
 	// Initialize the drop index to a bad value
 	mDropIndex = -1;
+	mFlipped = false;
 }
 
 
@@ -50,6 +51,7 @@ CSTRx_EditorWindow::CSTRx_EditorWindow(
 {
 	// Initialize the drop index to a bad value
 	mDropIndex = -1;
+	mFlipped = false;
 }
 
 
@@ -66,6 +68,7 @@ CSTRx_EditorWindow::CSTRx_EditorWindow(
 {
 	// Initialize the drop index to a bad value
 	mDropIndex = -1;
+	mFlipped = false;
 }
 
 
@@ -78,6 +81,7 @@ CSTRx_EditorWindow::CSTRx_EditorWindow(
 		: CEditorWindow( inStream ),
 		LDragAndDrop( UQDGlobals::GetCurrentWindowPort(), this )
 {
+	mFlipped = false;
 }
 
 
@@ -198,7 +202,7 @@ CSTRx_EditorWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 					return;
 				}
 			}			
-			CreateItemAtIndex(index, "\p", theVal);
+			CreateItemAtIndex(index, (StringPtr)"\p", theVal);
 			SetDirty(true);
 			break;
 		}
@@ -283,11 +287,12 @@ CSTRx_EditorWindow::HandleKeyPress(
 OSErr
 CSTRx_EditorWindow::InstallResourceData(Handle inHandle)
 {
-	OSErr		error = noErr, ignoreErr = noErr;
+	OSErr		error = noErr /*, ignoreErr = noErr */;
 	UInt16		numItems = 0;
 	StHandleLocker	locker(inHandle);
 	
 	LHandleStream * theStream = new LHandleStream(inHandle);
+	theStream->SetNativeEndian(mFlipped);
 	
 	if ( theStream->GetLength() == 0 ) {
 		// We are creating a new resource
@@ -541,6 +546,7 @@ CSTRx_EditorWindow::CollectResourceData()
 
 		mOutStream = new LHandleStream();	
 		ThrowIfNil_(mOutStream);
+		mOutStream->SetNativeEndian(mFlipped);
 
 		*mOutStream << numStrings;
 

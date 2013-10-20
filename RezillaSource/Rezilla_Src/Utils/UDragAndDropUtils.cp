@@ -4,7 +4,9 @@
 
 #include <UMemoryMgr.h>
 #include <UExtractFromAEDesc.h>
+#ifndef __MACH__
 #include <Folders.h>
+#endif
 
 #include "UDragAndDropUtils.h"
 

@@ -65,6 +65,22 @@ GetDescriptor( Str255 outDescriptor ) const
 }
 
 
+#if PP_Uses_CFDescriptor
+// --------------------------------------------------------------------------
+//	CopyCFDescriptor												  [public]
+// --------------------------------------------------------------------------
+virtual CFStringRef
+CopyCFDescriptor() const
+{
+	CFStringRef		docName;
+	if (mPickerWindow != nil) {
+		docName = mPickerWindow->CopyCFDescriptor();
+	}
+	return docName;
+}
+#endif
+
+
 // ---------------------------------------------------------------------------
 //  ObeyCommand												[public, virtual]
 // ---------------------------------------------------------------------------

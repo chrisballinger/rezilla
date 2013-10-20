@@ -18,7 +18,9 @@
 #include "CThreeButtonsBox.h"
 #include "RezillaPluginInterface.h"
 
+#ifndef __MACH__
 #include <CFString.h>
+#endif
 #include <LThemeTextBox.h>
 #include <LCheckBox.h>
 #include <LStaticText.h>

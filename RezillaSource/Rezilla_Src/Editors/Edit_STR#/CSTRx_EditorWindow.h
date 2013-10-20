@@ -51,6 +51,9 @@ public:
 	
 	LView*			GetContentsView() const { return mContentsView;}
 	
+	bool 			IsFlipped () const	{ return mFlipped; }
+	void			SetFlipped ( bool isFlipped ) { mFlipped = isFlipped; }	
+	
 	static SPaneInfo 			sPaneInfo;
 	static SViewInfo			sViewInfo;
 
@@ -59,6 +62,7 @@ protected:
 	LView *						mContentsView;
 	TArray<CIndexedEditField*>	mIndexedFields;
 	UInt16						mDropIndex;
+	bool 						mFlipped;		// Resource is flipped by system
 
 	virtual void	FinishCreateSelf();
 

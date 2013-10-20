@@ -529,7 +529,7 @@ const CommandT	cmd_MenuAeteBase			= 1600;
 
 
 // Help menu commands
-const CommandT	cmd_Help					= 3000;	
+//const CommandT	cmd_Help					= 3000;	
 // Window menu commands
 const CommandT	cmd_ShowInspector			= 2001;	
 

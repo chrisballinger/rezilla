@@ -50,6 +50,10 @@ public:
 							void*		ioParam);
 
 	virtual StringPtr	GetDescriptor( Str255 outDescriptor ) const;
+	
+#if PP_Uses_CFDescriptor
+	virtual CFStringRef	CopyCFDescriptor () const;
+#endif
 
 	virtual Boolean		AllowSubRemoval( LCommander* inSub );
 	

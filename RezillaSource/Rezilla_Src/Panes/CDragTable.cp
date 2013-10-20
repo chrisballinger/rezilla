@@ -50,7 +50,8 @@ CDragTable::CDragTable(
 {
 	// Initialize the drop row to a bad value.
 	mDropRow = -1;
-	inStream->ReadData(&mTxtrID, sizeof(mTxtrID));
+//	inStream->ReadData(&mTxtrID, sizeof(mTxtrID));
+	*inStream >> mTxtrID;
 }
 
 

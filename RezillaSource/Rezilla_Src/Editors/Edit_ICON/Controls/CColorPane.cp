@@ -25,11 +25,17 @@ CColorPane::CColorPane( LStream *inStream )
 		: LBevelButton( inStream )
 {
 	RGBColor	theRGB;
-	inStream->ReadData( &theRGB, sizeof(RGBColor) );
+//	inStream->ReadData( &theRGB, sizeof(RGBColor) );
+	*inStream >> theRGB.red;
+	*inStream >> theRGB.green;
+	*inStream >> theRGB.blue;
+	
 	mCurrentColor = UColorUtils::RGBToColor32( theRGB );
 	
-	inStream->ReadData( &mClipsToSiblings, sizeof(mClipsToSiblings) );
-	inStream->ReadData( &mUsePickerOption, sizeof(mUsePickerOption) );
+//	inStream->ReadData( &mClipsToSiblings, sizeof(mClipsToSiblings) );
+	*inStream >> mClipsToSiblings;
+//	inStream->ReadData( &mUsePickerOption, sizeof(mUsePickerOption) );
+	*inStream >> mUsePickerOption;
 	
 	mColorTable = nil;	
 	mClippedRgn = nil;

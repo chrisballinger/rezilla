@@ -76,7 +76,7 @@ CTmplCaseField::CTmplCaseField(
 	mTemplateStream = inTemplateStream;
 	mStartMark = inStartMark;
 	
-	SetUnknownItem("\pOther");
+	SetUnknownItem((StringPtr) "\pOther");
 
 	CreatePopup(inPopupMessage, inLeftSide);
 

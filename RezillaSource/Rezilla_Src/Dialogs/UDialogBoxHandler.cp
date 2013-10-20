@@ -37,8 +37,9 @@
 #include <UDrawingState.h>
 #include <UEventMgr.h>
 #include <UReanimator.h>
-
+#ifndef __MACH__
 #include <ControlDefinitions.h>
+#endif
 
 
 PP_Begin_Namespace_PowerPlant
@@ -145,8 +146,8 @@ StDialogBoxHandler::DoDialog()
 	SetUpdateCommandStatus(false);
 	mMessage = msg_Nothing;
 
-	Boolean gotEvent = ::WaitNextEvent(everyEvent, &macEvent,
-										mSleepTime, mMouseRgn);
+//	Boolean gotEvent = ::WaitNextEvent(everyEvent, &macEvent, mSleepTime, mMouseRgn);
+	Boolean gotEvent = UEventMgr::WaitForNextEvent(everyEvent, &macEvent, mSleepTime, mMouseRgn);
 
 	// Let Attachments process the event. Continue with normal
 	// event dispatching unless suppressed by an Attachment.

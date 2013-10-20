@@ -145,7 +145,7 @@ CAboutWindow::ListenToMessage( MessageT inMessage, void *ioParam )
 		break;
 		
 		case msg_AboutLicenceButton:
-		WindowPtr theWinPtr = UWindows::FindNamedWindow("\pRezilla License");
+		WindowPtr theWinPtr = UWindows::FindNamedWindow((StringPtr) "\pRezilla License");
 		if (!theWinPtr) {
 			StRezRefSaver saver( CRezillaApp::GetSelfRefNum() );
 			LWindow* theWindow = LWindow::CreateWindow( PPob_LicenceWindow, this->GetSuperCommander() );

@@ -65,6 +65,7 @@ CWindow_IconFamily::CWindow_IconFamily( LStream *inStream )
 	ThrowIfOSErr_(error);
 	::DetachResource(theHandle);
 	mFamilyInfoH = (Rez_IconFamilyInfoH) theHandle;
+	EndianConvertIconFamilyInfoHandle();
 }
 
 
@@ -393,3 +394,29 @@ CWindow_IconFamily::GetZoomFactor( SInt32, SInt32, Boolean *outShowGrid )
 }
 
 
+// ---------------------------------------------------------------------------
+//	EndianConvertIconFamilyInfoHandle
+// ---------------------------------------------------------------------------
+// The mFamilyInfoH member is read into member as a big-endian resource handle.
+// We need to endian-convert it to native format. Note that since it is used as
+// a read-only resource, we don't have to worry about any updating issues.
+
+void
+CWindow_IconFamily::EndianConvertIconFamilyInfoHandle()
+{
+	Rez_IconFamilyInfo *	ptr = *mFamilyInfoH;
+	ptr->defaultPane = ::CFSwapInt32BigToHost(ptr->defaultPane);
+	ptr->numEntries = ::CFSwapInt32BigToHost(ptr->numEntries);
+	for (SInt32 iEntry = 0; iEntry < ptr->numEntries; iEntry++) {
+		ptr->members[iEntry].resourceType = ::CFSwapInt32BigToHost(ptr->members[iEntry].resourceType);
+		ptr->members[iEntry].flags = ::CFSwapInt32BigToHost(ptr->members[iEntry].flags);
+		ptr->members[iEntry].width = ::CFSwapInt32BigToHost(ptr->members[iEntry].width);
+		ptr->members[iEntry].height = ::CFSwapInt32BigToHost(ptr->members[iEntry].height);
+		ptr->members[iEntry].depth = ::CFSwapInt32BigToHost(ptr->members[iEntry].depth);
+		ptr->members[iEntry].rowBytes = ::CFSwapInt32BigToHost(ptr->members[iEntry].rowBytes);
+		ptr->members[iEntry].samplePaneID = ::CFSwapInt32BigToHost(ptr->members[iEntry].samplePaneID);
+		ptr->members[iEntry].maskOffset = ::CFSwapInt32BigToHost(ptr->members[iEntry].maskOffset);
+		ptr->members[iEntry].maskRowBytes = ::CFSwapInt32BigToHost(ptr->members[iEntry].maskRowBytes);
+		ptr->members[iEntry].maskSamplePaneID = ::CFSwapInt32BigToHost(ptr->members[iEntry].maskSamplePaneID);
+	}
+}

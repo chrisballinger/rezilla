@@ -13,7 +13,9 @@
 #ifndef _H_CAlias
 #define _H_CAlias
 
+#ifndef __MACH__
 #include <Aliases.h>
+#endif
 	
 class CAlias {
 		
